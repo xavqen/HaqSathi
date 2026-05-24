@@ -1,5 +1,5 @@
 import { Card, CardContent } from '@/components/ui/card'
-import { getCurrentUser } from '@/lib/auth'
+import { getCurrentUser } from '@/lib/auth/session'
 import { redirect } from 'next/navigation'
 
 export const dynamic = 'force-dynamic'
