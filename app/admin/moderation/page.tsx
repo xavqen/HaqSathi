@@ -1,0 +1,3 @@
+import { db } from '@/lib/db'
+export const dynamic = 'force-dynamic'
+export default async function Page(){ const items=await db.moderationQueueItem.findMany({orderBy:{createdAt:'desc'},take:100}).catch(()=>[]); return <div><h1 className="text-3xl font-black">Moderation queue</h1><p className="mt-2 text-slate-600">AI outputs ya suspicious inputs review karne ke liye.</p><div className="mt-6 grid gap-3">{items.length===0 && <p className="rounded-2xl bg-white p-4 text-sm">No moderation items yet.</p>}{items.map(i=><div key={i.id} className="rounded-2xl border bg-white p-4"><b>{i.area}</b><p className="text-sm text-slate-600">{i.risk} · {i.status}</p><p className="mt-2 text-sm">{i.reason || i.input}</p></div>)}</div></div> }

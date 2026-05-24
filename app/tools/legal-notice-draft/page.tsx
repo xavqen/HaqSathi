@@ -1,0 +1,3 @@
+import { LegalNoticeForm } from '@/components/forms/legal-notice-form'
+export const metadata = { title: 'Legal Notice Style Draft Generator | HaqSathi AI', description: 'Safe notice-style complaint draft generator with disclaimer.' }
+export default function Page() { return <main className="bg-slate-50"><section className="mx-auto max-w-5xl px-4 py-12"><p className="text-sm font-bold uppercase tracking-wider text-primary">Advanced tool</p><h1 className="mt-2 text-4xl font-black">Legal notice style draft</h1><p className="mt-3 max-w-2xl text-slate-600">Strong formal draft banao. Ye legal advice nahi hai; facts verify karke use karo.</p><div className="mt-8"><LegalNoticeForm /></div></section></main> }

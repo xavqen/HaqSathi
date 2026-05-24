@@ -1,0 +1,3 @@
+import { db } from '@/lib/db'
+export const dynamic = 'force-dynamic'
+export default async function Page(){ const items=await db.experiment.findMany({orderBy:{createdAt:'desc'},take:100}).catch(()=>[]); return <div><h1 className="text-3xl font-black">Experiments</h1><p className="mt-2 text-slate-600">Growth tests and rollout controls.</p><div className="mt-6 grid gap-3">{items.map(e=><div key={e.id} className="rounded-2xl border bg-white p-4"><b>{e.name}</b><p className="text-sm text-slate-600">{e.key} · {e.status} · {e.rolloutPercent}% rollout</p><p className="mt-2 text-sm">{e.hypothesis}</p></div>)}</div></div> }

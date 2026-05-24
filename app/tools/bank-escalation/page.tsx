@@ -1,0 +1,3 @@
+import { BankEscalationForm } from '@/components/forms/bank-escalation-form'
+export const metadata = { title: 'Bank Escalation Planner | HaqSathi AI', description: 'Bank grievance escalation draft and risk-based next steps.' }
+export default function Page() { return <main className="bg-slate-50"><section className="mx-auto max-w-5xl px-4 py-12"><p className="text-sm font-bold uppercase tracking-wider text-primary">Advanced tool</p><h1 className="mt-2 text-4xl font-black">Bank escalation planner</h1><p className="mt-3 max-w-2xl text-slate-600">Bank issue ka stage, draft aur documents checklist generate karo.</p><div className="mt-8"><BankEscalationForm /></div></section></main> }

@@ -1,0 +1,3 @@
+'use client'
+import { useEffect } from 'react'
+export function ClientErrorListener(){ useEffect(()=>{ const send=(message:string)=>fetch('/api/system/client-error',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message,path:window.location.pathname})}).catch(()=>undefined); const onError=(event:ErrorEvent)=>send(event.message); const onRejection=(event:PromiseRejectionEvent)=>send(String(event.reason||'Unhandled promise rejection')); window.addEventListener('error',onError); window.addEventListener('unhandledrejection',onRejection); return()=>{window.removeEventListener('error',onError);window.removeEventListener('unhandledrejection',onRejection)} },[]); return null }

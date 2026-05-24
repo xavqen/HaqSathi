@@ -1,0 +1,5 @@
+export const supportMacroSeeds = [
+  { slug: 'refund-not-received-reply', title: 'Refund not received reply', category: 'Refund', body: { greeting: 'Namaste', message: 'Kripya order ID, payment screenshot, refund promise date aur company response share karein. Hum aapke liye follow-up draft ready kar denge.', disclaimer: 'HaqSathi guidance tool hai, official authority nahi.' }, isActive: true },
+  { slug: 'upi-fraud-urgent-reply', title: 'UPI fraud urgent reply', category: 'UPI Fraud', body: { greeting: 'Urgent', message: 'Turant bank ko call karein, account/UPI block request karein, cybercrime portal/1930 guidance follow karein, aur transaction screenshots save karein.', disclaimer: 'Emergency fraud cases me official channels ko priority dein.' }, isActive: true },
+  { slug: 'scheme-verification-reply', title: 'Scheme verification reply', category: 'Scheme', body: { greeting: 'Namaste', message: 'Scheme eligibility state, income, age, category aur latest notification par depend karti hai. Official portal par final verify zaroor karein.', disclaimer: 'HaqSathi official scheme approval guarantee nahi deta.' }, isActive: true }
+]

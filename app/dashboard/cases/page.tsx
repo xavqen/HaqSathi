@@ -1,0 +1,15 @@
+import Link from 'next/link'
+import { requireUser } from '@/lib/auth/session'
+import { db } from '@/lib/db'
+import { buildEscalationPlan, scoreComplaint } from '@/lib/case-intelligence'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { EscalationButton } from '@/components/dashboard/escalation-button'
+
+export const dynamic = 'force-dynamic'
+export const metadata = { title: 'Case Command Center | HaqSathi AI' }
+
+export default async function CasesPage() {
+  const user = await requireUser()
+  const complaints = await db.complaint.findMany({ where: { userId: user.id }, orderBy: { createdAt: 'desc' }, include: { caseTimelineEvents: { orderBy: { createdAt: 'desc' }, take: 3 }, escalationPlans: { orderBy: { createdAt: 'desc' }, take: 1 } } }).catch(() => [])
+  return <div className="grid gap-6"><div><h1 className="text-3xl font-black">Case Command Center</h1><p className="mt-2 text-slate-600">Har complaint ka strength score, next action aur recent timeline yahan dikhega.</p></div>{complaints.length === 0 ? <Card><CardContent className="p-6"><p>No cases yet.</p><Link className="mt-3 inline-flex rounded-xl bg-primary px-4 py-2 text-sm font-bold text-white" href="/complaint">Create complaint</Link></CardContent></Card> : complaints.map((c) => { const draft: any = c.generatedDraft || {}; const score = scoreComplaint({ companyName: c.companyName, transactionId: c.transactionId || '', amount: c.amount?.toString() || '', issueDate: c.issueDate?.toISOString().slice(0, 10) || '', description: c.description, desiredResolution: draft.desiredResolution || draft.shortComplaint || '', previousCommunication: '' }); const plan = buildEscalationPlan({ category: c.type, createdAt: c.createdAt, amount: c.amount?.toString(), companyName: c.companyName, description: c.description })[0]; return <Card key={c.id}><CardHeader><CardTitle>{c.companyName} · {c.type}</CardTitle></CardHeader><CardContent className="grid gap-4 lg:grid-cols-[1fr_260px]"><div><p className="text-sm text-slate-600 line-clamp-2">{c.description}</p><div className="mt-4 rounded-2xl bg-slate-50 p-4"><p className="font-bold">Next action</p><p className="text-sm text-slate-700">{plan.action}</p><p className="mt-1 text-xs text-slate-500">Due: {plan.dueDate.slice(0, 10)}</p></div><div className="mt-4"><p className="text-sm font-bold">Recent timeline</p><div className="mt-2 grid gap-2">{c.caseTimelineEvents.length ? c.caseTimelineEvents.map((e) => <div key={e.id} className="rounded-xl border p-3 text-sm"><b>{e.title}</b><p className="text-slate-600">{e.message}</p></div>) : <p className="text-sm text-slate-500">No timeline events yet.</p>}</div></div></div><div className="rounded-2xl border p-4"><p className="text-sm font-bold text-slate-500">Strength</p><p className="text-3xl font-black">{score.score}/100</p><p className="text-sm text-slate-600">{score.grade}</p><div className="mt-4 grid gap-2"><Link href="/tools/complaint-strength-checker" className="block rounded-xl border px-4 py-2 text-center text-sm font-bold">Improve draft</Link><EscalationButton complaintId={c.id} /></div></div></CardContent></Card> })}</div>
+}

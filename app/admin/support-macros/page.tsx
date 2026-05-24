@@ -1,0 +1,5 @@
+import { db } from '@/lib/db'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Badge } from '@/components/ui/badge'
+export const dynamic = 'force-dynamic'
+export default async function Page(){ const macros=await db.supportMacro.findMany({ orderBy:{category:'asc'} }).catch(()=>[]); return <div className="grid gap-6"><div><h1 className="text-3xl font-black">Support macros</h1><p className="mt-2 text-slate-600">Fast support replies for refund, UPI fraud, scheme and document issues.</p></div><div className="grid gap-4 md:grid-cols-2">{macros.map((m)=><Card key={m.id}><CardHeader><div className="flex items-center justify-between gap-2"><CardTitle className="text-base">{m.title}</CardTitle><Badge>{m.category}</Badge></div></CardHeader><CardContent><pre className="rounded-xl bg-slate-50 p-3 text-xs">{JSON.stringify(m.body, null, 2)}</pre><p className="mt-2 text-sm text-slate-600">{m.isActive ? 'Active' : 'Inactive'}</p></CardContent></Card>)}</div></div> }

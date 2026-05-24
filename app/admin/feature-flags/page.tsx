@@ -1,0 +1,5 @@
+import { db } from '@/lib/db'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Badge } from '@/components/ui/badge'
+export const dynamic = 'force-dynamic'
+export default async function Page(){ const flags=await db.featureFlag.findMany({ orderBy:{key:'asc'} }).catch(()=>[]); return <div className="grid gap-6"><div><h1 className="text-3xl font-black">Feature flags</h1><p className="mt-2 text-slate-600">Risky features ko staged rollout me control karo.</p></div><div className="grid gap-4 md:grid-cols-2">{flags.map((f)=><Card key={f.id}><CardHeader><div className="flex items-center justify-between gap-2"><CardTitle className="text-base">{f.name}</CardTitle><Badge>{f.status}</Badge></div></CardHeader><CardContent><p className="text-sm text-slate-600">{f.description}</p><p className="mt-3 text-sm font-semibold">Rollout: {f.rolloutPercent}%</p><pre className="mt-3 rounded-xl bg-slate-50 p-3 text-xs">{JSON.stringify(f.audience, null, 2)}</pre></CardContent></Card>)}</div></div> }

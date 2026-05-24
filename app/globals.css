@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: 0 0% 100%;
+  --foreground: 222.2 84% 4.9%;
+  --card: 0 0% 100%;
+  --card-foreground: 222.2 84% 4.9%;
+  --primary: 158 64% 34%;
+  --primary-foreground: 0 0% 100%;
+  --muted: 210 40% 96.1%;
+  --muted-foreground: 215.4 16.3% 46.9%;
+  --border: 214.3 31.8% 91.4%;
+  --input: 214.3 31.8% 91.4%;
+  --ring: 158 64% 34%;
+  --radius: 1rem;
+}
+
+* { border-color: hsl(var(--border)); }
+body { background: hsl(var(--background)); color: hsl(var(--foreground)); }
+html { scroll-behavior: smooth; }
+
+.prose-lite h2 { @apply mt-8 text-2xl font-bold; }
+.prose-lite h3 { @apply mt-6 text-xl font-semibold; }
+.prose-lite p { @apply mt-3 leading-7 text-slate-700; }
+.prose-lite ul { @apply mt-3 list-disc space-y-2 pl-6 text-slate-700; }

@@ -1,0 +1,5 @@
+import { db } from '@/lib/db'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Badge } from '@/components/ui/badge'
+export const dynamic = 'force-dynamic'
+export default async function Page(){ const incidents=await db.incidentReport.findMany({ orderBy:{createdAt:'desc'}, take:50 }).catch(()=>[]); return <div className="grid gap-6"><div><h1 className="text-3xl font-black">Incident register</h1><p className="mt-2 text-slate-600">Launch risks, outages, root-cause notes aur action items track karo.</p></div><div className="grid gap-4">{incidents.map((i)=><Card key={i.id}><CardHeader><div className="flex flex-wrap items-center justify-between gap-2"><CardTitle className="text-base">{i.title}</CardTitle><div className="flex gap-2"><Badge>{i.severity}</Badge><Badge>{i.status}</Badge></div></div></CardHeader><CardContent><p className="text-sm text-slate-600">{i.impact || 'No impact note.'}</p><p className="mt-2 text-sm text-slate-700">Root cause: {i.rootCause || 'Pending'}</p><pre className="mt-3 rounded-xl bg-slate-50 p-3 text-xs">{JSON.stringify(i.actionItems, null, 2)}</pre></CardContent></Card>)}</div></div> }

@@ -1,0 +1,5 @@
+import Link from 'next/link'
+import { db } from '@/lib/db'
+export const dynamic = 'force-dynamic'
+export const metadata = { title: 'Knowledge Base | HaqSathi AI', description: 'Simple playbooks for refund, UPI, scheme and document help.' }
+export default async function Page(){ const items = await db.playbookArticle.findMany({ where:{status:'PUBLISHED'}, orderBy:{createdAt:'desc'}, take:50 }).catch(()=>[]); return <main className="bg-slate-50"><section className="mx-auto max-w-6xl px-4 py-12"><h1 className="text-4xl font-black">Knowledge base</h1><p className="mt-3 text-slate-600">Short playbooks jo common problems me next step clear karte hain.</p><div className="mt-8 grid gap-4 md:grid-cols-3">{items.map((item)=><Link key={item.id} href={`/knowledge-base/${item.slug}`} className="rounded-3xl border bg-white p-5 shadow-soft"><p className="text-xs font-bold uppercase text-blue-700">{item.category}</p><h2 className="mt-2 text-xl font-black">{item.title}</h2><p className="mt-2 text-sm text-slate-600">{item.summary}</p></Link>)}</div></section></main> }

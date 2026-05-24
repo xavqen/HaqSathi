@@ -1,0 +1,3 @@
+import { RtiHelperForm } from '@/components/forms/rti-helper-form'
+export const metadata = { title: 'RTI Application Helper | HaqSathi AI', description: 'RTI questions and application draft helper.' }
+export default function Page() { return <main className="bg-slate-50"><section className="mx-auto max-w-5xl px-4 py-12"><p className="text-sm font-bold uppercase tracking-wider text-primary">Advanced tool</p><h1 className="mt-2 text-4xl font-black">RTI application helper</h1><p className="mt-3 max-w-2xl text-slate-600">Clear questions, application draft aur submission checklist generate karo.</p><div className="mt-8"><RtiHelperForm /></div></section></main> }

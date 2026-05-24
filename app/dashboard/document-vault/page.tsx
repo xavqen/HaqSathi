@@ -1,0 +1,26 @@
+import { db } from '@/lib/db'
+import { requireUser } from '@/lib/auth/session'
+import { DocumentDownloadButton, DocumentVaultForm } from '@/components/forms/document-vault-form'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+
+export const dynamic = 'force-dynamic'
+export default async function Page() {
+  const user = await requireUser()
+  const items = await db.documentVaultItem.findMany({ where: { userId: user.id }, orderBy: { createdAt: 'desc' } })
+  return (
+    <div>
+      <h1 className="text-3xl font-black">Document Vault</h1>
+      <p className="mt-2 text-slate-600">Private Supabase Storage upload + 5 minute signed download links.</p>
+      <div className="mt-4 rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900">Production me bucket private rakho. Server-only SUPABASE_SERVICE_ROLE_KEY browser me expose mat karo.</div>
+      <div className="mt-6 grid gap-6 lg:grid-cols-[380px_1fr]">
+        <Card><CardHeader><CardTitle>Upload Document</CardTitle></CardHeader><CardContent><DocumentVaultForm /></CardContent></Card>
+        <Card>
+          <CardHeader><CardTitle>Saved Documents</CardTitle></CardHeader>
+          <CardContent className="space-y-3">
+            {items.length ? items.map(i => <div key={i.id} className="rounded-xl border p-4"><b>{i.title}</b><p className="text-sm text-slate-600">{i.docType}{i.expiryDate ? ` · renew by ${i.expiryDate.toDateString()}` : ''}</p>{i.notes && <p className="mt-2 text-sm">{i.notes}</p>}{i.storagePath ? <DocumentDownloadButton itemId={i.id} /> : <p className="mt-2 text-xs text-slate-500">Metadata only — no file uploaded.</p>}</div>) : <p className="text-slate-500">No documents saved yet.</p>}
+          </CardContent>
+        </Card>
+      </div>
+    </div>
+  )
+}
