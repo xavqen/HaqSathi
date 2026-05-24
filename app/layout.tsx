@@ -11,10 +11,13 @@ import { CookieConsent } from '@/components/layout/cookie-consent'
 import { AnalyticsScripts } from '@/components/layout/analytics-scripts'
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || 'https://haqsathi-ai.vercel.app'),
   title: {
     default: 'HaqSathi AI - Complaint, Refund, Documents aur Schemes Helper',
     template: '%s | HaqSathi AI'
+  },
+  verification: {
+    google: 'PASTE_YOUR_CODE_HERE',
   },
   description: 'AI-powered India-focused helper for complaints, refunds, UPI issues, documents and government schemes in simple Hinglish.',
   // Add this block below
