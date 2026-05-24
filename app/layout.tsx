@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     template: '%s | HaqSathi AI'
   },
   verification: {
-    google: 'PASTE_YOUR_CODE_HERE',
+    google: 't6vNWWPIElU-JxUI1qO1MUARshpmRQGlZrRC2oVNFqU',
   },
   description: 'AI-powered India-focused helper for complaints, refunds, UPI issues, documents and government schemes in simple Hinglish.',
   // Add this block below
