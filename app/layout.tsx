@@ -31,6 +31,9 @@ export const metadata: Metadata = {
     description: 'Aapka haq, complaint, refund, documents aur schemes — sab simple language me.',
     type: 'website',
     url: 'https://www.haqsathi.site', // <-- ADDED THIS: Exact URL
+  },
+  other: {
+    "google-adsense-account": "ca-pub-6053916771324222" // Apni asli ID yahan rakhein
   }
 }
 
