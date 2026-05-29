@@ -11,9 +11,9 @@ export default function Page() {
       <section className="mx-auto max-w-7xl px-4 py-12">
         <p className="text-sm font-bold uppercase tracking-wider text-primary">Phase 17</p>
         <h1 className="mt-2 text-4xl font-black tracking-tight text-slate-950">Final launch readiness</h1>
-        <p className="mt-3 max-w-2xl text-slate-600">Feature build complete hone ke baad production me jaane se pehle ye final checks pass karo.</p>
+        <p className="mt-3 max-w-2xl text-slate-600">After feature build, pass these final checks before production launch.</p>
         <div className="mt-8 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
-          {['Build pass', 'DB + Storage ready', 'Payments tested', 'Email tested'].map((item) => <Card key={item}><CardHeader><CardTitle>{item}</CardTitle></CardHeader><CardContent><p className="text-sm text-slate-600">Admin panel me matching audit page verify karo.</p></CardContent></Card>)}
+          {['Build pass', 'DB + Storage ready', 'Payments tested', 'Email tested'].map((item) => <Card key={item}><CardHeader><CardTitle>{item}</CardTitle></CardHeader><CardContent><p className="text-sm text-slate-600">Verify the matching audit page in the admin panel.</p></CardContent></Card>)}
         </div>
         <div className="mt-8 rounded-3xl border bg-white p-6 shadow-soft">
           <h2 className="text-2xl font-black">Security baseline</h2>

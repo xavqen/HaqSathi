@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Download, MessageCircle, Save } from 'lucide-react'
@@ -35,6 +35,22 @@ export function ComplaintGenerator() {
       previousCommunication: ''
     }
   })
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search)
+    const safeType = (complaintTypes as readonly string[]).includes(params.get('type') || '') ? params.get('type')! : 'Refund not received'
+    const nextValues: ComplaintInput = {
+      type: safeType as ComplaintInput['type'],
+      companyName: params.get('companyName') || '',
+      transactionId: params.get('transactionId') || '',
+      issueDate: params.get('issueDate') || '',
+      amount: params.get('amount') || '',
+      description: params.get('description') || '',
+      desiredResolution: params.get('desiredResolution') || 'Refund/status update chahiye',
+      previousCommunication: params.get('previousCommunication') || ''
+    }
+    if (Array.from(params.keys()).length > 0) form.reset(nextValues)
+  }, [form])
 
   async function onSubmit(values: ComplaintInput) {
     setLoading(true)
@@ -76,7 +92,7 @@ export function ComplaintGenerator() {
       <Card>
         <CardHeader>
           <CardTitle>Complaint details</CardTitle>
-          <CardDescription>Simple details fill karo, AI copy-ready draft banayega.</CardDescription>
+          <CardDescription>Fill simple details and AI will create a copy-ready draft. Fields from OCR autofill can be applied automatically.</CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
@@ -113,7 +129,7 @@ export function ComplaintGenerator() {
 
             <div className="grid gap-2">
               <Label>Issue description</Label>
-              <Textarea placeholder="Example: Return pickup ho gaya but refund abhi tak nahi aaya..." {...form.register('description')} />
+              <Textarea placeholder="Example: Return pickup is complete but the refund has not arrived yet..." {...form.register('description')} />
               {form.formState.errors.description && <p className="text-sm text-red-600">{form.formState.errors.description.message}</p>}
             </div>
 
@@ -125,7 +141,7 @@ export function ComplaintGenerator() {
 
             <div className="grid gap-2">
               <Label>Previous communication</Label>
-              <Textarea placeholder="Optional: support ne kya bola?" {...form.register('previousCommunication')} />
+              <Textarea placeholder="Optional: What did support say?" {...form.register('previousCommunication')} />
             </div>
 
             <Button className="w-full" type="submit" disabled={loading}>{loading ? 'Generating...' : 'Generate Complaint Draft'}</Button>
@@ -137,11 +153,11 @@ export function ComplaintGenerator() {
       <Card>
         <CardHeader>
           <CardTitle>Generated draft</CardTitle>
-          <CardDescription>{savedId ? `Saved ID: ${savedId}` : 'Draft yahan dikhega.'}</CardDescription>
+          <CardDescription>{savedId ? `Saved ID: ${savedId}` : 'Draft will appear here.'}</CardDescription>
         </CardHeader>
         <CardContent>
           {!result ? (
-            <div className="rounded-2xl border border-dashed p-8 text-center text-slate-500">Form submit karo. Output me short complaint, email, helpline format, follow-up aur checklist milega.</div>
+            <div className="rounded-2xl border border-dashed p-8 text-center text-slate-500">Submit the form to get a short complaint, email draft, helpline format, follow-up and checklist.</div>
           ) : (
             <div className="space-y-5">
               <DraftBlock title="Short complaint" text={result.shortComplaint} />

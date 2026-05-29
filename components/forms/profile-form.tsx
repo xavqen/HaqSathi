@@ -28,7 +28,7 @@ export function GoogleAccountCard({ connected }: { connected: boolean }) {
     <Card>
       <CardHeader><CardTitle>Google account</CardTitle></CardHeader>
       <CardContent className="space-y-3 text-sm text-slate-600">
-        <p>{connected ? 'Google login connected hai. Aap email/password ke saath Google se bhi login kar sakte ho.' : 'Google login connect karke one-click login enable karo.'}</p>
+        <p>{connected ? 'Google login is connected. You can sign in with Google or email/password.' : 'Connect Google to enable one-click sign-in.'}</p>
         <a href="/api/auth/google?next=/dashboard/profile" className="inline-flex h-11 items-center justify-center gap-3 rounded-xl border bg-white px-5 text-sm font-bold text-slate-800 shadow-sm hover:bg-slate-50">
           <span className="flex h-5 w-5 items-center justify-center rounded-full border text-xs font-black text-blue-700">G</span>
           {connected ? 'Reconnect Google' : 'Connect Google'}

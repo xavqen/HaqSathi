@@ -12,7 +12,7 @@ export async function GET() {
   return NextResponse.json({
     ok: true,
     app: 'HaqSathi AI',
-    version: process.env.NEXT_PUBLIC_APP_VERSION || '2.0.0-rc.1',
+    version: process.env.NEXT_PUBLIC_APP_VERSION || '3.0.4',
     nodeEnv: process.env.NODE_ENV || 'development',
     checks: {
       appUrl: Boolean(process.env.NEXT_PUBLIC_APP_URL),

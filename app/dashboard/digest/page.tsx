@@ -30,8 +30,8 @@ export default async function DigestPage() {
     </div>
     <Card><CardHeader><CardTitle>Recommended next actions</CardTitle></CardHeader><CardContent className="space-y-3">
       {pendingReminders.map((r) => <div key={r.id} className="rounded-2xl border p-4"><b>{r.title}</b><p className="text-sm text-slate-600">Due: {r.dueDate.toDateString()}</p></div>)}
-      {openComplaints.slice(0, 3).map((c) => <div key={c.id} className="rounded-2xl border p-4"><b>{c.companyName}</b><p className="text-sm text-slate-600">Status: {c.status}. Follow-up draft generate karo.</p></div>)}
-      {pendingReminders.length === 0 && openComplaints.length === 0 && <p className="text-sm text-slate-600">Koi urgent action nahi. New complaint ya checklist create kar sakte ho.</p>}
+      {openComplaints.slice(0, 3).map((c) => <div key={c.id} className="rounded-2xl border p-4"><b>{c.companyName}</b><p className="text-sm text-slate-600">Status: {c.status}. Generate a follow-up draft.</p></div>)}
+      {pendingReminders.length === 0 && openComplaints.length === 0 && <p className="text-sm text-slate-600">No urgent action right now. You can create a new complaint or checklist.</p>}
       <Link href="/dashboard/reminders" className="inline-flex rounded-xl bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground">Manage reminders</Link>
     </CardContent></Card>
   </div>

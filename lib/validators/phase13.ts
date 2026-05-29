@@ -1,9 +1,10 @@
 import { z } from 'zod'
+import { LANGUAGE_CODES } from '@/lib/i18n/languages'
 
 export const callScriptSchema = z.object({
   issueType: z.string().min(2).max(80),
   authorityType: z.string().min(2).max(80),
-  language: z.enum(['HINGLISH', 'HINDI', 'ENGLISH']).default('HINGLISH'),
+  language: z.enum(LANGUAGE_CODES).default('ENGLISH'),
   caseSummary: z.string().min(20).max(2500),
   desiredOutcome: z.string().min(5).max(500),
   previousAttempts: z.string().max(1000).optional().default('')

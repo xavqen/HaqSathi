@@ -74,3 +74,22 @@ export async function createSignedVaultUrl(storagePath: string) {
   if (!signedPath) throw new Error('Signed URL not returned by storage provider')
   return signedPath.startsWith('http') ? signedPath : `${supabaseUrl}/storage/v1${signedPath}`
 }
+
+
+export async function checkVaultStorageHealth() {
+  const { supabaseUrl, serviceKey, bucket } = getStorageConfig()
+  const checks = { supabaseUrl: Boolean(supabaseUrl), serviceKey: Boolean(serviceKey), bucket }
+  if (!supabaseUrl || !serviceKey) return { ok: false, checks, error: 'Supabase Storage env not configured.' }
+
+  const response = await fetch(`${supabaseUrl}/storage/v1/bucket/${bucket}`, {
+    method: 'GET',
+    headers: { Authorization: `Bearer ${serviceKey}`, apikey: serviceKey }
+  }).catch((error) => error instanceof Error ? error : new Error('Storage connection failed'))
+
+  if (response instanceof Error) return { ok: false, checks, error: response.message }
+  const data = await response.json().catch(() => ({}))
+  if (!response.ok) {
+    return { ok: false, checks, status: response.status, error: typeof data?.message === 'string' ? data.message : 'Storage bucket check failed' }
+  }
+  return { ok: true, checks, bucketInfo: data }
+}

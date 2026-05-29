@@ -133,6 +133,7 @@ model User {
   legalToolResults   LegalToolResult[]
   evidencePacks      EvidencePack[]
   passwordResetTokens PasswordResetToken[]
+  emailVerificationTokens EmailVerificationToken[]
   referralInvites ReferralInvite[]
   privacyConsents PrivacyConsent[]
   deletionRequests DataDeletionRequest[]
@@ -146,6 +147,26 @@ model User {
   caseSlaTracks CaseSlaTrack[]
   agentInvoices AgentInvoice[]
   promptTestRuns PromptTestRun[]
+  documentParseResults DocumentParseResult[]
+  caseCoachReports CaseCoachReport[]
+  followUpAutomations FollowUpAutomation[]
+  ocrAutofillResults OcrAutofillResult[]
+  submissionPacks SubmissionPack[]
+  scamRadarReports ScamRadarReport[]
+  rightsExplainerResults RightsExplainerResult[]
+  refundNegotiationPlans RefundNegotiationPlan[]
+  issueTrendSignals IssueTrendSignal[]
+  authorityRouterPlans AuthorityRouterPlan[]
+  privacyRedactionResults PrivacyRedactionResult[]
+  evidenceTimelineBuilds EvidenceTimelineBuild[]
+  publicPostSafetyChecks PublicPostSafetyCheck[]
+  agentRevenueSimulations AgentRevenueSimulation[]
+
+  chargebackHelperResults ChargebackHelperResult[]
+  proofQualityScans ProofQualityScan[]
+  serviceCenterLocatorPlans ServiceCenterLocatorPlan[]
+  familyCaseSwitchboards FamilyCaseSwitchboard[]
+  smartComplaintPlans SmartComplaintPlan[]
 
   @@index([email])
   @@index([role])
@@ -186,6 +207,9 @@ model Complaint {
   communicationLogs CommunicationLog[]
   caseOutcomes CaseOutcome[]
   caseSlaTracks CaseSlaTrack[]
+  caseCoachReports CaseCoachReport[]
+  followUpAutomations FollowUpAutomation[]
+  ocrAutofillResults OcrAutofillResult[]
 
   @@index([userId])
   @@index([type])
@@ -486,7 +510,7 @@ model OnboardingProgress {
   completedSteps Json
   preferredState String?
   mainGoal       String?
-  language       String   @default("HINGLISH")
+  language       String   @default("ENGLISH")
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
 }
@@ -515,7 +539,7 @@ model NotificationPreference {
   productUpdates      Boolean  @default(false)
   whatsappPlaceholder Boolean  @default(false)
   smsPlaceholder      Boolean  @default(false)
-  language            String   @default("HINGLISH")
+  language            String   @default("ENGLISH")
   createdAt           DateTime @default(now())
   updatedAt           DateTime @updatedAt
 }
@@ -526,7 +550,7 @@ model Template {
   title       String
   category    String
   intent      String
-  language    String        @default("HINGLISH")
+  language    String        @default("ENGLISH")
   body        String
   variables   Json
   isPremium   Boolean       @default(false)
@@ -631,7 +655,7 @@ model UserLanguagePreference {
   id              String   @id @default(cuid())
   userId          String   @unique
   user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  primaryLanguage String   @default("HINGLISH")
+  primaryLanguage String   @default("ENGLISH")
   assistantTone   String   @default("SIMPLE")
   readingLevel    String   @default("EASY")
   createdAt       DateTime @default(now())
@@ -717,6 +741,19 @@ model PasswordResetToken {
   @@index([expiresAt])
 }
 
+
+model EmailVerificationToken {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tokenHash String   @unique
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@index([expiresAt])
+}
 
 model ReferralInvite {
   id        String   @id @default(cuid())
@@ -1339,3 +1376,378 @@ model KnowledgeFeedback {
   @@index([articleId])
   @@index([rating])
 }
+
+
+model DocumentParseResult {
+  id              String   @id @default(cuid())
+  userId          String?
+  user            User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  sourceType      String   @default("TEXT")
+  documentType    String
+  rawText         String
+  extractedFields Json
+  confidenceScore Int      @default(0)
+  warnings        Json
+  createdAt       DateTime @default(now())
+
+  @@index([userId])
+  @@index([documentType])
+  @@index([confidenceScore])
+  @@index([createdAt])
+}
+
+model CaseCoachReport {
+  id          String     @id @default(cuid())
+  userId      String?
+  user        User?      @relation(fields: [userId], references: [id], onDelete: SetNull)
+  complaintId String?
+  complaint   Complaint? @relation(fields: [complaintId], references: [id], onDelete: SetNull)
+  caseType    String
+  score       Int        @default(0)
+  grade       String
+  report      Json
+  createdAt   DateTime   @default(now())
+
+  @@index([userId])
+  @@index([complaintId])
+  @@index([caseType])
+  @@index([score])
+  @@index([createdAt])
+}
+
+model FollowUpAutomation {
+  id          String     @id @default(cuid())
+  userId      String?
+  user        User?      @relation(fields: [userId], references: [id], onDelete: SetNull)
+  complaintId String?
+  complaint   Complaint? @relation(fields: [complaintId], references: [id], onDelete: SetNull)
+  caseTitle   String
+  channel     String     @default("EMAIL")
+  plan        Json
+  status      String     @default("ACTIVE")
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  @@index([userId])
+  @@index([complaintId])
+  @@index([channel])
+  @@index([status])
+  @@index([createdAt])
+}
+
+model OcrAutofillResult {
+  id              String   @id @default(cuid())
+  userId          String?
+  user            User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  complaintId     String?
+  complaint       Complaint? @relation(fields: [complaintId], references: [id], onDelete: SetNull)
+  fileName        String?
+  mimeType        String?
+  fileSize        Int?
+  documentType    String   @default("PAYMENT_PROOF")
+  rawNotes        String?
+  extractedFields Json
+  confidenceScore Int      @default(0)
+  warnings        Json
+  provider        String   @default("fallback")
+  createdAt       DateTime @default(now())
+
+  @@index([userId])
+  @@index([complaintId])
+  @@index([documentType])
+  @@index([confidenceScore])
+  @@index([provider])
+  @@index([createdAt])
+}
+
+model SmartComplaintPlan {
+  id              String   @id @default(cuid())
+  userId          String?
+  user            User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  issueType       String
+  companyName     String?
+  referenceId     String?
+  amount          String?
+  language        String   @default("ENGLISH")
+  urgency         String   @default("NORMAL")
+  plan            Json
+  readinessScore  Int      @default(0)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([userId])
+  @@index([issueType])
+  @@index([urgency])
+  @@index([readinessScore])
+  @@index([createdAt])
+}
+
+
+model SubmissionPack {
+  id            String   @id @default(cuid())
+  userId        String?
+  user          User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  issueType     String
+  companyName   String?
+  referenceId   String?
+  language      String   @default("ENGLISH")
+  recipientType String   @default("COMPANY_SUPPORT")
+  tone          String   @default("PROFESSIONAL")
+  pack          Json
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([userId])
+  @@index([issueType])
+  @@index([recipientType])
+  @@index([language])
+  @@index([createdAt])
+}
+
+
+model ScamRadarReport {
+  id          String   @id @default(cuid())
+  userId      String?
+  user        User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  channel     String
+  counterparty String?
+  amount      String?
+  messageText String
+  riskLevel   String   @default("LOW")
+  score       Int      @default(0)
+  report      Json
+  createdAt   DateTime @default(now())
+
+  @@index([userId])
+  @@index([channel])
+  @@index([riskLevel])
+  @@index([score])
+  @@index([createdAt])
+}
+
+model RightsExplainerResult {
+  id          String   @id @default(cuid())
+  userId      String?
+  user        User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  issueType   String
+  state       String?
+  language    String   @default("ENGLISH")
+  question    String
+  result      Json
+  createdAt   DateTime @default(now())
+
+  @@index([userId])
+  @@index([issueType])
+  @@index([language])
+  @@index([createdAt])
+}
+
+model RefundNegotiationPlan {
+  id          String   @id @default(cuid())
+  userId      String?
+  user        User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  companyName String?
+  issueType   String
+  amount      String?
+  tone        String   @default("FIRM")
+  plan        Json
+  createdAt   DateTime @default(now())
+
+  @@index([userId])
+  @@index([issueType])
+  @@index([tone])
+  @@index([createdAt])
+}
+
+model IssueTrendSignal {
+  id          String   @id @default(cuid())
+  userId      String?
+  user        User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  issueType   String
+  companyName String?
+  state       String?
+  city        String?
+  severity    String   @default("MEDIUM")
+  summary     String
+  status      String   @default("OPEN")
+  createdAt   DateTime @default(now())
+
+  @@index([userId])
+  @@index([issueType])
+  @@index([companyName])
+  @@index([state])
+  @@index([severity])
+  @@index([createdAt])
+}
+
+model AuthorityRouterPlan {
+  id          String   @id @default(cuid())
+  userId      String?
+  user        User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  issueType   String
+  companyType String
+  state       String?
+  urgency     String   @default("NORMAL")
+  plan        Json
+  createdAt   DateTime @default(now())
+
+  @@index([userId])
+  @@index([issueType])
+  @@index([companyType])
+  @@index([urgency])
+  @@index([createdAt])
+}
+
+
+model PrivacyRedactionResult {
+  id              String   @id @default(cuid())
+  userId          String?
+  user            User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  contentType     String
+  language        String   @default("ENGLISH")
+  publicShareMode Boolean  @default(false)
+  riskScore       Int      @default(0)
+  originalText    String
+  redactedText    String
+  result          Json
+  createdAt       DateTime @default(now())
+
+  @@index([userId])
+  @@index([contentType])
+  @@index([language])
+  @@index([riskScore])
+  @@index([createdAt])
+}
+
+model EvidenceTimelineBuild {
+  id             String   @id @default(cuid())
+  userId         String?
+  user           User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  issueType      String
+  companyName    String?
+  referenceId    String?
+  readinessScore Int      @default(0)
+  eventsText     String
+  evidenceText   String?
+  result         Json
+  createdAt      DateTime @default(now())
+
+  @@index([userId])
+  @@index([issueType])
+  @@index([companyName])
+  @@index([readinessScore])
+  @@index([createdAt])
+}
+
+model PublicPostSafetyCheck {
+  id          String   @id @default(cuid())
+  userId      String?
+  user        User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  platform    String
+  issueType   String
+  companyName String?
+  riskScore   Int      @default(0)
+  draftPost   String
+  safePost    String
+  result      Json
+  createdAt   DateTime @default(now())
+
+  @@index([userId])
+  @@index([platform])
+  @@index([issueType])
+  @@index([riskScore])
+  @@index([createdAt])
+}
+
+model AgentRevenueSimulation {
+  id             String   @id @default(cuid())
+  userId         String?
+  user           User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  city           String?
+  monthlyClients Int      @default(0)
+  avgServiceFee  Float    @default(0)
+  conversionRate Float    @default(0)
+  estimatedNet   Float    @default(0)
+  result         Json
+  createdAt      DateTime @default(now())
+
+  @@index([userId])
+  @@index([city])
+  @@index([estimatedNet])
+  @@index([createdAt])
+}
+
+model ChargebackHelperResult {
+  id            String   @id @default(cuid())
+  userId        String?
+  user          User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  paymentMode   String
+  issueType     String
+  bankName      String?
+  merchantName  String?
+  amount        Float    @default(0)
+  readinessScore Int     @default(0)
+  result        Json
+  createdAt     DateTime @default(now())
+
+  @@index([userId])
+  @@index([paymentMode])
+  @@index([issueType])
+  @@index([readinessScore])
+  @@index([createdAt])
+}
+
+model ProofQualityScan {
+  id        String   @id @default(cuid())
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  issueType String
+  channel   String
+  score     Int      @default(0)
+  proofText String
+  result    Json
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@index([issueType])
+  @@index([channel])
+  @@index([score])
+  @@index([createdAt])
+}
+
+model ServiceCenterLocatorPlan {
+  id        String   @id @default(cuid())
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  issueType String
+  state     String
+  city      String
+  urgency   String   @default("NORMAL")
+  result    Json
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@index([issueType])
+  @@index([state])
+  @@index([city])
+  @@index([urgency])
+  @@index([createdAt])
+}
+
+model FamilyCaseSwitchboard {
+  id         String   @id @default(cuid())
+  userId     String?
+  user       User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  memberName String
+  issueType  String
+  priority   String   @default("MEDIUM")
+  result     Json
+  createdAt  DateTime @default(now())
+
+  @@index([userId])
+  @@index([memberName])
+  @@index([issueType])
+  @@index([priority])
+  @@index([createdAt])
+}
+

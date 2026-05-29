@@ -27,7 +27,7 @@ export function UpiHelper() {
   }
 
   return <div className="grid gap-6 lg:grid-cols-2">
-    <Card><CardHeader><CardTitle>UPI issue details</CardTitle><CardDescription>Fraud case me delay mat karo — official channels par immediately report karo.</CardDescription></CardHeader><CardContent>
+    <Card><CardHeader><CardTitle>UPI issue details</CardTitle><CardDescription>In fraud cases, do not delay. Report immediately through official channels.</CardDescription></CardHeader><CardContent>
       <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
         <div className="grid gap-2"><Label>Issue</Label><Select {...form.register('issue')}>{upiIssues.map(i => <option key={i}>{i}</option>)}</Select></div>
         <div className="grid gap-4 sm:grid-cols-2"><div className="grid gap-2"><Label>UPI App</Label><Input placeholder="PhonePe/GPay/Paytm" {...form.register('appName')} /></div><div className="grid gap-2"><Label>Bank</Label><Input placeholder="SBI/HDFC..." {...form.register('bankName')} /></div></div>
@@ -36,7 +36,7 @@ export function UpiHelper() {
         <Button className="w-full" disabled={loading}>{loading ? 'Generating...' : 'Get UPI Help'}</Button>
       </form>
     </CardContent></Card>
-    <Card><CardHeader><CardTitle>Action guide</CardTitle><CardDescription>Copy-ready bank/NPCI draft.</CardDescription></CardHeader><CardContent>{!result ? <p className="rounded-2xl border border-dashed p-8 text-center text-slate-500">Output yahan aayega.</p> : <div className="space-y-5">
+    <Card><CardHeader><CardTitle>Action guide</CardTitle><CardDescription>Copy-ready bank/NPCI draft.</CardDescription></CardHeader><CardContent>{!result ? <p className="rounded-2xl border border-dashed p-8 text-center text-slate-500">Output will appear here.</p> : <div className="space-y-5">
       <List title="Urgent actions" items={result.urgentActions} />
       <Block title="Bank message" text={result.bankMessage} />
       <Block title="NPCI/bank draft" text={result.npciDraft} />

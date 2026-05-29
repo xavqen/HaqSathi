@@ -14,7 +14,7 @@ export default async function PrivacyCenterPage() {
   return <div className="space-y-6">
     <div>
       <h1 className="text-3xl font-bold">Privacy Center</h1>
-      <p className="mt-2 text-slate-600">Consent, communication preferences aur data deletion request yahan manage karo.</p>
+      <p className="mt-2 text-slate-600">Manage consent, communication preferences and data deletion requests here.</p>
     </div>
     <PrivacyCenterForm latest={latest} />
   </div>

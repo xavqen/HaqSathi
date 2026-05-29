@@ -12,7 +12,7 @@ export default function Page() {
           <CardTitle className="text-3xl">Bank Complaint</CardTitle>
         </CardHeader>
         <CardContent>
-          <p className="text-slate-700">Sensitive account details public jagah share mat karo.</p>
+          <p className="text-slate-700">Do not share sensitive account details in public posts or unsecured chats.</p>
           <div className="mt-6 flex flex-wrap gap-3">
             <Link href="/complaint" className="rounded-xl bg-primary px-5 py-3 font-semibold text-primary-foreground">Generate Complaint</Link>
             <Link href="/" className="rounded-xl border px-5 py-3 font-semibold">Home</Link>

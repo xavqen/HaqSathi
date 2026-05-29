@@ -16,7 +16,7 @@ export default async function ReferralsPage() {
   return <div className="space-y-6">
     <div>
       <h1 className="text-3xl font-bold">Referral growth</h1>
-      <p className="mt-2 text-slate-600">Friends, clients ya cyber cafe users ko invite karo aur bonus usage unlock karo.</p>
+      <p className="mt-2 text-slate-600">Invite friends, clients or local service users and unlock bonus usage.</p>
     </div>
     <div className="grid gap-4 md:grid-cols-3">
       <Card><CardHeader><CardTitle>Total invites</CardTitle></CardHeader><CardContent><p className="text-3xl font-bold">{created}</p></CardContent></Card>
@@ -25,7 +25,7 @@ export default async function ReferralsPage() {
     </div>
     <ReferralForm />
     <Card><CardHeader><CardTitle>Recent referral links</CardTitle></CardHeader><CardContent className="space-y-3">
-      {invites.length === 0 && <p className="text-sm text-slate-600">Abhi koi referral nahi.</p>}
+      {invites.length === 0 && <p className="text-sm text-slate-600">No referrals yet.</p>}
       {invites.map((invite) => <div key={invite.id} className="rounded-2xl border p-4 text-sm">
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between"><b>{invite.code}</b><Badge>{invite.status}</Badge></div>
         <p className="mt-1 text-slate-600">{invite.email || 'Open share link'} · {invite.reward || 'Bonus reward'}</p>

@@ -1,46 +1,14 @@
 export const officialSourceSeeds = [
-  {
-    slug: 'national-consumer-helpline',
-    title: 'National Consumer Helpline',
-    category: 'Consumer Complaint',
-    state: 'National',
-    department: 'Department of Consumer Affairs',
-    url: 'https://consumerhelpline.gov.in/',
-    trustLevel: 'OFFICIAL',
-    status: 'VERIFIED',
-    verificationNotes: 'Consumer complaint official public portal. Verify process before filing.'
-  },
-  {
-    slug: 'cybercrime-gov-in',
-    title: 'National Cyber Crime Reporting Portal',
-    category: 'Cyber Fraud',
-    state: 'National',
-    department: 'Indian Cyber Crime Coordination Centre',
-    url: 'https://cybercrime.gov.in/',
-    trustLevel: 'OFFICIAL',
-    status: 'VERIFIED',
-    verificationNotes: 'Urgent fraud reporting guidance should point users to official emergency channels.'
-  },
-  {
-    slug: 'rbi-cms',
-    title: 'RBI Complaint Management System',
-    category: 'Banking',
-    state: 'National',
-    department: 'Reserve Bank of India',
-    url: 'https://cms.rbi.org.in/',
-    trustLevel: 'OFFICIAL',
-    status: 'VERIFIED',
-    verificationNotes: 'Use for banking ombudsman and regulated entity complaints.'
-  },
-  {
-    slug: 'umang-services',
-    title: 'UMANG Services Portal',
-    category: 'Government Services',
-    state: 'National',
-    department: 'MeitY',
-    url: 'https://web.umang.gov.in/',
-    trustLevel: 'OFFICIAL',
-    status: 'NEEDS_REVIEW',
-    verificationNotes: 'Service links change often; verify service-specific deep links monthly.'
-  }
+  { slug: 'national-consumer-helpline', title: 'National Consumer Helpline', category: 'Consumer Complaint', state: 'National', department: 'Department of Consumer Affairs', url: 'https://consumerhelpline.gov.in/', trustLevel: 'OFFICIAL', status: 'VERIFIED', verificationNotes: 'Consumer grievance registration, tracking, WhatsApp/app channels and document upload reference.' },
+  { slug: 'e-jagriti', title: 'e-Jagriti Consumer Commission Portal', category: 'Consumer Complaint', state: 'National', department: 'Department of Consumer Affairs', url: 'https://e-jagriti.gov.in/', trustLevel: 'OFFICIAL', status: 'VERIFIED', verificationNotes: 'Use for consumer commission escalation after basic support/NCH route is not enough.' },
+  { slug: 'cybercrime-gov-in', title: 'National Cyber Crime Reporting Portal', category: 'Cyber Fraud', state: 'National', department: 'Indian Cyber Crime Coordination Centre / MHA', url: 'https://cybercrime.gov.in/', trustLevel: 'OFFICIAL', status: 'VERIFIED', verificationNotes: 'Urgent cyber fraud reporting; pair with helpline 1930 in user guidance.' },
+  { slug: 'rbi-cms', title: 'RBI Complaint Management System', category: 'Banking', state: 'National', department: 'Reserve Bank of India', url: 'https://cms.rbi.org.in/', trustLevel: 'OFFICIAL', status: 'VERIFIED', verificationNotes: 'Use for regulated entity complaints after bank/NBFC internal complaint timeline.' },
+  { slug: 'npci-upi-complaint', title: 'NPCI UPI Complaint Resource', category: 'UPI', state: 'National', department: 'National Payments Corporation of India', url: 'https://www.npci.org.in/upi-complaint', trustLevel: 'OFFICIAL', status: 'VERIFIED', verificationNotes: 'UPI dispute and complaint reference; bank/app dispute is usually first step.' },
+  { slug: 'uidai', title: 'UIDAI', category: 'Documents', state: 'National', department: 'Unique Identification Authority of India', url: 'https://uidai.gov.in/', trustLevel: 'OFFICIAL', status: 'VERIFIED', verificationNotes: 'Aadhaar update/status/document help.' },
+  { slug: 'digilocker', title: 'DigiLocker', category: 'Documents', state: 'National', department: 'MeitY', url: 'https://www.digilocker.gov.in/', trustLevel: 'OFFICIAL', status: 'VERIFIED', verificationNotes: 'Digital document wallet and issued certificates.' },
+  { slug: 'national-scholarship-portal', title: 'National Scholarship Portal', category: 'Scholarship', state: 'National', department: 'Government of India', url: 'https://scholarships.gov.in/', trustLevel: 'OFFICIAL', status: 'VERIFIED', verificationNotes: 'Central scholarship applications and status checks.' },
+  { slug: 'bihar-pms', title: 'Bihar Post Matric Scholarship Portal', category: 'Scholarship', state: 'Bihar', department: 'Government of Bihar', url: 'https://pmsonline.bih.nic.in/', trustLevel: 'OFFICIAL', status: 'VERIFIED', verificationNotes: 'Bihar scholarship state portal reference.' },
+  { slug: 'up-scholarship', title: 'UP Scholarship Portal', category: 'Scholarship', state: 'Uttar Pradesh', department: 'Government of Uttar Pradesh', url: 'https://scholarship.up.gov.in/', trustLevel: 'OFFICIAL', status: 'VERIFIED', verificationNotes: 'UP scholarship registration, renewal and status reference.' },
+  { slug: 'ayushman-beneficiary', title: 'Ayushman Bharat Beneficiary Portal', category: 'Health Scheme', state: 'National', department: 'National Health Authority', url: 'https://beneficiary.nha.gov.in/', trustLevel: 'OFFICIAL', status: 'VERIFIED', verificationNotes: 'Ayushman card eligibility/status reference.' },
+  { slug: 'umang-services', title: 'UMANG Services Portal', category: 'Government Services', state: 'National', department: 'MeitY', url: 'https://web.umang.gov.in/', trustLevel: 'OFFICIAL', status: 'NEEDS_REVIEW', verificationNotes: 'Service deep links change often; verify service-specific destination monthly.' }
 ]

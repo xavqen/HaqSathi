@@ -1,10 +1,10 @@
 'use client'
 
 import { useState } from 'react'
-import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
 import { Select } from '@/components/ui/select'
+import { INDIAN_LANGUAGE_OPTIONS, GLOBAL_LANGUAGE_OPTIONS } from '@/lib/i18n/languages'
 
 type Prefs = {
   emailReminders: boolean
@@ -12,35 +12,31 @@ type Prefs = {
   productUpdates: boolean
   whatsappPlaceholder: boolean
   smsPlaceholder: boolean
-  language: 'HINGLISH' | 'HINDI' | 'ENGLISH'
+  language: string
 }
 
-const boolFields: { key: keyof Omit<Prefs, 'language'>; label: string; help: string }[] = [
-  { key: 'emailReminders', label: 'Email reminders', help: 'Reminder due hone par email-ready log create hoga.' },
-  { key: 'weeklyDigest', label: 'Weekly digest', help: 'Week me ek summary preference.' },
-  { key: 'productUpdates', label: 'Product updates', help: 'New templates/features ke updates.' },
-  { key: 'whatsappPlaceholder', label: 'WhatsApp alerts placeholder', help: 'Future WhatsApp provider integration ke liye.' },
-  { key: 'smsPlaceholder', label: 'SMS alerts placeholder', help: 'Future SMS provider integration ke liye.' }
-]
-
-export function NotificationSettingsForm({ initial }: { initial: Prefs }) {
-  const router = useRouter()
-  const [prefs, setPrefs] = useState<Prefs>(initial)
+export function NotificationSettingsForm({ initial }: { initial?: Partial<Prefs> | null }) {
+  const [prefs, setPrefs] = useState<Prefs>({
+    emailReminders: initial?.emailReminders ?? true,
+    weeklyDigest: initial?.weeklyDigest ?? true,
+    productUpdates: initial?.productUpdates ?? false,
+    whatsappPlaceholder: initial?.whatsappPlaceholder ?? false,
+    smsPlaceholder: initial?.smsPlaceholder ?? false,
+    language: initial?.language || 'ENGLISH'
+  })
   const [message, setMessage] = useState('')
-
-  async function submit(e: React.FormEvent) {
-    e.preventDefault()
-    setMessage('Saving...')
+  async function save() {
+    setMessage('')
     const res = await fetch('/api/user/settings', { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(prefs) })
-    setMessage(res.ok ? 'Settings saved.' : 'Save failed.')
-    router.refresh()
+    const data = await res.json().catch(() => ({ ok: false }))
+    setMessage(data.ok ? 'Settings saved' : data.error || 'Save failed')
   }
-
-  return <form onSubmit={submit} className="space-y-5">
-    <div className="grid gap-2"><Label>Preferred language</Label><Select value={prefs.language} onChange={(e) => setPrefs((prev) => ({ ...prev, language: e.target.value as Prefs['language'] }))}><option value="HINGLISH">Hinglish</option><option value="HINDI">Hindi</option><option value="ENGLISH">English</option></Select></div>
-    <div className="grid gap-3">
-      {boolFields.map((field) => <label key={field.key} className="flex items-start gap-3 rounded-2xl border bg-white p-4"><input type="checkbox" className="mt-1" checked={Boolean(prefs[field.key])} onChange={(e) => setPrefs((prev) => ({ ...prev, [field.key]: e.target.checked }))} /><span><b>{field.label}</b><p className="text-sm text-slate-500">{field.help}</p></span></label>)}
+  return (
+    <div className="grid gap-4 rounded-3xl border bg-white p-5 shadow-soft">
+      <div className="grid gap-2"><Label>Preferred notification language</Label><Select value={prefs.language} onChange={(e) => setPrefs((prev) => ({ ...prev, language: e.target.value }))}><optgroup label="India major languages">{INDIAN_LANGUAGE_OPTIONS.map((l) => <option key={l.code} value={l.code}>{l.label}</option>)}</optgroup><optgroup label="World major languages">{GLOBAL_LANGUAGE_OPTIONS.map((l) => <option key={l.code} value={l.code}>{l.label}</option>)}</optgroup></Select></div>
+      {(['emailReminders','weeklyDigest','productUpdates','whatsappPlaceholder','smsPlaceholder'] as const).map((key) => <label key={key} className="flex items-center gap-2 rounded-xl border p-3 text-sm font-semibold"><input type="checkbox" checked={prefs[key]} onChange={() => setPrefs((prev) => ({ ...prev, [key]: !prev[key] }))} /> {key.replace(/([A-Z])/g, ' $1')}</label>)}
+      {message && <p className="rounded-xl bg-emerald-50 p-3 text-sm text-emerald-700">{message}</p>}
+      <Button onClick={save}>Save settings</Button>
     </div>
-    <Button type="submit">Save Settings</Button>{message ? <p className="text-sm text-slate-500">{message}</p> : null}
-  </form>
+  )
 }

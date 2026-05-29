@@ -23,7 +23,7 @@ export default function Page() {
         <h1 className="mt-2 text-4xl font-black tracking-tight text-slate-950">Final launch checklist</h1>
         <p className="mt-3 text-slate-600">Ye checklist pass hone ke baad project ko public users ke liye launch kar sakte ho.</p>
         <div className="mt-8 grid gap-4">
-          {items.map((item, index) => <Card key={item}><CardHeader><CardTitle>{index + 1}. {item}</CardTitle></CardHeader><CardContent><p className="text-sm text-slate-600">Pass hone par admin Final QA page me mark/track karo.</p></CardContent></Card>)}
+          {items.map((item, index) => <Card key={item}><CardHeader><CardTitle>{index + 1}. {item}</CardTitle></CardHeader><CardContent><p className="text-sm text-slate-600">When passed, mark or track it in the admin Final QA page.</p></CardContent></Card>)}
         </div>
         <div className="mt-8 flex flex-wrap gap-3"><Link href="/launch-readiness" className="rounded-xl bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground">Launch readiness</Link><Link href="/deploy-guide" className="rounded-xl border px-5 py-3 text-sm font-semibold">Deploy guide</Link></div>
       </section>

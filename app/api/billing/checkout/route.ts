@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
 import { db } from '@/lib/db'
 import { requireUser } from '@/lib/auth/session'
+import { csrfGuard } from '@/lib/security/csrf'
+import { getClientIp, rateLimitAsync } from '@/lib/rate-limit'
 
 export const runtime = 'nodejs'
 
@@ -26,6 +28,10 @@ async function createRazorpayOrder({ amount, receipt, plan, userId }: { amount: 
 
 export async function POST(req: NextRequest) {
   try {
+    const csrf = csrfGuard(req)
+    if (csrf) return csrf
+    const ip = getClientIp(req.headers)
+    if (!(await rateLimitAsync(`billing-checkout:${ip}`, 10, 60_000)).ok) return NextResponse.json({ ok: false, error: 'Too many checkout attempts. Try again after 1 minute.' }, { status: 429 })
     const user = await requireUser()
     const json = await req.json().catch(() => null)
     const parsed = schema.safeParse(json)

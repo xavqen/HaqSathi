@@ -35,6 +35,19 @@ export async function sendTransactionalEmail(input: EmailInput) {
   }
 }
 
+
+export function verificationEmailHtml(name: string | null | undefined, verifyUrl: string) {
+  const safeName = escapeHtml(name || 'there')
+  const safeUrl = escapeHtml(verifyUrl)
+  return `<div style="font-family:Arial,sans-serif;line-height:1.6"><h2>HaqSathi AI</h2><p>Hi ${safeName},</p><p>Please verify your email to secure your account and enable production-ready notifications.</p><p><a href="${safeUrl}" style="background:#059669;color:white;padding:12px 18px;border-radius:10px;text-decoration:none;display:inline-block">Verify email</a></p><p>This link is valid for 24 hours. Ignore this email if you did not create this account.</p></div>`
+}
+
+export function passwordResetEmailHtml(name: string | null | undefined, resetUrl: string) {
+  const safeName = escapeHtml(name || 'there')
+  const safeUrl = escapeHtml(resetUrl)
+  return `<div style="font-family:Arial,sans-serif;line-height:1.6"><h2>HaqSathi AI</h2><p>Hi ${safeName},</p><p>Click the button below to reset your password. The link is valid for 60 minutes.</p><p><a href="${safeUrl}" style="background:#059669;color:white;padding:12px 18px;border-radius:10px;text-decoration:none;display:inline-block">Reset Password</a></p><p>If you did not request this, ignore this email.</p></div>`
+}
+
 export function complaintEmailHtml(name: string, title: string) {
   return `<div style="font-family:Arial,sans-serif;line-height:1.6"><h2>HaqSathi AI</h2><p>Hi ${escapeHtml(name)},</p><p>Your complaint draft <b>${escapeHtml(title)}</b> is saved in your dashboard.</p><p>This is guidance only, not legal advice.</p></div>`
 }

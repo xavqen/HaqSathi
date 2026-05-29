@@ -19,6 +19,16 @@ npm run build
 npm run smoke:local
 ```
 
+
+## 2.1 Production evidence pack
+
+```powershell
+npm run quality:release
+npm run qa:production-pack
+```
+
+Save the generated files from `artifacts/production-qa` with your Vercel build logs, Razorpay event IDs, Resend inbox screenshots, Supabase storage test proof, Playwright report and Lighthouse report.
+
 ## 3. Manual QA checklist
 
 - Register a new user
@@ -35,6 +45,8 @@ npm run smoke:local
 - Test Razorpay checkout in test mode
 - Open sitemap and robots
 - Test mobile viewport in Chrome DevTools
+- Open /admin/production-qa and /admin/final-qa
+- Save production QA evidence pack CSV/Markdown outputs
 
 ## 4. Production deploy
 

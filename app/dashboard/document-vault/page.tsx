@@ -11,7 +11,7 @@ export default async function Page() {
     <div>
       <h1 className="text-3xl font-black">Document Vault</h1>
       <p className="mt-2 text-slate-600">Private Supabase Storage upload + 5 minute signed download links.</p>
-      <div className="mt-4 rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900">Production me bucket private rakho. Server-only SUPABASE_SERVICE_ROLE_KEY browser me expose mat karo.</div>
+      <div className="mt-4 rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900">Keep the production bucket private. Never expose SUPABASE_SERVICE_ROLE_KEY in the browser.</div>
       <div className="mt-6 grid gap-6 lg:grid-cols-[380px_1fr]">
         <Card><CardHeader><CardTitle>Upload Document</CardTitle></CardHeader><CardContent><DocumentVaultForm /></CardContent></Card>
         <Card>

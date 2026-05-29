@@ -1,29 +1,39 @@
 import Link from 'next/link'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { cookies } from 'next/headers'
+import { ShieldCheck } from 'lucide-react'
+import { ToolGrid } from '@/components/tools/tool-grid'
+import { publicTools, toolCategories } from '@/lib/tools/catalog'
+import { getShellDictionary } from '@/lib/i18n/dictionaries'
+import { normalizeLanguageCode } from '@/lib/i18n/languages'
 
-const tools = [
-  ['/tools/deadline-calculator', 'Complaint Deadline Calculator', 'Follow-up aur escalation dates auto calculate karo.'],
-  ['/tools/complaint-strength-checker', 'Complaint Strength Checker', 'Draft strong hai ya weak, 100 score me check karo.'],
-  ['/tools/evidence-checklist', 'Evidence Checklist', 'Case type ke hisaab se proof list nikalo.'],
-  ['/tools/risk-assessment', 'Risk Assessment', 'Fraud/refund/bank issue ki urgency samjho.'],
-  ['/tools/application-tracker', 'Application Tracker', 'Scheme/document application ko manually track karo.'],
-  ['/tools/legal-notice-draft', 'Legal Notice Style Draft', 'Formal notice-style draft with safe disclaimer.'],
-  ['/tools/rti-helper', 'RTI Application Helper', 'Clear RTI questions and application draft.'],
-  ['/tools/consumer-forum-pack', 'Consumer Forum Pack', 'Complaint summary + evidence index builder.'],
-  ['/tools/bank-escalation', 'Bank Escalation Planner', 'Bank grievance stage, draft and evidence plan.'],
-  ['/tools/ombudsman-planner', 'Ombudsman Planner', 'Official escalation readiness pack banao.'],
-  ['/tools/call-script-generator', 'Call Script Generator', 'Bank/company/helpline call ke liye safe script banao.'],
-  ['/tools/sla-planner', 'SLA Planner', 'Case follow-up dates aur escalation stages plan karo.'],
-  ['/tools/grievance-route-finder', 'Grievance Route Finder', 'Issue ke liye best escalation route choose karo.'],
-  ['/tools/fee-refund-calculator', 'Fee Refund Calculator', 'Paid amount aur deduction se refund estimate nikalo.'],
-  ['/tools/appeal-draft', 'Appeal Draft Helper', 'Authority ko polite appeal/follow-up draft banao.'],
-  ['/tools/notice-reply-draft', 'Notice Reply Draft', 'General notice/communication ka safe reply draft.'],
-  ['/tools/status-message-builder', 'Status Message Builder', 'Complaint/application status follow-up message.'],
-  ['/tools/document-gap-analyzer', 'Document Gap Analyzer', 'Missing documents ko quick identify karo.']
-]
+export const metadata = { title: 'All Tools | HaqSathi AI', description: 'Mobile-first complaint, refund, UPI, document, scam, legal and productivity tools.' }
+export const dynamic = 'force-dynamic'
 
-export const metadata = { title: 'Free Public Tools | HaqSathi AI', description: 'Complaint, refund, UPI, scheme and document help ke free public tools.' }
+export default async function ToolsPage() {
+  const store = await cookies()
+  const language = normalizeLanguageCode(store.get('haqsathi_language')?.value)
+  const dictionary = getShellDictionary(language)
+  return (
+    <main className="bg-slate-50">
+      <section className="hs-container py-10 sm:py-14">
+        <div className="rounded-[2rem] border border-emerald-100 bg-white p-6 shadow-soft sm:p-8 lg:flex lg:items-end lg:justify-between lg:gap-8">
+          <div>
+            <div className="flex items-center gap-2 text-sm font-black text-emerald-800"><ShieldCheck className="h-5 w-5" /> {dictionary.tools.badge}</div>
+            <h1 className="mt-3 text-[2.4rem] font-black leading-none tracking-tight text-slate-950 sm:text-5xl">{dictionary.tools.title}</h1>
+            <p className="mt-4 max-w-3xl text-base leading-7 text-slate-600 sm:text-lg">{dictionary.tools.subtitle}</p>
+          </div>
+          <Link href="/complaint" className="mt-6 inline-flex min-h-12 w-full items-center justify-center rounded-2xl bg-primary px-6 py-3 text-base font-black text-primary-foreground shadow-lg shadow-emerald-900/10 lg:mt-0 lg:w-auto">{dictionary.tools.startComplaint}</Link>
+        </div>
 
-export default function ToolsPage() {
-  return <main className="bg-slate-50"><section className="mx-auto max-w-7xl px-4 py-12"><p className="text-sm font-bold uppercase tracking-wider text-primary">Public toolkit</p><h1 className="mt-2 text-4xl font-black tracking-tight text-slate-950">Free life-admin tools</h1><p className="mt-3 max-w-2xl text-slate-600">Complaint bhejne se pehle timeline, risk, evidence, legal-style draft, RTI aur escalation pack prepare kar lo.</p><div className="mt-8 grid gap-5 md:grid-cols-2 lg:grid-cols-3">{tools.map(([href, title, desc]) => <Link key={href} href={href}><Card className="h-full transition hover:-translate-y-1 hover:shadow-lg"><CardHeader><CardTitle>{title}</CardTitle></CardHeader><CardContent><p className="text-sm text-slate-600">{desc}</p><p className="mt-4 text-sm font-bold text-primary">Open tool →</p></CardContent></Card></Link>)}</div></section></main>
+        <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
+          <div className="rounded-2xl bg-white p-4 text-center shadow-soft"><p className="text-2xl font-black text-slate-950">{publicTools.length}</p><p className="text-xs font-bold text-slate-500">{dictionary.tools.metrics[0]}</p></div>
+          <div className="rounded-2xl bg-white p-4 text-center shadow-soft"><p className="text-2xl font-black text-slate-950">{toolCategories.length}</p><p className="text-xs font-bold text-slate-500">{dictionary.tools.metrics[1]}</p></div>
+          <div className="rounded-2xl bg-white p-4 text-center shadow-soft"><p className="text-2xl font-black text-slate-950">Mobile</p><p className="text-xs font-bold text-slate-500">{dictionary.tools.metrics[2]}</p></div>
+          <div className="rounded-2xl bg-white p-4 text-center shadow-soft"><p className="text-2xl font-black text-slate-950">English</p><p className="text-xs font-bold text-slate-500">{dictionary.tools.metrics[3]}</p></div>
+        </div>
+
+        <div className="mt-6"><ToolGrid dictionary={dictionary.tools} /></div>
+      </section>
+    </main>
+  )
 }

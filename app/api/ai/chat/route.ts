@@ -3,6 +3,7 @@ import { db } from '@/lib/db'
 import { rateLimit } from '@/lib/rate-limit'
 import { getCurrentUser } from '@/lib/auth/session'
 import { generateChatReply } from '@/lib/ai/helpers'
+import { buildLanguageInstruction, getLanguageLabel } from '@/lib/i18n/languages'
 import { chatInputSchema } from '@/lib/validators/chat'
 
 export async function POST(req: NextRequest) {
@@ -16,9 +17,9 @@ export async function POST(req: NextRequest) {
   const user = await getCurrentUser()
   const preference = user ? await db.userLanguagePreference.findUnique({ where: { userId: user.id } }).catch(() => null) : null
   const result = generateChatReply(parsed.data.message)
-  if (preference) {
-    result.reply = `${result.reply}\n\nPreference applied: ${preference.primaryLanguage}, tone ${preference.assistantTone}, detail ${preference.readingLevel}.`
-  }
+  const languageCode = preference?.primaryLanguage || 'ENGLISH'
+  const languageNote = buildLanguageInstruction(languageCode)
+  result.reply = `${result.reply}\n\nLanguage mode: ${getLanguageLabel(languageCode)}. ${languageNote} Tone: ${preference?.assistantTone || 'SIMPLE'}. Detail: ${preference?.readingLevel || 'EASY'}.`
   let sessionId = parsed.data.sessionId || undefined
 
   try {

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
-import { rateLimit } from '@/lib/rate-limit'
+import { getClientIp, rateLimitAsync } from '@/lib/rate-limit'
+import { csrfGuard } from '@/lib/security/csrf'
 import { loginSchema } from '@/lib/validators/auth'
 import { verifyPassword } from '@/lib/auth/password'
 import { createSession } from '@/lib/auth/session'
@@ -9,9 +10,11 @@ import { dbErrorResponse, safeJson } from '@/lib/api/errors'
 
 export async function POST(req: NextRequest) {
   try {
-  const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 'local'
-  if (!rateLimit(`login:${ip}`, 8, 60_000).ok) {
-    return NextResponse.json({ ok: false, error: 'Too many attempts. 1 minute baad try karo.' }, { status: 429 })
+  const csrf = csrfGuard(req)
+  if (csrf) return csrf
+  const ip = getClientIp(req.headers)
+  if (!(await rateLimitAsync(`login:${ip}`, 8, 60_000)).ok) {
+    return NextResponse.json({ ok: false, error: 'Too many attempts. Try again after 1 minute.' }, { status: 429 })
   }
 
   const json = await safeJson(req)
@@ -20,7 +23,7 @@ export async function POST(req: NextRequest) {
 
   const user = await db.user.findUnique({ where: { email: parsed.data.email.toLowerCase().trim() }, select: { id: true, password: true } })
   if (!user || !verifyPassword(parsed.data.password, user.password)) {
-    return NextResponse.json({ ok: false, error: 'Email/password galat hai.' }, { status: 401 })
+    return NextResponse.json({ ok: false, error: 'Email or password is incorrect.' }, { status: 401 })
   }
 
   await createSession(user.id)

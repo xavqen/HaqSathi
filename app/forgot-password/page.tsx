@@ -9,7 +9,7 @@ export default function Page() {
   return (
     <main className="mx-auto max-w-md px-4 py-12">
       <Card>
-        <CardHeader><CardTitle className="text-3xl">Forgot password</CardTitle><CardDescription>Email enter karo. Resend configured hoga to reset email jayega; local dev me reset link screen par dikhega.</CardDescription></CardHeader>
+        <CardHeader><CardTitle className="text-3xl">Forgot password</CardTitle><CardDescription>Enter your email. If Resend is configured, a reset email will be sent; in local development, the reset link appears on screen.</CardDescription></CardHeader>
         <CardContent><ForgotPasswordForm /><p className="mt-5 text-center text-sm text-slate-600"><Link className="font-semibold text-emerald-700" href="/login">Back to login</Link></p></CardContent>
       </Card>
     </main>

@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { normalizeLanguageCode } from '@/lib/i18n/languages'
 import { requireUser } from '@/lib/auth/session'
 import { db } from '@/lib/db'
 import { languagePreferenceSchema } from '@/lib/validators/tools'
@@ -15,5 +16,7 @@ export async function POST(req: NextRequest) {
     create: { userId: user.id, ...parsed.data }
   })
   await logActivity({ userId: user.id, action: 'UPDATE', entity: 'LanguagePreference', entityId: item.id, metadata: parsed.data })
-  return NextResponse.json({ ok: true, preference: item })
+  const response = NextResponse.json({ ok: true, preference: item })
+  response.cookies.set('haqsathi_language', normalizeLanguageCode(parsed.data.primaryLanguage), { sameSite: 'lax', path: '/', maxAge: 60 * 60 * 24 * 365 })
+  return response
 }

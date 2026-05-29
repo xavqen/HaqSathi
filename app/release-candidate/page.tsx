@@ -16,7 +16,7 @@ export default function Page() {
     <main className="mx-auto max-w-5xl px-4 py-12">
       <p className="text-sm font-semibold text-primary">v2.0.0 RC1</p>
       <h1 className="mt-2 text-4xl font-black">HaqSathi AI Release Candidate</h1>
-      <p className="mt-3 max-w-2xl text-slate-600">Project feature-freeze mode me hai. Ab final kaam sirf build errors, production env, payment/email/storage verification aur official-data QA hai.</p>
+      <p className="mt-3 max-w-2xl text-slate-600">Project is in feature-freeze mode. Remaining work is build errors, production env, payment/email/storage verification and official-data QA.</p>
       <div className="mt-8 grid gap-4 md:grid-cols-2">
         {items.map((item) => (
           <Card key={item}><CardHeader><CardTitle>Ready check</CardTitle></CardHeader><CardContent>{item}</CardContent></Card>

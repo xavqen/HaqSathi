@@ -32,21 +32,35 @@ const schemes = [
     eligibility: 'Bihar ke eligible students ke liye scholarship guidance. Category, income, course and deadline official portal par verify karna zaroori hai.',
     documents: ['Aadhaar card', 'Bank passbook', 'Income certificate', 'Caste certificate if applicable', 'Domicile certificate', 'Previous marksheet', 'Admission/fee receipt'],
     applySteps: ['Official scholarship portal open karo', 'Student registration/login complete karo', 'Documents upload karo', 'Application preview verify karo', 'Submit karke application ID save karo'],
-    officialLink: null
+    officialLink: 'https://pmsonline.bih.nic.in/'
   },
   {
     title: 'UP Scholarship Documents Guide', slug: 'up-scholarship-documents-guide', state: 'Uttar Pradesh', purpose: 'Scholarship',
     eligibility: 'UP ke students ke liye scholarship document and application guide. Exact eligibility official scholarship notification se confirm karein.',
     documents: ['Aadhaar card', 'Bank passbook', 'Income certificate', 'Caste certificate if applicable', 'Previous marksheet', 'Fee receipt', 'Domicile/residence proof'],
     applySteps: ['Official UP scholarship portal par registration karo', 'Institute/course details carefully fill karo', 'Documents upload/verify karo', 'Final print/save karo'],
-    officialLink: null
+    officialLink: 'https://scholarship.up.gov.in/'
   },
   {
     title: 'Ayushman Card Basic Eligibility Guide', slug: 'ayushman-card-basic-eligibility-guide', state: 'Other', purpose: 'Health',
     eligibility: 'Ayushman card eligibility government list/official portal ke basis par hoti hai. HaqSathi sirf checklist aur process guidance deta hai.',
     documents: ['Aadhaar card', 'Ration card/family ID if required', 'Mobile number', 'Identity proof'],
     applySteps: ['Eligibility official portal/CSC par check karo', 'Family/member details verify karo', 'Required documents do', 'Acknowledgement/card status save karo'],
-    officialLink: null
+    officialLink: 'https://beneficiary.nha.gov.in/'
+  },
+  {
+    title: 'National Scholarship Portal Guide', slug: 'national-scholarship-portal-guide', state: 'Other', purpose: 'Scholarship',
+    eligibility: 'Central scholarship schemes ke liye eligibility ministry/scheme rules ke basis par hoti hai. Official NSP portal par exact scheme, institute and deadline verify karein.',
+    documents: ['Aadhaar card', 'Bank passbook', 'Income certificate if required', 'Caste/disability/minority certificate if applicable', 'Previous marksheet', 'Bonafide/admission proof'],
+    applySteps: ['National Scholarship Portal open karo', 'OTR/registration complete karo', 'Scheme eligibility verify karo', 'Documents upload karo', 'Application preview karke submit karo'],
+    officialLink: 'https://scholarships.gov.in/'
+  },
+  {
+    title: 'e-SHRAM Card Registration Guide', slug: 'eshram-card-registration-guide', state: 'Other', purpose: 'Worker benefits',
+    eligibility: 'Unorganised workers ke liye e-SHRAM registration guidance. Exact eligibility and benefit rules official portal par verify karein.',
+    documents: ['Aadhaar card', 'Mobile number linked to Aadhaar', 'Bank account details', 'Occupation details'],
+    applySteps: ['e-SHRAM portal open karo', 'Aadhaar/mobile verification karo', 'Worker and bank details fill karo', 'Card/download status save karo'],
+    officialLink: 'https://eshram.gov.in/'
   }
 ]
 

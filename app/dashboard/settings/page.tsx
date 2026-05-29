@@ -13,7 +13,7 @@ export default async function Page() {
     productUpdates: prefs?.productUpdates ?? false,
     whatsappPlaceholder: prefs?.whatsappPlaceholder ?? false,
     smsPlaceholder: prefs?.smsPlaceholder ?? false,
-    language: (prefs?.language as 'HINGLISH' | 'HINDI' | 'ENGLISH') || 'HINGLISH'
+    language: prefs?.language || 'ENGLISH'
   }
   return <div><h1 className="text-3xl font-black">Settings</h1><p className="mt-2 text-slate-600">Notifications aur language preference manage karein.</p><Card className="mt-6"><CardHeader><CardTitle>Notification Preferences</CardTitle></CardHeader><CardContent><NotificationSettingsForm initial={initial} /></CardContent></Card></div>
 }

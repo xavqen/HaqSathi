@@ -12,7 +12,7 @@ export default function Page() {
           <CardTitle className="text-3xl">Cyber Fraud Help</CardTitle>
         </CardHeader>
         <CardContent>
-          <p className="text-slate-700">Screenshots save karo, bank ko block/report karo, official cyber channels par complaint karo.</p>
+          <p className="text-slate-700">Save screenshots, contact your bank immediately, block/report the transaction where possible, and use official cyber reporting channels.</p>
           <div className="mt-6 flex flex-wrap gap-3">
             <Link href="/complaint" className="rounded-xl bg-primary px-5 py-3 font-semibold text-primary-foreground">Generate Complaint</Link>
             <Link href="/" className="rounded-xl border px-5 py-3 font-semibold">Home</Link>

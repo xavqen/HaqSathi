@@ -26,7 +26,7 @@ export default function ReleaseFinalPage() {
         <p className="text-sm font-semibold text-emerald-700">Release Candidate 2</p>
         <h1 className="mt-2 text-4xl font-bold tracking-tight">Final release check</h1>
         <p className="mt-4 text-slate-600">
-          Ye page launch se pehle last manual checklist ke liye hai. New features freeze. Ab sirf build, env, DB, payment, email aur storage test karo.
+          This page is for the final manual checklist before launch. New features are frozen. Test only build, env, DB, payment, email and storage.
         </p>
       </div>
       <div className="mt-8 grid gap-4 md:grid-cols-2">

@@ -32,7 +32,7 @@ export function LegalNoticeForm() {
     <Area name="facts" label="Facts of matter" placeholder="What happened? Add date-wise simple facts." required />
     <Area name="demand" label="Resolution demand" placeholder="Refund/replacement/written apology etc." required />
     <Field name="responseDays" label="Response days" placeholder="15" />
-    <div><Label>Language</Label><Select name="language" defaultValue="HINGLISH"><option value="HINGLISH">Hinglish</option><option value="HINDI">Hindi</option><option value="ENGLISH">English</option></Select></div>
+    <div><Label>Language</Label><Select name="language" defaultValue="ENGLISH"><option value="ENGLISH">English</option><option value="HINGLISH">Hinglish</option><option value="HINDI">Hindi</option><option value="BENGALI">Bengali</option><option value="MARATHI">Marathi</option><option value="TAMIL">Tamil</option><option value="TELUGU">Telugu</option><option value="KANNADA">Kannada</option><option value="MALAYALAM">Malayalam</option><option value="URDU">Urdu</option><option value="SPANISH">Spanish</option><option value="FRENCH">French</option><option value="ARABIC">Arabic</option></Select></div>
   </>} />
 }
 

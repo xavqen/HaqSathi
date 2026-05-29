@@ -1,12 +1,13 @@
 {
   "name": "haqsathi-ai",
-  "version": "2.1.0",
+  "version": "3.0.13-popover-overflow-fix",
   "private": true,
-    "scripts": {
+  "type": "module",
+  "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "prisma generate && tsc --noEmit",
     "db:generate": "prisma generate",
     "db:push": "prisma db push",
     "db:seed": "tsx prisma/seed.ts",
@@ -52,7 +53,35 @@
     "postrelease:check": "npm run db:doctor && npm run smoke:local",
     "scan:full": "tsx scripts/full-code-scan.ts",
     "phase22:audit": "tsx scripts/phase22-audit.ts",
-    "clean:install": "node scripts/clean-install.mjs && npm install"
+    "clean:install": "node scripts/clean-install.mjs && npm install",
+    "phase23:audit": "tsx scripts/phase23-audit.ts",
+    "phase24:audit": "tsx scripts/phase24-audit.ts",
+    "phase25:audit": "tsx scripts/phase25-audit.ts",
+    "phase26:audit": "tsx scripts/phase26-audit.ts",
+    "phase27:audit": "tsx scripts/phase27-audit.ts",
+    "phase28:audit": "tsx scripts/phase28-audit.ts",
+    "phase29:audit": "tsx scripts/phase29-audit.ts",
+    "phase30:audit": "tsx scripts/phase30-audit.ts",
+    "phase31:audit": "tsx scripts/phase31-audit.ts",
+    "ui:scan": "node scripts/ui-responsive-scan.mjs",
+    "product:polish:audit": "node scripts/product-polish-audit.mjs",
+    "content:polish:audit": "node scripts/content-polish-audit.mjs",
+    "phase35:audit": "node scripts/phase35-audit.mjs",
+    "phase36:audit": "node scripts/phase36-i18n-shell-audit.mjs",
+    "phase37:audit": "node scripts/phase37-ux-i18n-audit.mjs",
+    "phase38:audit": "node scripts/phase38-launch-gap-audit.mjs",
+    "quality:release": "npm run ui:scan && npm run content:polish:audit && npm run phase36:audit && npm run phase37:audit && npm run phase38:audit && npm run phase39:audit && npm run phase40:audit && npm run phase41:audit && npm run phase42:audit && npm run phase43:audit",
+    "test:e2e": "npx --yes @playwright/test test",
+    "test:e2e:install": "npx --yes playwright install chromium",
+    "lighthouse:local": "node scripts/lighthouse-local-audit.mjs",
+    "phase39:audit": "node scripts/phase39-release-typecheck-audit.mjs",
+    "release:typecheck": "npm run typecheck",
+    "phase40:audit": "node scripts/phase40-production-qa-pack-audit.mjs",
+    "qa:production-pack": "node scripts/production-qa-pack.mjs",
+    "release:deploy-check": "npm run quality:release && npm run release:typecheck && npm run build && npm run qa:production-pack",
+    "phase41:audit": "node scripts/phase41-device-ui-audit.mjs",
+    "phase42:audit": "node scripts/phase42-responsive-architecture-audit.mjs",
+    "phase43:audit": "node scripts/phase43-popover-overflow-audit.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "latest",
@@ -80,7 +109,8 @@
     "tailwindcss": "^3.4.17",
     "tsx": "^4.19.2",
     "typescript": "5.8.3",
-    "@types/pdfkit": "latest"
+    "@types/pdfkit": "latest",
+    "@playwright/test": "^1.53.0"
   },
   "overrides": {
     "prisma": "6.19.3",

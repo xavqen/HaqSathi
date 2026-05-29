@@ -1,4 +1,5 @@
 import { z } from 'zod'
+import { LANGUAGE_CODES } from '@/lib/i18n/languages'
 
 export const deadlineCalculatorSchema = z.object({
   issueDate: z.string().min(1),
@@ -28,7 +29,7 @@ export const riskAssessmentSchema = z.object({
 })
 
 export const languagePreferenceSchema = z.object({
-  primaryLanguage: z.enum(['HINGLISH', 'HINDI', 'ENGLISH', 'BENGALI', 'MARATHI', 'TAMIL', 'TELUGU', 'GUJARATI', 'URDU']),
+  primaryLanguage: z.enum(LANGUAGE_CODES),
   assistantTone: z.enum(['SIMPLE', 'FORMAL', 'FRIENDLY', 'STRICT']),
   readingLevel: z.enum(['EASY', 'NORMAL', 'DETAILED'])
 })

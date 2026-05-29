@@ -1,0 +1,98 @@
+{
+  "generatedAt": "2026-05-29T09:22:21.320Z",
+  "version": "3.0.10-production-qa-pack",
+  "env": [
+    {
+      "key": "NEXT_PUBLIC_APP_URL",
+      "status": "MISSING"
+    },
+    {
+      "key": "VERCEL_PRODUCTION_URL",
+      "status": "MISSING"
+    },
+    {
+      "key": "DATABASE_URL",
+      "status": "MISSING"
+    },
+    {
+      "key": "DIRECT_URL",
+      "status": "MISSING"
+    },
+    {
+      "key": "AUTH_SECRET",
+      "status": "MISSING"
+    },
+    {
+      "key": "GOOGLE_CLIENT_ID",
+      "status": "MISSING"
+    },
+    {
+      "key": "GOOGLE_CLIENT_SECRET",
+      "status": "MISSING"
+    },
+    {
+      "key": "RESEND_API_KEY",
+      "status": "MISSING"
+    },
+    {
+      "key": "RESEND_FROM_EMAIL",
+      "status": "MISSING"
+    },
+    {
+      "key": "RESEND_TEST_TO_EMAIL",
+      "status": "MISSING"
+    },
+    {
+      "key": "RAZORPAY_KEY_ID",
+      "status": "MISSING"
+    },
+    {
+      "key": "NEXT_PUBLIC_RAZORPAY_KEY_ID",
+      "status": "MISSING"
+    },
+    {
+      "key": "RAZORPAY_WEBHOOK_SECRET",
+      "status": "MISSING"
+    },
+    {
+      "key": "RAZORPAY_WEBHOOK_URL",
+      "status": "MISSING"
+    },
+    {
+      "key": "NEXT_PUBLIC_SUPABASE_URL",
+      "status": "MISSING"
+    },
+    {
+      "key": "SUPABASE_SERVICE_ROLE_KEY",
+      "status": "MISSING"
+    },
+    {
+      "key": "SUPABASE_STORAGE_BUCKET",
+      "status": "MISSING"
+    },
+    {
+      "key": "UPSTASH_REDIS_REST_URL",
+      "status": "MISSING"
+    },
+    {
+      "key": "UPSTASH_REDIS_REST_TOKEN",
+      "status": "MISSING"
+    },
+    {
+      "key": "E2E_BASE_URL",
+      "status": "MISSING"
+    },
+    {
+      "key": "LIGHTHOUSE_BASE_URL",
+      "status": "MISSING"
+    },
+    {
+      "key": "OFFICIAL_LINK_REVIEWER",
+      "status": "MISSING"
+    },
+    {
+      "key": "TRANSLATION_REVIEWER",
+      "status": "MISSING"
+    }
+  ]
+}

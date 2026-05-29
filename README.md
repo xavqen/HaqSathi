@@ -557,3 +557,59 @@ npm run db:generate
 npm run db:push
 npm run dev
 ```
+
+
+## Phase 23 mobile + language polish
+
+- Mobile header now keeps navigation visible with horizontal scroll.
+- Profile settings includes language preference.
+- Default primary language is English.
+- Added India major languages and major world languages.
+
+Run `npm run phase23:audit` after `db:push`.
+
+## Phase 38 launch-gap hardening commands
+
+```bash
+npm install
+npm run db:generate
+npm run prisma:validate
+npm run db:push
+npm run quality:release
+npm run dev
+```
+
+Optional deployed QA:
+
+```bash
+npm run test:e2e:install
+E2E_BASE_URL="https://your-vercel-preview-url" npm run test:e2e
+LIGHTHOUSE_BASE_URL="https://your-vercel-preview-url" npm run lighthouse:local -- mobile
+LIGHTHOUSE_BASE_URL="https://your-vercel-preview-url" npm run lighthouse:local -- desktop
+```
+
+Production env additions:
+
+- `UPSTASH_REDIS_REST_URL`
+- `UPSTASH_REDIS_REST_TOKEN`
+- `EMAIL_VERIFICATION_DEV_LINKS=false`
+- real `RESEND_API_KEY` and verified `RESEND_FROM_EMAIL`
+- real Razorpay keys + `RAZORPAY_WEBHOOK_SECRET`
+- real Supabase Storage bucket + `SUPABASE_SERVICE_ROLE_KEY`
+
+## Phase 40 production QA pack
+
+```bash
+npm run quality:release
+npm run qa:production-pack
+```
+
+This creates `artifacts/production-qa` with launch evidence checklist, env readiness, official-link review CSV and translation-review CSV. Use `/admin/production-qa` and `/admin/final-qa` for final go/no-go review.
+
+Final deployed check:
+
+```bash
+npm run release:deploy-check
+```
+
+Run this only after real production env values are added for Vercel, Razorpay, Resend, Supabase Storage and Upstash.

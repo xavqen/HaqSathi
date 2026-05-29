@@ -3,20 +3,24 @@ import Link from 'next/link'
 import { Suspense } from 'react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { RegisterForm } from '@/components/forms/auth-form'
+import { getCurrentPageCopy } from '@/lib/i18n/page-copy'
 
 export const metadata: Metadata = { title: 'Register', description: 'Create your HaqSathi AI account.' }
+export const dynamic = 'force-dynamic'
 
-export default function Page() {
+export default async function Page() {
+  const copy = (await getCurrentPageCopy()).register
   return (
-    <main className="mx-auto max-w-md px-4 py-12">
-      <Card>
+    <main className="grid min-h-[calc(100vh-12rem)] place-items-center bg-slate-50 px-4 py-10">
+      <Card className="w-full max-w-md rounded-[1.75rem]">
         <CardHeader>
-          <CardTitle className="text-3xl">Create account</CardTitle>
-          <CardDescription>Google ya email se free account banao, phir complaints, checklists aur searches save honge.</CardDescription>
+          <p className="text-sm font-black uppercase tracking-wider text-emerald-700">{copy.kicker}</p>
+          <CardTitle className="text-3xl">{copy.title}</CardTitle>
+          <CardDescription>{copy.description}</CardDescription>
         </CardHeader>
         <CardContent>
           <Suspense fallback={<div>Loading...</div>}><RegisterForm /></Suspense>
-          <p className="mt-5 text-center text-sm text-slate-600">Already account hai? <Link className="font-semibold text-emerald-700" href="/login">Login</Link></p>
+          <p className="mt-5 text-center text-sm text-slate-600">Already have an account? <Link className="font-semibold text-emerald-700" href="/login">Login</Link></p>
         </CardContent>
       </Card>
     </main>

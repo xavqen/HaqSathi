@@ -3,6 +3,8 @@ import { createHmac, timingSafeEqual } from 'crypto'
 import { z } from 'zod'
 import { db } from '@/lib/db'
 import { requireUser } from '@/lib/auth/session'
+import { csrfGuard } from '@/lib/security/csrf'
+import { getClientIp, rateLimitAsync } from '@/lib/rate-limit'
 
 export const runtime = 'nodejs'
 
@@ -24,6 +26,10 @@ function verifyPaymentSignature(orderId: string, paymentId: string, signature: s
 
 export async function POST(req: NextRequest) {
   try {
+    const csrf = csrfGuard(req)
+    if (csrf) return csrf
+    const ip = getClientIp(req.headers)
+    if (!(await rateLimitAsync(`billing-verify:${ip}`, 15, 60_000)).ok) return NextResponse.json({ ok: false, error: 'Too many payment verification attempts.' }, { status: 429 })
     const user = await requireUser()
     const json = await req.json().catch(() => null)
     const parsed = schema.safeParse(json)

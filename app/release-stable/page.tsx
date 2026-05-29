@@ -20,7 +20,7 @@ export default function ReleaseStablePage() {
         <p className="text-sm font-semibold text-emerald-700">HaqSathi AI v2.0.0</p>
         <h1 className="text-3xl font-bold tracking-tight md:text-4xl">Stable release package</h1>
         <p className="text-muted-foreground">
-          Feature freeze active. Ab sirf build/runtime fixes, deployment QA aur production env testing karo.
+          Feature freeze is active. Only build/runtime fixes, deployment QA and production env testing should continue.
         </p>
       </div>
 

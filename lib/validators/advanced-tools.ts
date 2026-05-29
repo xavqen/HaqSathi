@@ -1,4 +1,5 @@
 import { z } from 'zod'
+import { LANGUAGE_CODES } from '@/lib/i18n/languages'
 
 export const legalNoticeSchema = z.object({
   recipientName: z.string().min(2).max(120),
@@ -12,7 +13,7 @@ export const legalNoticeSchema = z.object({
   facts: z.string().min(20).max(4000),
   demand: z.string().min(5).max(1000),
   responseDays: z.string().optional(),
-  language: z.enum(['HINGLISH', 'HINDI', 'ENGLISH']).default('HINGLISH')
+  language: z.enum(LANGUAGE_CODES).default('ENGLISH')
 })
 
 export const rtiHelperSchema = z.object({
@@ -23,7 +24,7 @@ export const rtiHelperSchema = z.object({
   topic: z.string().min(3).max(180),
   questions: z.string().min(10).max(3000),
   period: z.string().optional(),
-  language: z.enum(['HINGLISH', 'HINDI', 'ENGLISH']).default('HINGLISH')
+  language: z.enum(LANGUAGE_CODES).default('ENGLISH')
 })
 
 export const consumerForumPackSchema = z.object({
@@ -35,7 +36,7 @@ export const consumerForumPackSchema = z.object({
   issueSummary: z.string().min(20).max(4000),
   reliefRequested: z.string().min(5).max(1000),
   evidenceAvailable: z.string().optional(),
-  language: z.enum(['HINGLISH', 'HINDI', 'ENGLISH']).default('HINGLISH')
+  language: z.enum(LANGUAGE_CODES).default('ENGLISH')
 })
 
 export const bankEscalationSchema = z.object({
@@ -47,7 +48,7 @@ export const bankEscalationSchema = z.object({
   daysPending: z.string().optional(),
   bankResponse: z.string().optional(),
   issueSummary: z.string().min(15).max(3000),
-  language: z.enum(['HINGLISH', 'HINDI', 'ENGLISH']).default('HINGLISH')
+  language: z.enum(LANGUAGE_CODES).default('ENGLISH')
 })
 
 
@@ -60,7 +61,7 @@ export const ombudsmanPlannerSchema = z.object({
   currentStatus: z.string().min(10).max(3000),
   reliefRequested: z.string().min(5).max(1000),
   documentsAvailable: z.string().optional(),
-  language: z.enum(['HINGLISH', 'HINDI', 'ENGLISH']).default('HINGLISH')
+  language: z.enum(LANGUAGE_CODES).default('ENGLISH')
 })
 
 export const evidencePackSchema = z.object({

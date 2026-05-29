@@ -27,7 +27,9 @@
       {
         "name": "next"
       }
-    ]
+    ],
+    "noImplicitAny": false,
+    "strictNullChecks": true
   },
   "include": [
     "next-env.d.ts",
