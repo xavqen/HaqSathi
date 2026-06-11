@@ -110,7 +110,7 @@ export function UserAccountMenu({ user, dictionary }: { user: UserLike; dictiona
         tabIndex={0}                     // Explicit declaration for container-level tracking
         suppressHydrationWarning         // Fixes the layout-dependent warning logs completely
       >
-        <Link href={user.plan === 'FREE' ? '/pricing' : '/dashboard/billing'} className={`inline-flex rounded-2xl border px-4 py-2 text-sm font-black shadow-sm ${planBadgeClass(user.plan)}`}>
+        <Link href={user.plan === 'FREE' ? '/pricing' : '/dashboard/billing'} className={`inline-flex rounded-2xl bg-primary px-4 py-2 text-sm font-black text-primary-foreground shadow-sm hover:bg-primary/90 ${planBadgeClass(user.plan)}`}>
           <Crown className="mr-2 h-4 w-4" />{planCtaLabel(user.plan)}
         </Link>
       </motion.div>
