@@ -1,0 +1,5 @@
+id,priority,lane,safety
+"billing-copy","P0","Billing dispute copy","No refund/insurance/legal success guarantees"
+"medical-disclaimer","P0","Medical disclaimer","No medical, legal, insurance or financial advice"
+"secret-privacy-safety","P0","Secret and health privacy safety","Never request OTP, CVV, UPI PIN, full policy number or excessive health details"
+"mobile-qa","P1","Mobile UX","Amount/date/select/copy sections work on mobile"

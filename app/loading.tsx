@@ -1,13 +1,19 @@
+import { LoadingCardSkeleton, Skeleton } from '@/components/ui/skeleton'
+
 export default function Loading() {
   return (
-    <main className="bg-slate-50">
-      <section className="mx-auto max-w-7xl px-4 py-12">
-        <div className="animate-pulse rounded-3xl border bg-white p-8 shadow-soft">
-          <div className="h-5 w-32 rounded bg-slate-200" />
-          <div className="mt-4 h-10 max-w-lg rounded bg-slate-200" />
-          <div className="mt-4 h-4 max-w-2xl rounded bg-slate-200" />
-          <div className="mt-8 grid gap-4 md:grid-cols-3">
-            {[1,2,3].map((i) => <div key={i} className="h-40 rounded-2xl bg-slate-200" />)}
+    <main className="min-h-[70vh] bg-slate-50">
+      <section className="hs-container py-8 sm:py-12">
+        <div className="rounded-[2rem] border border-slate-200 bg-white p-5 shadow-soft sm:p-8">
+          <Skeleton className="h-6 w-36 rounded-full" />
+          <Skeleton className="mt-5 h-11 max-w-xl" />
+          <Skeleton className="mt-3 h-11 max-w-lg" />
+          <Skeleton className="mt-5 h-4 max-w-2xl" />
+          <Skeleton className="mt-2 h-4 max-w-xl" />
+          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {[1, 2, 3].map((item) => (
+              <LoadingCardSkeleton key={item} />
+            ))}
           </div>
         </div>
       </section>

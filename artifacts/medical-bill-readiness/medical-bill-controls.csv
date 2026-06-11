@@ -1,0 +1,6 @@
+id,value,note
+"mode","local_only","Keep local_only/dry_run until reviewed"
+"copy_reviewed","false","Billing dispute copy reviewed"
+"disclaimer_reviewed","false","Medical/legal disclaimer reviewed"
+"privacy_reviewed","false","Health/payment privacy reviewed"
+"mobile_qa_reviewed","false","Mobile/tablet/desktop QA reviewed"

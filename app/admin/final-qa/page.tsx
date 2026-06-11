@@ -12,6 +12,7 @@ npm run quality:release
 npm run release:typecheck
 npm run build
 npm run qa:production-pack
+npm run link-checks:local
 npm run test:e2e:install
 E2E_BASE_URL=https://YOUR-VERCEL-DOMAIN npm run test:e2e
 LIGHTHOUSE_BASE_URL=https://YOUR-VERCEL-DOMAIN npm run lighthouse:local
@@ -24,7 +25,7 @@ const qaRows = [
   ['Storage', 'Upload and download document vault file', 'Signed URL opens only for owner and bucket is private'],
   ['Billing', 'Razorpay test checkout + webhook', 'Payment success upgrades plan only after server-side signature verification'],
   ['Email', 'Verification, password reset, reminder/test email', 'Inbox receives links and EmailLog records status'],
-  ['SEO', 'Sitemap, robots, core public pages, official sources', 'No broken public core route and official data has review notes'],
+  ['SEO + links', 'Sitemap, robots, core public pages, official sources, npm run link-checks:local', 'No broken public core route and official links are reviewed or flagged'],
   ['Mobile/Desktop', 'Playwright + manual Chrome mobile view', 'Forms usable without horizontal scroll and CTAs are thumb-friendly'],
   ['Speed', 'Lighthouse on deployed URL', 'No critical performance/accessibility/SEO regression'],
   ['Security', 'Headers, CSRF, rate limit, env health', 'Unsafe cross-origin writes blocked and secrets are server-only'],

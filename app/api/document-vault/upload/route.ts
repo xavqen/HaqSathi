@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
 import { requireUser } from '@/lib/auth/session'
 import { uploadVaultFile } from '@/lib/storage/supabase-storage'
+import { scanVaultFileSafety } from '@/lib/security/document-vault-safety'
 import { csrfGuard } from '@/lib/security/csrf'
 import { getClientIp, rateLimitAsync } from '@/lib/rate-limit'
 
@@ -23,6 +24,11 @@ export async function POST(req: NextRequest) {
     const expiryDate = String(form.get('expiryDate') || '').trim()
     const notes = String(form.get('notes') || '').trim()
     if (title.length < 2 || docType.length < 2) return NextResponse.json({ ok: false, error: 'Title aur document type required.' }, { status: 400 })
+
+    const safetyScan = await scanVaultFileSafety(file)
+    if (!safetyScan.allowed) {
+      return NextResponse.json({ ok: false, error: 'File safety scan failed. Upload only clean PDF/JPG/PNG/WEBP files.', safetyScan }, { status: 400 })
+    }
 
     const storagePath = await uploadVaultFile({ userId: user.id, file })
     const item = await db.documentVaultItem.create({

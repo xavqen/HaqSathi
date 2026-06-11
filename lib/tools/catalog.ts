@@ -1,4 +1,4 @@
-export type ToolCategory = 'Most used' | 'Complaint' | 'Money & UPI' | 'Documents' | 'Safety' | 'Legal & escalation' | 'Productivity' | 'Agent'
+export type ToolCategory = 'Most used' | 'Complaint' | 'Money & UPI' | 'Documents' | 'Safety' | 'Legal & escalation' | 'Productivity' | 'Daily Life' | 'Agent'
 
 export type PublicTool = {
   href: string
@@ -22,7 +22,15 @@ export const publicTools: PublicTool[] = [
   { href: '/tools/chargeback-helper', title: 'Chargeback Helper', desc: 'Bank dispute message, proof checklist and readiness score.', category: 'Money & UPI' },
   { href: '/tools/fee-refund-calculator', title: 'Fee Refund Calculator', desc: 'Estimate refund after fee deduction or partial payment.', category: 'Money & UPI' },
   { href: '/tools/bank-escalation', title: 'Bank Escalation Planner', desc: 'Plan bank complaint escalation with evidence and draft.', category: 'Money & UPI' },
+  { href: '/tools/bank-account-freeze-planner', title: 'Bank Account Freeze Planner', desc: 'Plan account freeze, lien, balance hold, KYC freeze, UPI dispute hold, ATM debit and wrong debit escalation with safe copy.', category: 'Money & UPI', badge: 'New' },
+  { href: '/tools/vehicle-challan-dispute-planner', title: 'Vehicle Challan Dispute Planner', desc: 'Plan wrong challan, duplicate challan, paid-but-pending, towing/seizure and vehicle-sold disputes with safe official route.', category: 'Daily Life', badge: 'New' },
   { href: '/tools/scam-radar', title: 'Scam Radar', desc: 'Paste suspicious SMS, WhatsApp or call text and check risk.', category: 'Safety', badge: 'Viral' },
+  { href: '/safety-alerts', title: 'Community Safety Alerts', desc: 'Report scam patterns safely and learn redacted community warnings.', category: 'Safety', badge: 'New' },
+  { href: '/tools/loan-app-harassment-planner', title: 'Loan App Harassment Planner', desc: 'Plan safe proof, warnings and official escalation for loan app harassment, threats, overcharging and privacy misuse.', category: 'Safety', badge: 'New' },
+  { href: '/tools/job-salary-dispute-planner', title: 'Job & Salary Dispute Planner', desc: 'Plan salary delays, fake offers, job fee scams, deductions, experience letters and freelance payment follow-ups.', category: 'Productivity', badge: 'New' },
+  { href: '/tools/education-form-correction-planner', title: 'Education Form Correction Planner', desc: 'Plan corrections for exam, admission, scholarship, certificate and college forms with proof checklist and official-route copy.', category: 'Productivity', badge: 'New' },
+  { href: '/tools/identity-document-correction-planner', title: 'Identity Document Correction Planner', desc: 'Plan Aadhaar, PAN, voter ID, passport, DL, certificates and bank KYC corrections with proof checklist and safe official-route request.', category: 'Documents', badge: 'New' },
+  { href: '/tools/document-expiry-planner', title: 'Document Expiry Planner', desc: 'Renewal reminders, official routes and proof checklist for certificates, KYC, passport and vehicle documents.', category: 'Documents', badge: 'New' },
   { href: '/tools/risk-assessment', title: 'Risk Assessment', desc: 'Understand urgency and safe next steps for risky issues.', category: 'Safety' },
   { href: '/tools/privacy-redactor', title: 'Privacy Redactor', desc: 'Hide phone, email, UPI, OTP and account details before sharing.', category: 'Safety' },
   { href: '/tools/public-post-safety', title: 'Public Post Safety', desc: 'Check tone, privacy and risky claims before posting publicly.', category: 'Safety' },
@@ -32,6 +40,8 @@ export const publicTools: PublicTool[] = [
   { href: '/tools/evidence-checklist', title: 'Evidence Checklist', desc: 'Get proof list based on issue type.', category: 'Documents' },
   { href: '/tools/evidence-timeline-builder', title: 'Evidence Timeline Builder', desc: 'Turn events and proof into a clear case timeline.', category: 'Documents' },
   { href: '/tools/proof-quality-scanner', title: 'Proof Quality Scanner', desc: 'Scan proof quality and identify weak evidence.', category: 'Documents' },
+  { href: '/tools/lost-document-report-planner', title: 'Lost Document Report Planner', desc: 'Plan lost Aadhaar, PAN, passport, DL, bank card, SIM, phone and certificates with report/reissue steps and safety copy.', category: 'Documents', badge: 'New' },
+  { href: '/tools/proof-file-organizer', title: 'Proof File Organizer', desc: 'Create safe folder names, redacted sharing pack, proof index and missing proof checklist.', category: 'Documents', badge: 'New' },
   { href: '/tools/legal-notice-draft', title: 'Legal Notice Style Draft', desc: 'Create a formal notice-style draft with disclaimer.', category: 'Legal & escalation' },
   { href: '/tools/rti-helper', title: 'RTI Application Helper', desc: 'Generate clear RTI questions and application draft.', category: 'Legal & escalation' },
   { href: '/tools/consumer-forum-pack', title: 'Consumer Forum Pack', desc: 'Prepare complaint summary and evidence index.', category: 'Legal & escalation' },
@@ -43,6 +53,17 @@ export const publicTools: PublicTool[] = [
   { href: '/tools/notice-reply-draft', title: 'Notice Reply Draft', desc: 'Create a safe reply to a notice or communication.', category: 'Legal & escalation' },
   { href: '/tools/case-coach', title: 'AI Case Coach', desc: 'Get case score, missing proof and next best action.', category: 'Productivity' },
   { href: '/tools/follow-up-automation', title: 'Auto Follow-up Planner', desc: 'Plan 3, 7 and 14 day follow-up messages.', category: 'Productivity' },
+  { href: '/tools/call-visit-logbook', title: 'Call & Visit Logbook', desc: 'Record calls, office visits, promises, proof checklist and next follow-up message.', category: 'Productivity', badge: 'New' },
+  { href: '/tools/deadline-appeal-planner', title: 'Deadline Appeal Planner', desc: 'Plan appeal deadlines, reminders, proof checklist and safe escalation note.', category: 'Productivity', badge: 'New' },
+  { href: '/tools/warranty-claim-planner', title: 'Warranty Claim Planner', desc: 'Plan warranty repair, replacement or refund claims with service-center questions and proof checklist.', category: 'Productivity', badge: 'New' },
+  { href: '/tools/return-pickup-planner', title: 'Return Pickup Planner', desc: 'Plan online order return pickup, refund proof, escalation route and scam-safe support message.', category: 'Productivity', badge: 'New' },
+  { href: '/tools/utility-bill-dispute-planner', title: 'Utility Bill Dispute Planner', desc: 'Plan electricity, water, gas, broadband or mobile bill disputes with proof checklist and safe complaint copy.', category: 'Money & UPI', badge: 'New' },
+  { href: '/tools/telecom-sim-complaint-planner', title: 'Telecom SIM Complaint Planner', desc: 'Plan recharge, bill, SIM block, porting, KYC misuse and spam/scam telecom complaints with proof checklist and safe copy.', category: 'Safety', badge: 'New' },
+  { href: '/tools/courier-parcel-dispute-planner', title: 'Courier Parcel Dispute Planner', desc: 'Plan lost, damaged, delayed, marked-delivered, pickup stuck and fake courier scam complaints with proof checklist and safe copy.', category: 'Productivity', badge: 'New' },
+  { href: '/tools/insurance-claim-planner', title: 'Insurance Claim Planner', desc: 'Plan vehicle, health, travel, device and other insurance claims with proof checklist and safe escalation copy.', category: 'Money & UPI', badge: 'New' },
+  { href: '/tools/travel-refund-cancellation-planner', title: 'Travel Refund Planner', desc: 'Plan train, flight, bus, hotel and travel booking refunds with proof checklist, escalation route and safe copy.', category: 'Money & UPI', badge: 'New' },
+  { href: '/tools/medical-bill-dispute-planner', title: 'Medical Bill Dispute Planner', desc: 'Plan hospital, clinic, lab, pharmacy, ambulance and insurance billing disputes with proof checklist and safe copy.', category: 'Money & UPI', badge: 'New' },
+  { href: '/tools/rent-deposit-dispute-planner', title: 'Rent Deposit Dispute Planner', desc: 'Plan security deposit, rent receipt, maintenance, notice period and landlord/broker disputes with proof checklist.', category: 'Productivity', badge: 'New' },
   { href: '/tools/deadline-calculator', title: 'Deadline Calculator', desc: 'Calculate follow-up and escalation dates.', category: 'Productivity' },
   { href: '/tools/application-tracker', title: 'Application Tracker', desc: 'Track scheme or document application manually.', category: 'Productivity' },
   { href: '/tools/language-draft-translator', title: 'Language Draft Translator', desc: 'Convert a draft into the selected language style.', category: 'Productivity' },
@@ -53,4 +74,4 @@ export const publicTools: PublicTool[] = [
   { href: '/tools/agent-revenue-simulator', title: 'Agent Revenue Simulator', desc: 'Estimate local service agent pricing and monthly revenue.', category: 'Agent' }
 ]
 
-export const toolCategories: ToolCategory[] = ['Most used', 'Complaint', 'Money & UPI', 'Documents', 'Safety', 'Legal & escalation', 'Productivity', 'Agent']
+export const toolCategories: ToolCategory[] = ['Most used', 'Complaint', 'Money & UPI', 'Documents', 'Safety', 'Legal & escalation', 'Productivity', 'Daily Life', 'Agent']

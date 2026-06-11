@@ -1,8 +1,21 @@
+'use client'
+
 import * as React from 'react'
+import { motion, useReducedMotion, type HTMLMotionProps } from 'framer-motion'
 import { cn } from '@/lib/utils'
 
-export function Card({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
-  return <div className={cn('card min-w-0 max-w-full rounded-[1.35rem] border border-border bg-card text-card-foreground shadow-soft sm:rounded-2xl', className)} {...props} />
+const ultraEase = [0.16, 1, 0.3, 1] as const
+
+export function Card({ className, ...props }: HTMLMotionProps<'div'>) {
+  const reduceMotion = useReducedMotion()
+  return (
+    <motion.div
+      className={cn('card min-w-0 max-w-full transform-gpu rounded-[1.35rem] border border-border bg-card text-card-foreground shadow-soft will-change-transform sm:rounded-2xl', className)}
+      whileHover={reduceMotion ? undefined : { y: -3 }}
+      transition={{ duration: 0.28, ease: ultraEase }}
+      {...props}
+    />
+  )
 }
 
 export function CardHeader({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {

@@ -1,0 +1,5 @@
+id,priority,lane,safety
+"telecom-copy","P0","Telecom complaint copy","No refund/activation/regulator outcome guarantees"
+"otp-sim-safety","P0","OTP and SIM safety","Never request OTP, SIM swap OTP, porting OTP, UPI PIN, CVV or passwords"
+"kyc-misuse-route","P0","KYC misuse route","Official operator support/store and evidence preservation only"
+"mobile-qa","P1","Mobile UX","Long issue labels, copy block and forms must work on mobile"

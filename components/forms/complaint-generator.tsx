@@ -13,6 +13,7 @@ import { Select } from '@/components/ui/select'
 import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { CopyButton } from '@/components/ui/copy-button'
+import { VoiceInputAssist } from '@/components/forms/voice-input-assist'
 
 type ApiResponse = { ok: true; draft: ComplaintOutput; savedId?: string; provider: string } | { ok: false; error: string; details?: unknown }
 
@@ -85,6 +86,14 @@ export function ComplaintGenerator() {
     URL.revokeObjectURL(url)
   }
 
+  function applyVoiceTranscript(text: string) {
+    const current = form.getValues('description')
+    const nextText = current?.trim() ? `${current.trim()}
+
+${text}` : text
+    form.setValue('description', nextText, { shouldDirty: true, shouldValidate: true })
+  }
+
   const whatsAppText = encodeURIComponent(result?.shortComplaint || '')
 
   return (
@@ -126,6 +135,8 @@ export function ComplaintGenerator() {
                 <Input inputMode="decimal" placeholder="999" {...form.register('amount')} />
               </div>
             </div>
+
+            <VoiceInputAssist onApply={applyVoiceTranscript} />
 
             <div className="grid gap-2">
               <Label>Issue description</Label>

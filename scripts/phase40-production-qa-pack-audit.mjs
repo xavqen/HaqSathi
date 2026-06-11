@@ -15,7 +15,7 @@ function require(condition, message) {
   if (!condition) issues.push(message)
 }
 
-require(/3\.0\.(10|11|12|1[3-9])/.test(pkg.version), 'package version should be v3.0.10+ production QA pack')
+require(/3\.0\.(10|11|12|1[3-9]|[2-9][0-9])/.test(pkg.version), 'package version should be v3.0.10+ production QA pack')
 require(pkg.scripts['phase40:audit'] === 'node scripts/phase40-production-qa-pack-audit.mjs', 'phase40:audit script missing')
 require(pkg.scripts['qa:production-pack'] === 'node scripts/production-qa-pack.mjs', 'qa:production-pack script missing')
 require((pkg.scripts['quality:release'] || '').includes('phase40:audit'), 'quality:release must include phase40 audit')

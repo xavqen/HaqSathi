@@ -1,0 +1,66 @@
+import { existsSync, readFileSync } from 'node:fs'
+import { join } from 'node:path'
+
+const root = process.cwd()
+const issues = []
+const read = (rel) => readFileSync(join(root, rel), 'utf8')
+const exists = (rel) => existsSync(join(root, rel))
+const requireCheck = (condition, message) => { if (!condition) issues.push(message) }
+
+const pkg = JSON.parse(read('package.json'))
+const helper = read('lib/productivity/job-salary-dispute-planner.ts')
+const form = read('components/forms/job-salary-dispute-planner-form.tsx')
+const page = read('app/tools/job-salary-dispute-planner/page.tsx')
+const readiness = read('lib/productivity/job-salary-readiness.ts')
+const adminPage = read('app/admin/job-salary-readiness/page.tsx')
+const adminApi = read('app/api/admin/job-salary-readiness/route.ts')
+const localScript = read('scripts/job-salary-readiness-local.mjs')
+const catalog = read('lib/tools/catalog.ts')
+const sitemap = read('app/sitemap.ts')
+const adminShell = read('components/admin/admin-shell.tsx')
+const env = read('.env.example')
+const launchEvidence = read('lib/qa/launch-evidence.ts')
+const phase99 = read('scripts/phase99-loan-app-audit.mjs')
+
+requireCheck(['3.0.70-job-salary-dispute-planner', '3.0.71-education-form-correction-planner', '3.0.72-travel-refund-cancellation-planner', '3.0.73-medical-bill-dispute-planner', '3.0.74-telecom-sim-complaint-planner', '3.0.75-courier-parcel-dispute-planner', '3.0.76-bank-account-freeze-planner', '3.0.77-vehicle-challan-dispute-planner', '3.0.78-identity-document-correction-planner', '3.0.79-lost-document-report-planner', '3.0.80-smooth-motion-ui', '3.0.81-motion-reveal-polish', '3.0.81-motion-reveal-polish', '3.0.82-motion-loading-interactions', '3.0.83-premium-motion-spotlight', '3.0.84-final-stabilization'].includes(pkg.version), 'package version must be 3.0.70-job-salary-dispute-planner')
+requireCheck(pkg.scripts['job-salary:readiness'] === 'node scripts/job-salary-readiness-local.mjs', 'job-salary:readiness script missing')
+requireCheck(pkg.scripts['phase100:audit'] === 'node scripts/phase100-job-salary-audit.mjs', 'phase100:audit script missing')
+requireCheck((pkg.scripts['quality:release'] || '').includes('phase100:audit'), 'quality:release must include phase100 audit')
+requireCheck(exists('lib/productivity/job-salary-dispute-planner.ts'), 'job salary planner helper missing')
+for (const token of ['jobSalaryIssueTypes', 'buildJobSalaryDisputePlan', 'copyReadyMessage', 'proofChecklist', 'safetyWarnings']) {
+  requireCheck(helper.includes(token), `job salary helper missing ${token}`)
+}
+requireCheck(exists('components/forms/job-salary-dispute-planner-form.tsx'), 'job salary form missing')
+for (const token of ['JobSalaryDisputePlannerForm', 'Copy job/salary message', 'buildJobSalaryDisputePlan', 'Job scam warning']) {
+  requireCheck(form.includes(token), `job salary form missing ${token}`)
+}
+requireCheck(exists('app/tools/job-salary-dispute-planner/page.tsx'), 'job salary tool page missing')
+requireCheck(page.includes('Job & salary dispute planner') && page.includes('JobSalaryDisputePlannerForm') && page.includes('Safety note'), 'tool page must include title, form and safety note')
+requireCheck(catalog.includes('/tools/job-salary-dispute-planner') && catalog.includes('Job & Salary Dispute Planner'), 'tools catalog missing job salary planner')
+requireCheck(sitemap.includes('/tools/job-salary-dispute-planner'), 'sitemap missing job salary planner')
+requireCheck(exists('lib/productivity/job-salary-readiness.ts'), 'job salary readiness helper missing')
+for (const token of ['getJobSalaryReadinessReport', 'jobSalaryReadinessLanes', 'JOB_SALARY_PLANNER_MODE', 'JOB_SALARY_COPY_REVIEWED', 'JOB_SALARY_SCAM_SAFETY_REVIEWED', 'JOB_SALARY_PRIVACY_REVIEWED']) {
+  requireCheck(readiness.includes(token), `readiness helper missing ${token}`)
+}
+requireCheck(exists('app/admin/job-salary-readiness/page.tsx'), 'admin job salary page missing')
+requireCheck(adminPage.includes('Job & salary dispute readiness') && adminPage.includes('Phase 100') && adminPage.includes('/api/admin/job-salary-readiness'), 'admin page must show title, phase and API')
+requireCheck(exists('app/api/admin/job-salary-readiness/route.ts'), 'job salary admin API missing')
+requireCheck(adminApi.includes('requireAdmin') && adminApi.includes('getJobSalaryReadinessReport'), 'admin API must require admin and return report')
+requireCheck(exists('scripts/job-salary-readiness-local.mjs'), 'job salary local evidence script missing')
+for (const token of ['job-salary-readiness.json', 'job-salary-controls.csv', 'job-salary-lanes.csv', 'job-salary-proof-checklist.md', 'sample-job-salary-message.md']) {
+  requireCheck(localScript.includes(token), `local script missing ${token}`)
+}
+requireCheck(adminShell.includes('/admin/job-salary-readiness'), 'admin shell missing job salary readiness link')
+for (const key of ['JOB_SALARY_PLANNER_MODE', 'JOB_SALARY_OWNER', 'JOB_SALARY_COPY_REVIEWED', 'JOB_SALARY_SCAM_SAFETY_REVIEWED', 'JOB_SALARY_PRIVACY_REVIEWED', 'JOB_SALARY_MOBILE_QA_REVIEWED', 'JOB_SALARY_EVIDENCE_DIR']) {
+  requireCheck(env.includes(key), `.env.example missing ${key}`)
+}
+requireCheck(launchEvidence.includes('Job Salary Dispute Planner Readiness') && launchEvidence.includes('npm run job-salary:readiness'), 'launch evidence gate missing job salary readiness')
+requireCheck(phase99.includes('3.0.70-job-salary-dispute-planner'), 'phase99 audit must accept v3.0.70')
+
+console.log('\nPhase 100 job salary dispute planner audit')
+console.log(`Issues found: ${issues.length}`)
+if (issues.length) {
+  for (const issue of issues) console.error('❌ ' + issue)
+  process.exit(1)
+}
+console.log('✅ Phase 100 job salary dispute readiness checks passed.\n')

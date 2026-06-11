@@ -5,7 +5,7 @@ export function dbErrorResponse(error: unknown) {
   const message = error instanceof Error ? error.message : String(error)
   const isAuth = message.includes('Authentication failed') || message.includes('P1000')
   const isReach = message.includes("Can't reach database") || message.includes('P1001')
-  const isPrisma = error instanceof Prisma.PrismaClientInitializationError || isAuth || isReach
+  const isPrisma = (error instanceof Error && error.name === 'PrismaClientInitializationError') || isAuth || isReach
 
   console.error('[api-error]', message)
 

@@ -19,7 +19,7 @@ function require(condition, message) {
   if (!condition) issues.push(message)
 }
 
-require(/3\.0\.(9|10|11|12|1[3-9])/.test(pkg.version), 'package version should be v3.0.9+ release/typecheck QA')
+require(/3\.0\.(9|10|11|12|1[3-9]|[2-9][0-9])/.test(pkg.version), 'package version should be v3.0.9+ release/typecheck QA')
 require(pkg.scripts['phase39:audit'] === 'node scripts/phase39-release-typecheck-audit.mjs', 'phase39:audit script missing')
 require((pkg.scripts['quality:release'] || '').includes('phase39:audit'), 'quality:release must include phase39 audit')
 require(((pkg.scripts.typecheck || '').includes('prisma generate') && (pkg.scripts.typecheck || '').includes('tsc --noEmit')) || ((pkg.scripts['release:typecheck'] || '').includes('db:generate') && (pkg.scripts['release:typecheck'] || '').includes('typecheck')), 'release typecheck should generate Prisma client before TypeScript checking')

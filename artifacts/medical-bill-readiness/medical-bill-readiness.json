@@ -1,0 +1,63 @@
+{
+  "generatedAt": "2026-06-09T15:43:14.169Z",
+  "version": "3.0.73-medical-bill-dispute-planner",
+  "owner": "Product/Healthcare billing safety",
+  "controls": [
+    {
+      "id": "mode",
+      "value": "local_only",
+      "note": "Keep local_only/dry_run until reviewed"
+    },
+    {
+      "id": "copy_reviewed",
+      "value": "false",
+      "note": "Billing dispute copy reviewed"
+    },
+    {
+      "id": "disclaimer_reviewed",
+      "value": "false",
+      "note": "Medical/legal disclaimer reviewed"
+    },
+    {
+      "id": "privacy_reviewed",
+      "value": "false",
+      "note": "Health/payment privacy reviewed"
+    },
+    {
+      "id": "mobile_qa_reviewed",
+      "value": "false",
+      "note": "Mobile/tablet/desktop QA reviewed"
+    }
+  ],
+  "lanes": [
+    {
+      "id": "billing-copy",
+      "priority": "P0",
+      "lane": "Billing dispute copy",
+      "safety": "No refund/insurance/legal success guarantees"
+    },
+    {
+      "id": "medical-disclaimer",
+      "priority": "P0",
+      "lane": "Medical disclaimer",
+      "safety": "No medical, legal, insurance or financial advice"
+    },
+    {
+      "id": "secret-privacy-safety",
+      "priority": "P0",
+      "lane": "Secret and health privacy safety",
+      "safety": "Never request OTP, CVV, UPI PIN, full policy number or excessive health details"
+    },
+    {
+      "id": "mobile-qa",
+      "priority": "P1",
+      "lane": "Mobile UX",
+      "safety": "Amount/date/select/copy sections work on mobile"
+    }
+  ],
+  "sample": {
+    "route": "/tools/medical-bill-dispute-planner",
+    "admin": "/admin/medical-bill-readiness",
+    "api": "/api/admin/medical-bill-readiness"
+  }
+}

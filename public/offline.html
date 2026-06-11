@@ -1,1 +1,36 @@
-<!doctype html><html lang="en-IN"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>Offline - HaqSathi AI</title><style>body{font-family:system-ui;margin:0;background:#f8fafc;color:#0f172a}.card{max-width:560px;margin:12vh auto;padding:28px;border:1px solid #e2e8f0;border-radius:24px;background:white;box-shadow:0 12px 40px rgba(15,23,42,.08)}a{color:#047857;font-weight:700}</style></head><body><main class="card"><h1>Internet offline hai</h1><p>Saved pages open ho sakte hain, lekin AI tools aur dashboard ke liye connection chahiye.</p><a href="/">Home par wapas jao</a></main></body></html>
+<!doctype html>
+<html lang="en-IN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#047857" />
+  <title>HaqSathi AI | Offline</title>
+  <style>
+    :root{color-scheme:light;--brand:#047857;--ink:#0f172a;--muted:#64748b;--line:#dbeafe;--bg:#f8fafc}
+    *{box-sizing:border-box}
+    body{min-height:100vh;margin:0;background:radial-gradient(circle at top left,rgba(16,185,129,.16),transparent 30rem),var(--bg);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;display:grid;place-items:center;padding:clamp(1rem,4vw,2rem)}
+    .card{width:min(100%,38rem);border:1px solid #d1fae5;border-radius:1.75rem;background:rgba(255,255,255,.94);box-shadow:0 1.25rem 4rem rgba(15,23,42,.10);padding:clamp(1.25rem,5vw,2rem)}
+    .icon{display:grid;height:3.25rem;width:3.25rem;place-items:center;border-radius:1.1rem;background:#ecfdf5;color:var(--brand);font-size:1.6rem;font-weight:900}
+    h1{margin:1rem 0 0;font-size:clamp(1.7rem,7vw,2.45rem);line-height:1.05;letter-spacing:-.04em}
+    p{margin:.85rem 0 0;color:var(--muted);font-size:1rem;line-height:1.7}
+    .actions{display:flex;flex-wrap:wrap;gap:.75rem;margin-top:1.25rem}
+    a,button{min-height:2.75rem;border-radius:.95rem;border:1px solid #d1fae5;padding:.75rem 1rem;font:inherit;font-size:.92rem;font-weight:800;text-decoration:none;cursor:pointer}
+    a.primary{background:var(--brand);color:#fff;border-color:var(--brand)}
+    button{background:#fff;color:var(--ink)}
+    .hint{margin-top:1rem;border-radius:1rem;background:#f1f5f9;padding:.9rem;color:#475569;font-size:.85rem;font-weight:650}
+    @media (max-width:420px){.actions{display:grid}a,button{width:100%;text-align:center}}
+  </style>
+</head>
+<body>
+  <main class="card">
+    <div class="icon">!</div>
+    <h1>Internet offline hai</h1>
+    <p>Saved pages open ho sakte hain. AI tools, login, dashboard sync aur document vault ke liye internet connection chahiye.</p>
+    <div class="actions">
+      <a class="primary" href="/">Home par wapas jao</a>
+      <button type="button" onclick="location.reload()">Try again</button>
+    </div>
+    <div class="hint">Tip: network wapas aane ke baad page refresh karein. Private documents aur API data offline cache nahi kiya jata.</div>
+  </main>
+</body>
+</html>

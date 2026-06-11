@@ -3,6 +3,22 @@
     {
       "path": "/api/cron/reminders",
       "schedule": "0 3 * * *"
+    },
+    {
+      "path": "/api/cron/link-checks?limit=40",
+      "schedule": "0 4 * * 1"
+    },
+    {
+      "path": "/api/cron/backup-readiness",
+      "schedule": "30 4 * * 2"
+    },
+    {
+      "path": "/api/cron/privacy-ops",
+      "schedule": "30 4 * * 3"
+    },
+    {
+      "path": "/api/cron/official-data-refresh",
+      "schedule": "0 5 1 * *"
     }
   ]
 }

@@ -1,0 +1,6 @@
+id,value,note
+"mode","local_only","Keep local_only/dry_run until reviewed"
+"copy_reviewed","false","Telecom complaint copy reviewed"
+"secret_safety_reviewed","false","OTP/SIM secret safety reviewed"
+"kyc_route_reviewed","false","KYC misuse official route reviewed"
+"mobile_qa_reviewed","false","Mobile/tablet/desktop QA reviewed"

@@ -18,10 +18,14 @@ export async function POST(req: NextRequest) {
         caseType: parsed.data.caseType,
         score: result.score,
         grade: result.grade,
-        report: JSON.stringify(result)
+        report: {
+          ...result,
+          // Safely filter out any false or undefined values, leaving a clean string[]
+          strengths: result.strengths.filter((s): s is string => Boolean(s)),
+          missing: result.missing.filter((m): m is string => Boolean(m))
+        }
       }
     }).catch(() => undefined)
   }
   return NextResponse.json({ ok: true, result })
 }
-

@@ -1,0 +1,98 @@
+{
+  "generatedAt": "2026-06-09T09:39:29.104Z",
+  "version": "3.0.34-launch-command-center",
+  "decision": "BLOCKED",
+  "summary": {
+    "totalControls": 12,
+    "go": 0,
+    "readyToTest": 1,
+    "manualRequired": 10,
+    "blocked": 1
+  },
+  "controls": [
+    {
+      "id": "founder-signoff",
+      "label": "Founder final approval",
+      "status": "MANUAL_REQUIRED",
+      "owner": "Founder",
+      "envValue": "LAUNCH_FOUNDER_SIGNOFF=false"
+    },
+    {
+      "id": "go-no-go-meeting",
+      "label": "Go/no-go meeting completed",
+      "status": "MANUAL_REQUIRED",
+      "owner": "Founder/QA",
+      "envValue": "LAUNCH_GO_NO_GO_COMPLETED=false"
+    },
+    {
+      "id": "production-domain",
+      "label": "Production domain ready",
+      "status": "BLOCKED",
+      "owner": "Developer",
+      "envValue": "VERCEL_PRODUCTION_URL=empty; NEXT_PUBLIC_APP_URL=empty"
+    },
+    {
+      "id": "deployment-qa-proof",
+      "label": "Deployment QA proof saved",
+      "status": "MANUAL_REQUIRED",
+      "owner": "QA",
+      "envValue": "LAUNCH_DEPLOYMENT_QA_APPROVED=false"
+    },
+    {
+      "id": "payment-proof",
+      "label": "Payment lifecycle proof saved",
+      "status": "MANUAL_REQUIRED",
+      "owner": "Finance/Developer",
+      "envValue": "LAUNCH_PAYMENT_APPROVED=false"
+    },
+    {
+      "id": "email-proof",
+      "label": "Email delivery proof saved",
+      "status": "MANUAL_REQUIRED",
+      "owner": "Developer",
+      "envValue": "LAUNCH_EMAIL_APPROVED=false"
+    },
+    {
+      "id": "storage-proof",
+      "label": "Supabase storage proof saved",
+      "status": "MANUAL_REQUIRED",
+      "owner": "Developer",
+      "envValue": "LAUNCH_STORAGE_APPROVED=false"
+    },
+    {
+      "id": "official-data-proof",
+      "label": "Official data proof saved",
+      "status": "MANUAL_REQUIRED",
+      "owner": "Content/QA",
+      "envValue": "LAUNCH_OFFICIAL_DATA_APPROVED=false"
+    },
+    {
+      "id": "ai-safety-proof",
+      "label": "AI safety proof saved",
+      "status": "READY_TO_TEST",
+      "owner": "AI Safety/QA",
+      "envValue": "LAUNCH_AI_SAFETY_APPROVED=false; AI_GUARDRAILS_MODE=review"
+    },
+    {
+      "id": "support-proof",
+      "label": "Support operations proof saved",
+      "status": "MANUAL_REQUIRED",
+      "owner": "Support/Admin",
+      "envValue": "LAUNCH_SUPPORT_APPROVED=false"
+    },
+    {
+      "id": "rollback-owner",
+      "label": "Rollback owner assigned",
+      "status": "MANUAL_REQUIRED",
+      "owner": "Developer/Founder",
+      "envValue": "LAUNCH_ROLLBACK_OWNER=empty"
+    },
+    {
+      "id": "incident-owner",
+      "label": "Incident owner assigned",
+      "status": "MANUAL_REQUIRED",
+      "owner": "Ops/Support",
+      "envValue": "LAUNCH_INCIDENT_OWNER=empty"
+    }
+  ]
+}

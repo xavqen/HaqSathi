@@ -35,6 +35,7 @@ const navGroups = [
       ['/dashboard/case-health', 'Case health'],
       ['/dashboard/follow-ups', 'Follow-ups'],
       ['/dashboard/sla-tracker', 'SLA tracker'],
+      ['/dashboard/status-tracker', 'Status tracker'],
       ['/dashboard/action-plan', 'Action plan'],
       ['/dashboard/communications', 'Communications'],
       ['/dashboard/outcomes', 'Outcomes']
@@ -101,6 +102,7 @@ const mobileLinks = [
   ['/dashboard/complaints', 'Complaints'],
   ['/dashboard/document-vault', 'Vault'],
   ['/dashboard/reminders', 'Reminders'],
+  ['/dashboard/status-tracker', 'Status'],
   ['/dashboard/support', 'Support'],
   ['/dashboard/profile', 'Profile']
 ]

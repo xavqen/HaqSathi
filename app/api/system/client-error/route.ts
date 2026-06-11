@@ -2,4 +2,59 @@ import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
 import { getCurrentUser } from '@/lib/auth/session'
 import { rateLimit } from '@/lib/rate-limit'
-export async function POST(req: NextRequest){ const ip=req.headers.get('x-forwarded-for')?.split(',')[0]?.trim()||'local'; if(!rateLimit(`client-error:${ip}`,20,60_000).ok)return NextResponse.json({ok:false},{status:429}); if(process.env.CLIENT_ERROR_LOG_DRY_RUN==='true')return NextResponse.json({ok:true,dryRun:true}); const user=await getCurrentUser(); const body=await req.json().catch(()=>({})); await db.userActivity.create({data:{userId:user?.id||null,action:'CLIENT_ERROR',entity:'Browser',metadata:{message:String(body.message||'').slice(0,500),path:String(body.path||'').slice(0,300)}}}).catch(()=>undefined); return NextResponse.json({ok:true}) }
+import { normalizeClientErrorPayload, sendErrorAlert, shouldCreateIncident } from '@/lib/monitoring/error-events'
+
+export async function POST(req: NextRequest) {
+  const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || req.headers.get('x-real-ip') || 'local'
+  const limit = rateLimit(`client-error:${ip}`, 30, 60_000)
+  if (!limit.ok) return NextResponse.json({ ok: false, error: 'rate_limited' }, { status: 429 })
+
+  const body = await req.json().catch(() => ({}))
+  const event = normalizeClientErrorPayload(body, req.headers)
+  const monitoringEnabled = process.env.ERROR_MONITORING_ENABLED !== 'false'
+
+  if (process.env.CLIENT_ERROR_LOG_DRY_RUN === 'true' || !monitoringEnabled) {
+    return NextResponse.json({ ok: true, dryRun: true, fingerprint: event.fingerprint, level: event.level })
+  }
+
+  const user = await getCurrentUser().catch(() => null)
+
+  await db.userActivity.create({
+    data: {
+      userId: user?.id || null,
+      action: 'CLIENT_ERROR',
+      entity: 'MonitoringEvent',
+      entityId: event.fingerprint,
+      metadata: {
+        message: event.message,
+        path: event.path,
+        url: event.url,
+        source: event.source,
+        digest: event.digest,
+        stack: event.stack,
+        componentStack: event.componentStack,
+        userAgent: event.userAgent,
+        release: event.release,
+        level: event.level,
+        fingerprint: event.fingerprint,
+        occurredAt: event.occurredAt
+      }
+    }
+  }).catch(() => undefined)
+
+  if (shouldCreateIncident(event)) {
+    await db.incidentReport.create({
+      data: {
+        title: `Critical client error: ${event.message.slice(0, 120)}`,
+        severity: 'HIGH',
+        status: 'OPEN',
+        impact: `Detected on ${event.path}. Fingerprint: ${event.fingerprint}`,
+        rootCause: 'Pending triage from error monitoring center.',
+        actionItems: ['Open /admin/error-monitoring', 'Check latest matching activity logs', 'Reproduce on mobile and desktop', 'Patch root cause and close incident']
+      }
+    }).catch(() => undefined)
+  }
+
+  const alert = await sendErrorAlert(event)
+  return NextResponse.json({ ok: true, fingerprint: event.fingerprint, level: event.level, alert })
+}

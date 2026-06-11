@@ -613,3 +613,15 @@ npm run release:deploy-check
 ```
 
 Run this only after real production env values are added for Vercel, Razorpay, Resend, Supabase Storage and Upstash.
+
+
+## Phase 67 performance readiness
+
+```bash
+npm run performance:readiness
+npm run lighthouse:local
+npm run phase67:audit
+npm run quality:release
+```
+
+Use `/admin/performance-readiness` to review Core Web Vitals, Lighthouse score budgets, bundle/image/font review gates, mobile-throttle proof and route targets before final public traffic.

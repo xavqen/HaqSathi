@@ -1,0 +1,63 @@
+{
+  "generatedAt": "2026-06-09T16:07:00.621Z",
+  "version": "3.0.74-telecom-sim-complaint-planner",
+  "owner": "Product/Telecom safety",
+  "controls": [
+    {
+      "id": "mode",
+      "value": "local_only",
+      "note": "Keep local_only/dry_run until reviewed"
+    },
+    {
+      "id": "copy_reviewed",
+      "value": "false",
+      "note": "Telecom complaint copy reviewed"
+    },
+    {
+      "id": "secret_safety_reviewed",
+      "value": "false",
+      "note": "OTP/SIM secret safety reviewed"
+    },
+    {
+      "id": "kyc_route_reviewed",
+      "value": "false",
+      "note": "KYC misuse official route reviewed"
+    },
+    {
+      "id": "mobile_qa_reviewed",
+      "value": "false",
+      "note": "Mobile/tablet/desktop QA reviewed"
+    }
+  ],
+  "lanes": [
+    {
+      "id": "telecom-copy",
+      "priority": "P0",
+      "lane": "Telecom complaint copy",
+      "safety": "No refund/activation/regulator outcome guarantees"
+    },
+    {
+      "id": "otp-sim-safety",
+      "priority": "P0",
+      "lane": "OTP and SIM safety",
+      "safety": "Never request OTP, SIM swap OTP, porting OTP, UPI PIN, CVV or passwords"
+    },
+    {
+      "id": "kyc-misuse-route",
+      "priority": "P0",
+      "lane": "KYC misuse route",
+      "safety": "Official operator support/store and evidence preservation only"
+    },
+    {
+      "id": "mobile-qa",
+      "priority": "P1",
+      "lane": "Mobile UX",
+      "safety": "Long issue labels, copy block and forms must work on mobile"
+    }
+  ],
+  "sample": {
+    "route": "/tools/telecom-sim-complaint-planner",
+    "admin": "/admin/telecom-sim-readiness",
+    "api": "/api/admin/telecom-sim-readiness"
+  }
+}

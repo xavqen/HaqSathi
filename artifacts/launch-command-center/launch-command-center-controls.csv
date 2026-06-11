@@ -1,0 +1,13 @@
+id,label,status,owner,env_value
+founder-signoff,Founder final approval,MANUAL_REQUIRED,Founder,LAUNCH_FOUNDER_SIGNOFF=false
+go-no-go-meeting,Go/no-go meeting completed,MANUAL_REQUIRED,Founder/QA,LAUNCH_GO_NO_GO_COMPLETED=false
+production-domain,Production domain ready,BLOCKED,Developer,VERCEL_PRODUCTION_URL=empty; NEXT_PUBLIC_APP_URL=empty
+deployment-qa-proof,Deployment QA proof saved,MANUAL_REQUIRED,QA,LAUNCH_DEPLOYMENT_QA_APPROVED=false
+payment-proof,Payment lifecycle proof saved,MANUAL_REQUIRED,Finance/Developer,LAUNCH_PAYMENT_APPROVED=false
+email-proof,Email delivery proof saved,MANUAL_REQUIRED,Developer,LAUNCH_EMAIL_APPROVED=false
+storage-proof,Supabase storage proof saved,MANUAL_REQUIRED,Developer,LAUNCH_STORAGE_APPROVED=false
+official-data-proof,Official data proof saved,MANUAL_REQUIRED,Content/QA,LAUNCH_OFFICIAL_DATA_APPROVED=false
+ai-safety-proof,AI safety proof saved,READY_TO_TEST,AI Safety/QA,LAUNCH_AI_SAFETY_APPROVED=false; AI_GUARDRAILS_MODE=review
+support-proof,Support operations proof saved,MANUAL_REQUIRED,Support/Admin,LAUNCH_SUPPORT_APPROVED=false
+rollback-owner,Rollback owner assigned,MANUAL_REQUIRED,Developer/Founder,LAUNCH_ROLLBACK_OWNER=empty
+incident-owner,Incident owner assigned,MANUAL_REQUIRED,Ops/Support,LAUNCH_INCIDENT_OWNER=empty
