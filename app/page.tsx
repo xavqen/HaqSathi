@@ -38,7 +38,10 @@ import { getCurrentUser } from "@/lib/auth/session";
 import { getShellDictionary } from "@/lib/i18n/dictionaries";
 import { normalizeLanguageCode } from "@/lib/i18n/languages";
 
-export const dynamic = "force-dynamic";
+
+// app/page.tsx
+export const dynamic = "force-static";
+export const revalidate = 3600;
 
 const heroTools = [
   {
