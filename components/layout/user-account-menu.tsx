@@ -188,10 +188,10 @@ export function UserAccountMenu({
         <Link
           href="/pricing"
           className={
-  isFreePlan
-    ? 'inline-flex rounded-2xl bg-primary px-4 py-2 text-sm font-black text-primary-foreground shadow-sm'
-    : 'inline-flex rounded-2xl border bg-slate-50 px-4 py-2 text-sm font-black text-slate-900 shadow-sm'
-}
+            isFreePlan
+              ? 'inline-flex rounded-2xl bg-primary px-4 py-2 text-sm font-black text-primary-foreground shadow-sm'
+              : 'inline-flex rounded-2xl border bg-slate-50 px-4 py-2 text-sm font-black text-slate-900 shadow-sm'
+          }
         >
           {isFreePlan ? 'Upgrade' : 'Pricing'}
         </Link>
