@@ -26,8 +26,11 @@ export const metadata: Metadata = {
     icon: '/icon.svg',
     apple: '/apple-icon.svg'
   },
+  applicationName: "HaqSathi",
   openGraph: {
+    siteName: "HaqSathi",
     title: 'HaqSathi AI',
+    url: "https://www.haqsathi.site",
     description: 'Complaint, refund, UPI, documents and schemes guidance in a simple mobile-first workflow.',
     type: 'website'
   }
@@ -65,6 +68,18 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
         <FloatingFeedback />
         <CookieConsent />
         <MobileBottomActions />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebSite",
+              name: "HaqSathi",
+              alternateName: ["HaqSathi AI", "Haq Sathi"],
+              url: "https://www.haqsathi.site",
+            }),
+          }}
+        />
       </body>
     </html>
   )

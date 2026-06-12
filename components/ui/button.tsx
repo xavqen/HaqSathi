@@ -38,6 +38,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(({ classN
     <motion.button
       ref={ref}
       disabled={disabled}
+      tabIndex={0}
       whileHover={disabled || reduceMotion ? undefined : { y: -1 }}
       whileTap={disabled || reduceMotion ? undefined : { scale: 0.98 }}
       transition={{ duration: 0.22, ease: ultraEase }}

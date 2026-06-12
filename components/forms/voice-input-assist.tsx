@@ -61,36 +61,72 @@ export function VoiceInputAssist({ onApply }: { onApply: (text: string) => void 
     }
   }, [])
 
-  function startListening() {
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition
-    if (!SpeechRecognition) {
-      setSupported(false)
-      setMessage('Voice input is not supported in this browser. Please type manually.')
+  async function startListening() {
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition
+
+  if (!SpeechRecognition) {
+    setSupported(false)
+    setMessage('Voice input is not supported in this browser. Please type manually.')
+    return
+  }
+
+  try {
+    recognitionRef.current?.abort()
+
+    if (!navigator.mediaDevices?.getUserMedia) {
+      setMessage('Microphone API not available. Please type manually.')
       return
     }
 
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true })
+    stream.getTracks().forEach((track) => track.stop())
+
     const recognition = new SpeechRecognition()
-    recognition.lang = locale
+    recognition.lang = 'en-IN'
     recognition.interimResults = true
-    recognition.continuous = true
+    recognition.continuous = false
+
     recognition.onresult = (event) => {
       let nextTranscript = ''
+
       for (let index = 0; index < event.results.length; index += 1) {
         nextTranscript += event.results[index][0]?.transcript || ''
       }
+
       setTranscript(cleanTranscript(nextTranscript))
     }
+
     recognition.onerror = (event) => {
       setListening(false)
-      setMessage(event.error ? `Voice input stopped: ${event.error}` : 'Voice input stopped. Please try again or type manually.')
+
+      if (event.error === 'not-allowed') {
+        setMessage('Microphone blocked. Allow mic permission from browser site settings, then reload.')
+        return
+      }
+
+      if (event.error === 'no-speech') {
+        setMessage('No speech detected. Try again and speak clearly.')
+        return
+      }
+
+      setMessage(event.error ? `Voice input stopped: ${event.error}` : 'Voice input stopped. Please type manually.')
     }
-    recognition.onend = () => setListening(false)
+
+    recognition.onend = () => {
+      setListening(false)
+    }
+
     recognitionRef.current = recognition
     setTranscript('')
     setMessage('Listening... speak slowly and avoid private secrets.')
     setListening(true)
+
     recognition.start()
+  } catch (error) {
+    setListening(false)
+    setMessage('Microphone permission denied or unavailable. Allow mic permission and reload.')
   }
+}
 
   function stopListening() {
     recognitionRef.current?.stop()
