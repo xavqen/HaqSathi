@@ -61,72 +61,36 @@ export function VoiceInputAssist({ onApply }: { onApply: (text: string) => void 
     }
   }, [])
 
-  async function startListening() {
-  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition
-
-  if (!SpeechRecognition) {
-    setSupported(false)
-    setMessage('Voice input is not supported in this browser. Please type manually.')
-    return
-  }
-
-  try {
-    recognitionRef.current?.abort()
-
-    if (!navigator.mediaDevices?.getUserMedia) {
-      setMessage('Microphone API not available. Please type manually.')
+  function startListening() {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition
+    if (!SpeechRecognition) {
+      setSupported(false)
+      setMessage('Voice input is not supported in this browser. Please type manually.')
       return
     }
 
-    const stream = await navigator.mediaDevices.getUserMedia({ audio: true })
-    stream.getTracks().forEach((track) => track.stop())
-
     const recognition = new SpeechRecognition()
-    recognition.lang = 'en-IN'
+    recognition.lang = locale
     recognition.interimResults = true
-    recognition.continuous = false
-
+    recognition.continuous = true
     recognition.onresult = (event) => {
       let nextTranscript = ''
-
       for (let index = 0; index < event.results.length; index += 1) {
         nextTranscript += event.results[index][0]?.transcript || ''
       }
-
       setTranscript(cleanTranscript(nextTranscript))
     }
-
     recognition.onerror = (event) => {
       setListening(false)
-
-      if (event.error === 'not-allowed') {
-        setMessage('Microphone blocked. Allow mic permission from browser site settings, then reload.')
-        return
-      }
-
-      if (event.error === 'no-speech') {
-        setMessage('No speech detected. Try again and speak clearly.')
-        return
-      }
-
-      setMessage(event.error ? `Voice input stopped: ${event.error}` : 'Voice input stopped. Please type manually.')
+      setMessage(event.error ? `Voice input stopped: ${event.error}` : 'Voice input stopped. Please try again or type manually.')
     }
-
-    recognition.onend = () => {
-      setListening(false)
-    }
-
+    recognition.onend = () => setListening(false)
     recognitionRef.current = recognition
     setTranscript('')
     setMessage('Listening... speak slowly and avoid private secrets.')
     setListening(true)
-
     recognition.start()
-  } catch (error) {
-    setListening(false)
-    setMessage('Microphone permission denied or unavailable. Allow mic permission and reload.')
   }
-}
 
   function stopListening() {
     recognitionRef.current?.stop()
@@ -155,7 +119,7 @@ export function VoiceInputAssist({ onApply }: { onApply: (text: string) => void 
           <p className="mt-1 text-xs font-semibold leading-5 text-emerald-800">{supported ? message : 'Voice input is not supported here. Manual typing still works.'}</p>
         </div>
         <div className="flex shrink-0 flex-wrap gap-2">
-          <Button type="button" variant={listening ? 'default' : 'secondary'} className="min-h-11" onClick={listening ? stopListening : startListening}>
+          <Button type="button" variant={listening ? 'destructive' : 'secondary'} className="min-h-11" onClick={listening ? stopListening : startListening}>
             {listening ? <MicOff className="mr-2 h-4 w-4" /> : <Mic className="mr-2 h-4 w-4" />}
             {listening ? 'Stop' : 'Speak'}
           </Button>

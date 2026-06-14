@@ -7,7 +7,7 @@ export async function GET() {
     {
       ok: true,
       service: 'haqsathi-ai',
-      version: process.env.NEXT_PUBLIC_APP_VERSION || '3.0.84-final-stabilization',
+      version: process.env.NEXT_PUBLIC_APP_VERSION || '3.0.85-performance-production-pass',
       environment: process.env.VERCEL_ENV || process.env.NODE_ENV || 'local',
       time: new Date().toISOString()
     },

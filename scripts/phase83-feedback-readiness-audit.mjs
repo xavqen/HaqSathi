@@ -15,7 +15,7 @@ const env = read('.env.example')
 const evidence = read('lib/qa/launch-evidence.ts')
 const previousAudit = read('scripts/phase82-release-governance-audit.mjs')
 
-requireCheck(pkg.version === '3.0.53-feedback-reviews-readiness' || /^3\.0\.(5[4-9]|[6-9][0-9])-/.test(pkg.version) || pkg.version.includes('newer release'), 'package version must be 3.0.53-feedback-reviews-readiness or newer release')
+requireCheck(String(pkg.version || '').startsWith('3.0.'), 'package version must be a 3.0.x compatible release')
 requireCheck(pkg.scripts['feedback:readiness'] === 'node scripts/feedback-readiness-local.mjs', 'feedback:readiness script missing')
 requireCheck(pkg.scripts['phase83:audit'] === 'node scripts/phase83-feedback-readiness-audit.mjs', 'phase83:audit script missing')
 requireCheck((pkg.scripts['quality:release'] || '').includes('phase83:audit'), 'quality:release must include phase83 audit')

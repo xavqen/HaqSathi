@@ -9,7 +9,6 @@ const mustUsePageCopy = [
   'app/scheme-finder/page.tsx',
   'app/documents/page.tsx',
   'app/refund/page.tsx',
-  'app/pricing/page.tsx',
   'app/login/page.tsx',
   'app/register/page.tsx'
 ]
@@ -28,6 +27,8 @@ for (const rel of mustUsePageCopy) {
   if (!text.includes('getCurrentPageCopy')) issues.push(`${rel} is not connected to page-level language copy`)
   if (!text.includes("export const dynamic = 'force-dynamic'")) issues.push(`${rel} should be force-dynamic because it reads language cookie`)
 }
+const pricingText = read('app/pricing/page.tsx')
+if (!pricingText.includes('force-static') || !pricingText.includes('getCorePageCopy')) issues.push('app/pricing/page.tsx should use the static performance path with getCorePageCopy')
 
 const mobileBottom = read('components/layout/mobile-bottom-actions.tsx')
 if (!mobileBottom.startsWith("'use client'")) issues.push('Mobile bottom nav should be a client component for active state')

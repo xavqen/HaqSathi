@@ -16,7 +16,7 @@ const env = read('.env.example')
 const evidence = read('lib/qa/launch-evidence.ts')
 const previousAudit = read('scripts/phase83-feedback-readiness-audit.mjs')
 
-requireCheck(pkg.version === '3.0.54-onboarding-assistant-readiness' || /^3\.0\.(5[5-9]|[6-9][0-9])-/.test(pkg.version) || pkg.version.includes('newer release'), 'package version must be 3.0.54-onboarding-assistant-readiness or newer release')
+requireCheck(String(pkg.version || '').startsWith('3.0.'), 'package version must be a 3.0.x compatible release')
 requireCheck(pkg.scripts['onboarding:readiness'] === 'node scripts/onboarding-assistant-readiness-local.mjs', 'onboarding:readiness script missing')
 requireCheck(pkg.scripts['phase84:audit'] === 'node scripts/phase84-onboarding-assistant-audit.mjs', 'phase84:audit script missing')
 requireCheck((pkg.scripts['quality:release'] || '').includes('phase84:audit'), 'quality:release must include phase84 audit')

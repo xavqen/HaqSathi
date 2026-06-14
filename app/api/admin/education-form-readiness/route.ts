@@ -6,4 +6,3 @@ export async function GET() {
   await requireAdmin()
   return NextResponse.json(getEducationFormReadinessReport())
 }
-

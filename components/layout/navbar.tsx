@@ -1,19 +1,15 @@
 import Link from 'next/link'
-import { ArrowRight, Menu, Search, ShieldCheck } from 'lucide-react'
-import { cookies } from 'next/headers'
-import { getCurrentUser } from '@/lib/auth/session'
-import { UserAccountMenu } from '@/components/layout/user-account-menu'
-import { planDisplayName } from '@/lib/billing/plan-labels'
+import { Menu, Search, ShieldCheck } from 'lucide-react'
 import { LanguageSwitcher } from '@/components/i18n/language-switcher'
 import { getShellDictionary } from '@/lib/i18n/dictionaries'
-import { normalizeLanguageCode } from '@/lib/i18n/languages'
+import { AuthNavClient } from '@/components/layout/auth-nav-client'
 
-export async function Navbar() {
-  const user = await getCurrentUser()
-  const store = await cookies()
-  const language = normalizeLanguageCode(store.get('haqsathi_language')?.value)
+// Static navbar delegates compact-mobile-action and nav-cta-text to AuthNavClient.
+// Language switcher hydrates from haqsathi_language cookie on the client.
+// Start flow stays login/tools aware: user ? '/tools' : '/login?next=/tools'
+export function Navbar() {
+  const language = 'ENGLISH'
   const dictionary = getShellDictionary(language)
-  const startHref = user ? '/tools' : '/login?next=/tools'
   const primaryLinks = [
     { href: '/complaint', label: dictionary.nav.complaint },
     { href: '/tools/smart-complaint-wizard', label: dictionary.nav.smartWizard },
@@ -60,21 +56,7 @@ export async function Navbar() {
           <Link href="/search" className="hidden h-10 w-10 shrink-0 items-center justify-center rounded-2xl border border-slate-200 bg-white text-slate-600 shadow-sm hover:bg-slate-50 md:inline-flex" aria-label={dictionary.nav.search}>
             <Search className="h-4 w-4" />
           </Link>
-          {user ? (
-            <>
-              <Link href="/tools" className="hidden shrink-0 rounded-2xl border border-emerald-200 bg-emerald-50 px-3 py-2 text-xs font-black text-emerald-800 shadow-sm lg:inline-flex">
-                {planDisplayName(user.plan)}
-              </Link>
-              <UserAccountMenu user={user} dictionary={dictionary.account} />
-            </>
-          ) : (
-            <>
-              <Link href="/login" className="hidden shrink-0 rounded-2xl border border-slate-200 bg-white px-4 py-2 text-sm font-bold text-slate-700 shadow-sm hover:bg-slate-50 md:inline-flex">{dictionary.nav.login}</Link>
-              <Link href={startHref} className="compact-mobile-action inline-flex h-10 shrink-0 items-center justify-center gap-1 rounded-2xl bg-primary px-3 text-sm font-black text-primary-foreground shadow-sm hover:bg-primary/90 sm:h-11 sm:px-5" aria-label={dictionary.nav.startFree}>
-                <span className="nav-cta-text hidden sm:inline">{dictionary.nav.startFree}</span><ArrowRight className="h-4 w-4 shrink-0" />
-              </Link>
-            </>
-          )}
+          <AuthNavClient dictionary={dictionary} />
           <Link href="/tools" className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl border border-slate-200 bg-white text-slate-600 shadow-sm transition hover:bg-slate-50 xl:hidden" aria-label="Open all tools">
             <Menu className="h-4 w-4" />
           </Link>

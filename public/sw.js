@@ -1,4 +1,4 @@
-const CACHE_NAME = 'haqsathi-ai-v3-0-84'
+const CACHE_NAME = 'haqsathi-ai-v3-0-85'
 const RUNTIME_CACHE = `${CACHE_NAME}-runtime`
 const OFFLINE_URL = '/offline.html'
 const CORE_ASSETS = ['/', OFFLINE_URL, '/icon.svg', '/apple-icon.svg', '/manifest.webmanifest']

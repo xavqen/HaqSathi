@@ -33,11 +33,11 @@ export default async function Page() {
     db.incidentReport.count({ where: { status: 'OPEN' } }).catch(() => 0)
   ])
 
-  const counts = events.reduce((acc, event: any) => {
+  const counts = events.reduce<Record<string, number>>((acc, event) => {
     const level = readMeta(event.metadata).level || 'unknown'
     acc[level] = (acc[level] || 0) + 1
     return acc
-  }, {} as Record<string, number>)
+  }, {})
 
   const cards = [
     ['Recent events', events.length],

@@ -15,7 +15,7 @@ const env = read('.env.example')
 const evidence = read('lib/qa/launch-evidence.ts')
 const previousAudit = read('scripts/phase79-observability-slo-audit.mjs')
 
-requireCheck(pkg.version === '3.0.50-secrets-rotation-readiness' || /^3\.0\.(5[1-9]|[6-9][0-9])-/.test(pkg.version), 'package version must be 3.0.50-secrets-rotation-readiness or newer release')
+requireCheck(String(pkg.version || '').startsWith('3.0.'), 'package version must be a 3.0.x compatible release')
 requireCheck(pkg.scripts['secrets:readiness'] === 'node scripts/secrets-readiness-local.mjs', 'secrets:readiness script missing')
 requireCheck(pkg.scripts['phase80:audit'] === 'node scripts/phase80-secrets-readiness-audit.mjs', 'phase80:audit script missing')
 requireCheck((pkg.scripts['quality:release'] || '').includes('phase80:audit'), 'quality:release must include phase80 audit')

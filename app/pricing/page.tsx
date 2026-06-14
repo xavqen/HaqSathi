@@ -3,17 +3,18 @@ import { CheckCircle2 } from 'lucide-react'
 import { pricingPlans } from '@/lib/constants'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { CheckoutButton } from '@/components/forms/checkout-button'
-import { getCurrentPageCopy } from '@/lib/i18n/page-copy'
+import { getCorePageCopy } from '@/lib/i18n/page-copy'
 
 export const metadata: Metadata = { title: 'Pricing', description: 'HaqSathi AI pricing plans for users, families and local agents.' }
-export const dynamic = 'force-dynamic'
+export const dynamic = 'force-static'
+export const revalidate = 86400
 
 function planKey(name: string) {
   return name.toUpperCase() === 'FREE' ? 'FREE' : name.toUpperCase()
 }
 
-export default async function Page() {
-  const copy = (await getCurrentPageCopy()).pricing
+export default function Page() {
+  const copy = getCorePageCopy('ENGLISH').pricing
   return (
     <main className="bg-slate-50">
       <section className="hs-container py-8 sm:py-12">

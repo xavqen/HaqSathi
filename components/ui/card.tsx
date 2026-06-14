@@ -1,18 +1,14 @@
-'use client'
-
+// Performance note: previous motion.div whileHover useReducedMotion [0.16, 1, 0.3, 1] behavior is now CSS-only to avoid loading framer-motion in every card.
 import * as React from 'react'
-import { motion, useReducedMotion, type HTMLMotionProps } from 'framer-motion'
 import { cn } from '@/lib/utils'
 
-const ultraEase = [0.16, 1, 0.3, 1] as const
-
-export function Card({ className, ...props }: HTMLMotionProps<'div'>) {
-  const reduceMotion = useReducedMotion()
+export function Card({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
   return (
-    <motion.div
-      className={cn('card min-w-0 max-w-full transform-gpu rounded-[1.35rem] border border-border bg-card text-card-foreground shadow-soft will-change-transform sm:rounded-2xl', className)}
-      whileHover={reduceMotion ? undefined : { y: -3 }}
-      transition={{ duration: 0.28, ease: ultraEase }}
+    <div
+      className={cn(
+        'card min-w-0 max-w-full transform-gpu rounded-[1.35rem] border border-border bg-card text-card-foreground shadow-soft transition-[transform,box-shadow,border-color] duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-0.5 hover:shadow-[0_18px_44px_rgba(15,23,42,0.09)] sm:rounded-2xl',
+        className
+      )}
       {...props}
     />
   )

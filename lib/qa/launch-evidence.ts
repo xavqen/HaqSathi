@@ -393,7 +393,7 @@ export function getLaunchEvidenceGates(): LaunchEvidenceGate[] {
       evidenceToSave: 'artifacts/dependency-readiness JSON/CSV, dependency inventory CSV, npm audit output, license review notes, Vercel install/build screenshot and package-lock diff proof.',
       productionNotes: 'Do not ship runtime high/critical advisories, unreviewed license changes or major package upgrades without founder/security approval and rollback evidence.'
     },
-    
+
     {
       area: 'Incident Response Readiness',
       status: process.env.INCIDENT_COMMANDER && (process.env.INCIDENT_ALERT_WEBHOOK_URL || process.env.INCIDENT_ALERT_EMAIL) && process.env.INCIDENT_ROLLBACK_DRILL_REVIEWED === 'true' && process.env.INCIDENT_EVIDENCE_PRESERVATION_REVIEWED === 'true' ? 'READY_TO_TEST' : 'MANUAL_REQUIRED',
@@ -414,7 +414,6 @@ export function getLaunchEvidenceGates(): LaunchEvidenceGate[] {
       evidenceToSave: 'Vercel deployment URL, build log, e2e report, Lighthouse report, manual QA checklist.',
       productionNotes: 'Only after this gate should ads/SEO/marketing traffic be sent.'
     },
-
     {
       area: 'Payment Lifecycle Readiness',
       status: hasEnv('RAZORPAY_KEY_ID') && hasEnv('RAZORPAY_KEY_SECRET') && hasEnv('RAZORPAY_WEBHOOK_SECRET') ? 'READY_TO_TEST' : 'BLOCKED',
@@ -424,7 +423,6 @@ export function getLaunchEvidenceGates(): LaunchEvidenceGate[] {
       evidenceToSave: 'artifacts/payment-lifecycle JSON/CSV, /admin/payment-lifecycle screenshot, Razorpay sandbox event IDs, DB order screenshots, invalid signature 401 proof.',
       productionNotes: 'Keep PAYMENT_LIFECYCLE_MODE=readiness and PAYMENT_REFUND_MODE=manual_review until payment, refund, cancellation, invoice and webhook replay evidence is complete.'
     },
-
     {
       area: 'Mobile App Readiness',
       status: hasEnv('NEXT_PUBLIC_APP_URL') && (process.env.NATIVE_APP_STRATEGY === 'pwa_first' || hasEnv('ANDROID_PACKAGE_NAME') || hasEnv('IOS_BUNDLE_ID')) ? 'READY_TO_TEST' : 'MANUAL_REQUIRED',
@@ -454,7 +452,6 @@ export function getLaunchEvidenceGates(): LaunchEvidenceGate[] {
       evidenceToSave: 'artifacts/accessibility-readiness JSON/CSV, /admin/accessibility-readiness screenshot, keyboard walkthrough, mobile focus screenshots, Lighthouse/axe accessibility report, screen-reader smoke proof.',
       productionNotes: 'Do not launch only on visual responsive checks. Users using keyboard, low vision, screen readers or reduced motion still need the complaint, UPI, documents, tools and dashboard flows to work.'
     },
-
     {
       area: 'Audit Trail Readiness',
       status: process.env.AUDIT_TRAIL_P0_EVENTS_REVIEWED === 'true' && process.env.AUDIT_TRAIL_REDACTION_REVIEWED === 'true' && process.env.AUDIT_TRAIL_WRITE_PATH_REVIEWED === 'true' ? 'READY_TO_TEST' : 'MANUAL_REQUIRED',
@@ -464,7 +461,6 @@ export function getLaunchEvidenceGates(): LaunchEvidenceGate[] {
       evidenceToSave: 'artifacts/audit-trail-readiness JSON/CSV, /admin/audit-trail-readiness screenshot, masked sample audit rows, alert proof and retention alignment note.',
       productionNotes: 'Keep AUDIT_TRAIL_MODE=log_only or dry_run until all P0 write paths are instrumented and redaction is verified. Never store OTPs, passwords, UPI PINs, CVV, tokens, signed URLs or raw document text in audit logs.'
     },
-    
     {
       area: 'Database Integrity Readiness',
       status: hasEnv('DATABASE_URL') && hasEnv('DIRECT_URL') && process.env.DATABASE_SCHEMA_VALIDATE_REVIEWED === 'true' && process.env.DATABASE_MIGRATION_REVIEWED === 'true' ? 'READY_TO_TEST' : 'MANUAL_REQUIRED',
@@ -473,8 +469,8 @@ export function getLaunchEvidenceGates(): LaunchEvidenceGate[] {
       passCondition: 'Production database URLs are configured, Prisma schema validates, staging migration/db push is tested, seed idempotency is reviewed, backups/restore and RLS/storage policies have evidence.',
       evidenceToSave: 'artifacts/database-integrity JSON/CSV, /admin/database-integrity screenshot, Prisma validate/generate logs, staging migration proof, restore drill proof and RLS/storage policy screenshots.',
       productionNotes: 'Keep DATABASE_INTEGRITY_MODE=dry_run/manual_review until migration, backup restore, seed and RLS evidence are complete. Never run destructive repair or seed actions on production without manual review.'
-    },
-
+    }
+,
     {
       area: 'Observability SLO Readiness',
       status: (process.env.OBSERVABILITY_SLO_REVIEWED === 'true' && process.env.OBSERVABILITY_DASHBOARD_REVIEWED === 'true' && (hasEnv('OBSERVABILITY_UPTIME_URL') || hasEnv('VERCEL_PRODUCTION_URL'))) ? 'READY_TO_TEST' : 'MANUAL_REQUIRED',
@@ -483,8 +479,9 @@ export function getLaunchEvidenceGates(): LaunchEvidenceGate[] {
       passCondition: 'Production availability, API latency, error-rate, cron health and P0 business-flow SLOs have owner, dashboard, alert and saved evidence before public launch.',
       evidenceToSave: 'artifacts/observability-slo JSON/CSV, /admin/observability-slo screenshot, uptime probe screenshot, heartbeat JSON, error dashboard screenshot, alert drill proof and SLO checklist.',
       productionNotes: 'Keep OBSERVABILITY_MODE=manual_review until production URL probes, alert drill, dashboard and error-budget evidence are complete. Observability must not store OTPs, passwords, UPI PINs, CVV, raw documents or signed URLs.'
-    },
+    }
 
+,
     {
       area: 'Secrets Rotation Readiness',
       status: (process.env.SECRETS_PUBLIC_ENV_REVIEWED === 'true' && process.env.SECRETS_ROTATION_RUNBOOK_REVIEWED === 'true' && process.env.SECRETS_LEAK_RESPONSE_REVIEWED === 'true' && (hasEnv('AUTH_SECRET') || hasEnv('NEXTAUTH_SECRET'))) ? 'READY_TO_TEST' : 'MANUAL_REQUIRED',
@@ -493,8 +490,9 @@ export function getLaunchEvidenceGates(): LaunchEvidenceGate[] {
       passCondition: 'Auth/session, database, service role, payment webhook, email/notification, cron/admin and alert secrets have owner, rotation plan, least-privilege review and leak-response evidence.',
       evidenceToSave: 'artifacts/secrets-readiness JSON/CSV, /admin/secrets-readiness screenshot, masked Vercel env screenshot, provider key scope screenshots, NEXT_PUBLIC boundary grep proof and rotation runbook signoff.',
       productionNotes: 'Never expose SUPABASE_SERVICE_ROLE_KEY, DATABASE_URL, DIRECT_URL, AUTH_SECRET, webhook secrets, provider private keys or alert webhooks under NEXT_PUBLIC or inside screenshots, tickets, analytics, error logs or AI prompts.'
-    },
+    }
 
+,
     {
       area: 'Feature Flags Kill Switch Readiness',
       status: process.env.FEATURE_FLAG_P0_DEFAULT_OFF_REVIEWED === 'true' && process.env.FEATURE_FLAG_ROLLBACK_DRILL_REVIEWED === 'true' && process.env.FEATURE_FLAG_AUDIT_REVIEWED === 'true' ? 'READY_TO_TEST' : 'MANUAL_REQUIRED',
@@ -503,8 +501,9 @@ export function getLaunchEvidenceGates(): LaunchEvidenceGate[] {
       passCondition: 'P0 flags have owners, safe default states, rollback drill evidence, audit trail coverage and fallback UX proof before public traffic.',
       evidenceToSave: 'artifacts/feature-flags-readiness JSON/CSV, /admin/feature-flags-readiness screenshot, disabled-state screenshots for AI/payments/vault/admin writes, rollback drill notes and audit sample.',
       productionNotes: 'Never make core complaint guidance dependent on payments, analytics, referrals, notifications, voice or experimental PWA behavior. During incidents, disable risky lanes first and preserve masked evidence.'
-    },
+    }
 
+,
     {
       area: 'Release Governance Readiness',
       status: process.env.RELEASE_NOTES_REVIEWED === 'true' && process.env.RELEASE_ROLLBACK_TARGET_REVIEWED === 'true' && process.env.RELEASE_QUALITY_COMMAND_REVIEWED === 'true' ? 'READY_TO_TEST' : 'MANUAL_REQUIRED',
@@ -513,7 +512,8 @@ export function getLaunchEvidenceGates(): LaunchEvidenceGate[] {
       passCondition: 'Every release has one version source of truth, release note, rollback target, quality evidence, owner signoff and watch-window plan before public traffic increases.',
       evidenceToSave: 'artifacts/release-governance JSON/CSV/MD, /admin/release-governance screenshot, quality:release terminal proof, previous known-good deploy/zip and post-release watch checklist.',
       productionNotes: 'Do not promote a release if the rollback target is unknown, quality output is missing, or P0 manual gates are unsigned. Freeze growth/admin writes first during uncertain release incidents.'
-    },
+    }
+,
     {
       area: 'Feedback Reviews Readiness',
       status: process.env.FEEDBACK_TESTIMONIAL_CONSENT_REVIEWED === 'true' && process.env.FEEDBACK_PII_REDACTION_REVIEWED === 'true' && process.env.FEEDBACK_DEFAMATION_REVIEWED === 'true' ? 'READY_TO_TEST' : 'MANUAL_REQUIRED',
@@ -522,7 +522,8 @@ export function getLaunchEvidenceGates(): LaunchEvidenceGate[] {
       passCondition: 'Raw feedback stays private by default, public reviews are approved-only, testimonial consent is recorded, sensitive data is redacted and takedown ownership is ready.',
       evidenceToSave: 'artifacts/feedback-readiness JSON/CSV/MD, /admin/feedback-readiness screenshot, sample approved testimonial, redaction before-after proof and takedown support macro.',
       productionNotes: 'Never publish OTPs, passwords, UPI PINs, CVV, bank/card data, complaint IDs, private document text, screenshots with personal data, or unverified defamatory claims as social proof.'
-    },
+    }
+,
     {
       area: 'AI Onboarding Assistant Readiness',
       status: process.env.ONBOARDING_P0_ROUTES_REVIEWED === 'true' && process.env.ONBOARDING_SENSITIVE_DATA_WARNING_REVIEWED === 'true' ? 'READY_TO_TEST' : 'MANUAL_REQUIRED',
@@ -531,7 +532,10 @@ export function getLaunchEvidenceGates(): LaunchEvidenceGate[] {
       passCondition: 'New users can set goal, language and state; see one recommended next action; understand sensitive-data warnings; and reach complaint, UPI, documents, schemes or tools without broken layout.',
       evidenceToSave: 'artifacts/onboarding-assistant-readiness JSON/CSV/MD, /admin/onboarding-assistant screenshot, /dashboard/onboarding mobile+desktop screenshots, route test proof and unsafe prompt review notes.',
       productionNotes: 'Keep onboarding in guided/manual_review mode until P0 routes and warnings are reviewed. Never ask for OTPs, passwords, UPI PINs, CVV, full bank/card data, private IDs or raw documents during first-run setup.'
-    },
+    }
+
+
+,
     {
       area: 'Subscription Entitlement Readiness',
       status: process.env.ENTITLEMENT_QUOTA_RULES_REVIEWED === 'true' && process.env.ENTITLEMENT_DOWNGRADE_FLOW_REVIEWED === 'true' && process.env.ENTITLEMENT_WEBHOOK_SYNC_REVIEWED === 'true' ? 'READY_TO_TEST' : 'MANUAL_REQUIRED',
@@ -540,7 +544,10 @@ export function getLaunchEvidenceGates(): LaunchEvidenceGate[] {
       passCondition: 'Plan limits, server-side subscription state, downgrade behavior, paywall copy and admin/test bypass policy are reviewed before enforcing premium entitlements.',
       evidenceToSave: 'artifacts/entitlement-readiness JSON/CSV/MD, /admin/entitlement-readiness screenshot, free limit screenshot, paid allow screenshot, failed payment/downgrade proof and pricing/paywall screenshots.',
       productionNotes: 'Keep entitlement enforcement in dry_run/manual_review until Razorpay webhook and billing lifecycle evidence is saved. Never gate emergency, privacy, disclaimer, official source, support or billing receipt routes.'
-    },
+    }
+
+
+,
     {
       area: 'Invoice Tax Readiness',
       status: process.env.INVOICE_TAX_SELLER_PROFILE_REVIEWED === 'true' && process.env.INVOICE_TAX_NUMBERING_REVIEWED === 'true' && process.env.INVOICE_TAX_RECEIPT_TEMPLATE_REVIEWED === 'true' ? 'READY_TO_TEST' : 'MANUAL_REQUIRED',
@@ -549,7 +556,10 @@ export function getLaunchEvidenceGates(): LaunchEvidenceGate[] {
       passCondition: 'Seller profile, receipt/invoice numbering, receipt template, refund/credit-note flow, GST/tax policy and billing document access controls are reviewed before paid production traffic.',
       evidenceToSave: 'artifacts/invoice-tax-readiness JSON/CSV/MD, /admin/invoice-tax-readiness screenshot, sample receipt, sample invoice, refund note proof, billing export safety proof and finance/legal signoff.',
       productionNotes: 'Keep invoice/tax mode in dry_run/manual_review until payment lifecycle and finance/legal evidence are complete. Never expose OTPs, UPI PINs, CVV, full card/bank data, webhook signatures, raw gateway payloads or signed vault URLs in billing documents.'
-    },
+    }
+
+
+,
     {
       area: 'Refund Dispute Readiness',
       status: process.env.REFUND_POLICY_REVIEWED === 'true' && process.env.CANCELLATION_FLOW_REVIEWED === 'true' && process.env.FAILED_PAYMENT_FLOW_REVIEWED === 'true' ? 'READY_TO_TEST' : 'MANUAL_REQUIRED',
@@ -558,7 +568,8 @@ export function getLaunchEvidenceGates(): LaunchEvidenceGate[] {
       passCondition: 'Refund policy, cancellation flow, failed-payment behavior, duplicate-payment handling, chargeback response and billing support macros are reviewed before paid production traffic.',
       evidenceToSave: 'artifacts/refund-dispute-readiness JSON/CSV/MD, /admin/refund-dispute-readiness screenshot, refund test proof, cancellation proof, failed payment proof, duplicate payment proof and support macro signoff.',
       productionNotes: 'Keep refund/dispute mode in dry_run/manual_review until payment lifecycle, invoice/tax and support evidence are complete. Never ask for OTPs, UPI PINs, CVV, passwords, full card/bank details or raw private documents during billing support.'
-    },
+    }
+,
     {
       area: 'Payment Reconciliation Readiness',
       status: process.env.PAYMENT_RECON_DASHBOARD_REVIEWED === 'true' && process.env.PAYMENT_RECON_DB_MATCH_REVIEWED === 'true' && process.env.PAYMENT_RECON_INVOICE_MATCH_REVIEWED === 'true' ? 'READY_TO_TEST' : 'MANUAL_REQUIRED',
@@ -567,7 +578,8 @@ export function getLaunchEvidenceGates(): LaunchEvidenceGate[] {
       passCondition: 'Gateway payments, DB orders, subscriptions, receipts/invoices, refunds, payouts and anomaly reviews have masked evidence before paid public traffic grows.',
       evidenceToSave: 'artifacts/payment-reconciliation-readiness JSON/CSV/MD, /admin/payment-reconciliation screenshot, masked Razorpay dashboard/export proof, DB row proof, invoice total proof, refund/payout review proof and anomaly checklist.',
       productionNotes: 'Keep payment reconciliation in dry_run/manual_review until real payment lifecycle, invoice/tax, entitlement and refund evidence is complete. Never store OTPs, UPI PINs, CVV, passwords, webhook signatures, raw gateway payloads, full card/bank data or signed vault URLs in reconciliation artifacts.'
-    },
+    }
+,
     {
       area: 'Community Safety Alerts Readiness',
       status: process.env.COMMUNITY_SAFETY_INTAKE_REVIEWED === 'true' && process.env.COMMUNITY_SAFETY_MODERATION_REVIEWED === 'true' && process.env.COMMUNITY_SAFETY_REDACTION_REVIEWED === 'true' ? 'READY_TO_TEST' : 'MANUAL_REQUIRED',
@@ -576,7 +588,8 @@ export function getLaunchEvidenceGates(): LaunchEvidenceGate[] {
       passCondition: 'Community scam reports are collected only with sensitive-data warnings, rate limit, CSRF, redaction preview, human moderation and aggregated public alert policy.',
       evidenceToSave: 'artifacts/community-safety-readiness JSON/CSV/MD, /safety-alerts mobile+desktop screenshots, report API dry-run response, /admin/community-safety screenshot and redaction sample.',
       productionNotes: 'Keep COMMUNITY_SAFETY_REPORT_DRY_RUN=true and COMMUNITY_SAFETY_ALERTS_MODE=dry_run/manual_review until moderation and legal review pass. Never publish raw reports, OTPs, UPI PINs, CVV, phone numbers, UPI IDs, private names, live scam links or unverified accusations.'
-    },
+    }
+,
     {
       area: 'Document Expiry Planner Readiness',
       status: process.env.DOCUMENT_EXPIRY_OFFICIAL_LINKS_REVIEWED === 'true' && process.env.DOCUMENT_EXPIRY_PRIVACY_COPY_REVIEWED === 'true' && process.env.DOCUMENT_EXPIRY_MOBILE_QA_REVIEWED === 'true' ? 'READY_TO_TEST' : 'MANUAL_REQUIRED',
@@ -585,7 +598,8 @@ export function getLaunchEvidenceGates(): LaunchEvidenceGate[] {
       passCondition: 'Document expiry planner works with document type + date only, shows official-only route warnings, creates renewal reminder dates and avoids collecting sensitive ID/bank secrets.',
       evidenceToSave: 'artifacts/document-expiry-readiness JSON/CSV/MD, /tools/document-expiry-planner mobile+desktop screenshots, generated plan screenshot and /admin/document-expiry-readiness screenshot.',
       productionNotes: 'Keep DOCUMENT_EXPIRY_PLANNER_MODE=local_only/dry_run until official route copy, translations, privacy wording and reminder delivery consent are reviewed. Never ask for OTPs, passwords, UPI PINs, CVV, Aadhaar/PAN numbers, full card/bank details or raw document scans.'
-    },
+    }
+,
     {
       area: 'Call Visit Logbook Readiness',
       status: process.env.CALL_LOGBOOK_PRIVACY_COPY_REVIEWED === 'true' && process.env.CALL_LOGBOOK_MOBILE_QA_REVIEWED === 'true' && process.env.CALL_LOGBOOK_ESCALATION_COPY_REVIEWED === 'true' ? 'READY_TO_TEST' : 'MANUAL_REQUIRED',
@@ -594,7 +608,8 @@ export function getLaunchEvidenceGates(): LaunchEvidenceGate[] {
       passCondition: 'Call and visit logs capture factual interaction details, show secret-data warnings, generate safe follow-up messages and remain usable on mobile.',
       evidenceToSave: 'artifacts/call-logbook-readiness JSON/CSV/MD, /tools/call-visit-logbook mobile+desktop screenshots, generated log screenshot, copied message proof and /admin/call-logbook-readiness screenshot.',
       productionNotes: 'Keep CALL_LOGBOOK_MODE=local_only/dry_run until privacy copy, export/copy behavior, translations and escalation tone are reviewed. Never store OTPs, passwords, UPI PINs, CVV, full card/bank details, full Aadhaar/PAN, private addresses or raw document scans in interaction logs.'
-    },
+    }
+,
     {
       area: 'Proof File Organizer Readiness',
       status: process.env.PROOF_FILE_REDACTION_REVIEWED === 'true' && process.env.PROOF_FILE_NAMING_REVIEWED === 'true' && process.env.PROOF_FILE_MOBILE_QA_REVIEWED === 'true' ? 'READY_TO_TEST' : 'MANUAL_REQUIRED',
@@ -603,8 +618,8 @@ export function getLaunchEvidenceGates(): LaunchEvidenceGate[] {
       passCondition: 'Proof folder names, redaction warnings, missing proof logic and copy-ready proof index are reviewed for safe complaint submission packs.',
       evidenceToSave: 'artifacts/proof-file-organizer-readiness JSON/CSV/MD, /tools/proof-file-organizer mobile+desktop screenshots, generated organizer screenshot, copied proof index proof and /admin/proof-file-organizer-readiness screenshot.',
       productionNotes: 'Keep PROOF_FILE_ORGANIZER_MODE=local_only/dry_run until safe naming, redaction, translation and mobile QA are complete. Never store or share OTPs, passwords, UPI PINs, CVV, full card/bank details, full Aadhaar/PAN, private addresses or raw document scans in public proof packs.'
-    },
-    
+    }
+,
     {
       area: 'Deadline Appeal Planner Readiness',
       status: process.env.DEADLINE_APPEAL_COPY_REVIEWED === 'true' && process.env.DEADLINE_APPEAL_LEGAL_REVIEWED === 'true' && process.env.DEADLINE_APPEAL_MOBILE_QA_REVIEWED === 'true' ? 'READY_TO_TEST' : 'MANUAL_REQUIRED',

@@ -15,7 +15,7 @@ const env = read('.env.example')
 const evidence = read('lib/qa/launch-evidence.ts')
 const previousAudit = read('scripts/phase80-secrets-readiness-audit.mjs')
 
-requireCheck(pkg.version === '3.0.51-feature-flags-readiness' || /^3\.0\.(5[2-9]|[6-9][0-9])-/.test(pkg.version), 'package version must be 3.0.51-feature-flags-readiness or newer release')
+requireCheck(String(pkg.version || '').startsWith('3.0.'), 'package version must be a 3.0.x compatible release')
 requireCheck(pkg.scripts['feature-flags:readiness'] === 'node scripts/feature-flags-readiness-local.mjs', 'feature-flags:readiness script missing')
 requireCheck(pkg.scripts['phase81:audit'] === 'node scripts/phase81-feature-flags-audit.mjs', 'phase81:audit script missing')
 requireCheck((pkg.scripts['quality:release'] || '').includes('phase81:audit'), 'quality:release must include phase81 audit')

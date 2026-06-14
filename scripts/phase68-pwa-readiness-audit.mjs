@@ -35,7 +35,7 @@ require(adminApi.includes('requireAdmin') && adminApi.includes('getPwaReadinessR
 require(exists('scripts/pwa-readiness-local.mjs'), 'PWA local evidence script missing')
 require(adminShell.includes('/admin/pwa-readiness'), 'admin shell must link PWA readiness')
 require(exists('public/sw.js'), 'service worker missing')
-require((sw.includes('haqsathi-ai-v3-0-38') || sw.includes('haqsathi-ai-v3-0-84')) && sw.includes('navigationPreload') && sw.includes('OFFLINE_URL') && sw.includes('/api/'), 'service worker must have v38/v84 cache, navigation preload, offline fallback and API cache guard')
+require((sw.includes('haqsathi-ai-v3-0-38') || sw.includes('haqsathi-ai-v3-0-84') || sw.includes('haqsathi-ai-v3-0-85')) && sw.includes('navigationPreload') && sw.includes('OFFLINE_URL') && sw.includes('/api/'), 'service worker must have v38/v84/v85 cache, navigation preload, offline fallback and API cache guard')
 require(pwaRegister.includes('controllerchange') && pwaRegister.includes('serviceWorker.register'), 'PWA register must handle service worker registration/update')
 for (const key of ['NEXT_PUBLIC_ENABLE_PWA', 'PWA_EVIDENCE_DIR', 'PWA_OFFLINE_ROUTE_TARGETS', 'PWA_MANIFEST_REVIEWED', 'PWA_ICON_REVIEWED', 'PWA_OFFLINE_FALLBACK_REVIEWED', 'PWA_INSTALL_FLOW_REVIEWED', 'PWA_UPDATE_FLOW_REVIEWED', 'PWA_PUSH_PERMISSION_REVIEWED']) {
   require(env.includes(`${key}=`), `.env.example missing ${key}`)

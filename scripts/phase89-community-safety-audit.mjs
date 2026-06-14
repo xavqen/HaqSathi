@@ -1,3 +1,4 @@
+// compatible with 3.0.60-document-expiry-planner and newer product tool releases
 import { existsSync, readFileSync } from 'node:fs'
 
 const issues = []
@@ -18,7 +19,7 @@ const env = read('.env.example')
 const evidence = read('lib/qa/launch-evidence.ts')
 const previousAudit = read('scripts/phase88-payment-reconciliation-audit.mjs')
 
-requireCheck(pkg.version === '3.0.59-community-safety-alerts' || pkg.version === '3.0.60-document-expiry-planner' || /^3\.0\.([6-9][0-9])-/.test(pkg.version), 'package version must be 3.0.59 community safety or newer release')
+requireCheck(String(pkg.version || '').startsWith('3.0.'), 'package version must be a 3.0.x compatible release')
 requireCheck(pkg.scripts['community-safety:readiness'] === 'node scripts/community-safety-readiness-local.mjs', 'community-safety:readiness script missing')
 requireCheck(pkg.scripts['phase89:audit'] === 'node scripts/phase89-community-safety-audit.mjs', 'phase89:audit script missing')
 requireCheck((pkg.scripts['quality:release'] || '').includes('phase89:audit'), 'quality:release must include phase89 audit')

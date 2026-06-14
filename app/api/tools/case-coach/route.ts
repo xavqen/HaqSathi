@@ -16,6 +16,7 @@ export async function POST(req: NextRequest) {
         userId: user.id,
         complaintId: parsed.data.complaintId || null,
         caseType: parsed.data.caseType,
+        // Replace lines 19-22 with this:
         score: result.score,
         grade: result.grade,
         report: {

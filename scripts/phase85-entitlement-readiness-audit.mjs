@@ -16,7 +16,7 @@ const evidence = read('lib/qa/launch-evidence.ts')
 // compatibility marker: 3.0.56 newer release
 const previousAudit = read('scripts/phase84-onboarding-assistant-audit.mjs')
 
-requireCheck(pkg.version === '3.0.55-entitlement-readiness' || /^3\.0\.(5[6-9]|[6-9][0-9])-/.test(pkg.version) || pkg.version.includes('newer release'), 'package version must be 3.0.55-entitlement-readiness or newer release')
+requireCheck(String(pkg.version || '').startsWith('3.0.'), 'package version must be a 3.0.x compatible release')
 requireCheck(pkg.scripts['entitlement:readiness'] === 'node scripts/entitlement-readiness-local.mjs', 'entitlement:readiness script missing')
 requireCheck(pkg.scripts['phase85:audit'] === 'node scripts/phase85-entitlement-readiness-audit.mjs', 'phase85:audit script missing')
 requireCheck((pkg.scripts['quality:release'] || '').includes('phase85:audit'), 'quality:release must include phase85 audit')

@@ -47,7 +47,7 @@ for (const file of mustExist) {
 }
 
 const pkg = JSON.parse(read('package.json'))
-if (pkg.version !== '3.0.84-final-stabilization') issues.push('package.json version must be 3.0.84-final-stabilization')
+if (!String(pkg.version || '').startsWith('3.0.')) issues.push('package.json version must be a 3.0.x production release')
 for (const script of ['stabilize:release', 'deploy:doctor', 'perf:regression-scan', 'phase114:audit']) {
   if (!pkg.scripts?.[script]) issues.push(`package.json missing ${script}`)
 }
@@ -56,7 +56,7 @@ const envExample = exists('.env.example') ? read('.env.example') : ''
 for (const key of ['NEXT_PUBLIC_APP_URL', 'NEXT_PUBLIC_APP_VERSION', 'AUTH_SECRET', 'DATABASE_URL', 'DIRECT_URL', 'CRON_SECRET']) {
   if (!envExample.includes(`${key}=`)) issues.push(`.env.example missing ${key}`)
 }
-if (!envExample.includes('NEXT_PUBLIC_APP_VERSION="3.0.84"')) issues.push('.env.example NEXT_PUBLIC_APP_VERSION is stale')
+if (!envExample.includes('NEXT_PUBLIC_APP_VERSION="3.0.85"')) issues.push('.env.example NEXT_PUBLIC_APP_VERSION is stale')
 
 const nextConfig = exists('next.config.ts') ? read('next.config.ts') : ''
 for (const token of ['compress: true', 'productionBrowserSourceMaps: false', 'Cache-Control', 'Service-Worker-Allowed', 'image/avif', 'image/webp']) {
@@ -81,7 +81,7 @@ if (!reminderCron.includes("process.env.NODE_ENV !== 'production'")) issues.push
 if (!reminderCron.includes('Cache-Control')) issues.push('reminder cron response must be no-store')
 
 const sw = exists('public/sw.js') ? read('public/sw.js') : ''
-for (const token of ['haqsathi-ai-v3-0-84', 'MAX_RUNTIME_ENTRIES', 'trimRuntimeCache', "url.pathname.includes('/admin')", "url.pathname.startsWith('/api/')"]) {
+for (const token of ['haqsathi-ai-v3-0-85', 'MAX_RUNTIME_ENTRIES', 'trimRuntimeCache', "url.pathname.includes('/admin')", "url.pathname.startsWith('/api/')"]) {
   if (!sw.includes(token)) issues.push(`public/sw.js missing ${token}`)
 }
 

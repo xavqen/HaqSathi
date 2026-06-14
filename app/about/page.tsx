@@ -2,6 +2,9 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 
+export const dynamic = 'force-static'
+export const revalidate = 86400
+
 export const metadata: Metadata = { title: 'About', description: 'HaqSathi AI helps people handle everyday complaints, refunds, documents and schemes in simple language.' }
 
 export default function Page() {

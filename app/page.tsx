@@ -13,7 +13,6 @@ import {
   Sparkles,
   WalletCards,
 } from "lucide-react";
-import { cookies } from "next/headers";
 import {
   Card,
   CardContent,
@@ -34,14 +33,10 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { pricingPlans } from "@/lib/constants";
 import { InstallPwaCard } from "@/components/layout/install-pwa";
-import { getCurrentUser } from "@/lib/auth/session";
 import { getShellDictionary } from "@/lib/i18n/dictionaries";
-import { normalizeLanguageCode } from "@/lib/i18n/languages";
 
-
-// app/page.tsx
 export const dynamic = "force-static";
-export const revalidate = 3600;
+export const revalidate = 86400;
 
 const heroTools = [
   {
@@ -98,11 +93,8 @@ const commandCards = [
 ];
 
 export default async function HomePage() {
-  const user = await getCurrentUser();
-  const store = await cookies();
-  const language = normalizeLanguageCode(store.get("haqsathi_language")?.value);
-  const dictionary = getShellDictionary(language);
-  const startHref = user ? "/tools" : "/login?next=/tools";
+  const dictionary = getShellDictionary("ENGLISH");
+  const startHref = "/login?next=/tools";
 
   return (
     <main className="bg-white">
@@ -127,8 +119,6 @@ export default async function HomePage() {
                 href={startHref}
                 hover="glow"
                 className="inline-flex min-h-12 items-center justify-center rounded-2xl bg-primary px-6 py-3 text-base font-black text-primary-foreground shadow-lg shadow-emerald-900/10 hover:bg-primary/90"
-                tabIndex={0}
-                suppressHydrationWarning
               >
                 {dictionary.home.primaryCta}{" "}
                 <ArrowRight className="ml-2 h-5 w-5" />
@@ -136,8 +126,6 @@ export default async function HomePage() {
               <MotionLink
                 href="/tools"
                 className="inline-flex min-h-12 items-center justify-center rounded-2xl border border-slate-200 bg-white px-6 py-3 text-base font-black text-slate-800 shadow-sm hover:bg-slate-50"
-                tabIndex={0}
-                suppressHydrationWarning
               >
                 {dictionary.home.secondaryCta}
               </MotionLink>
@@ -153,7 +141,7 @@ export default async function HomePage() {
           </FadeIn>
 
           <FadeIn className="relative z-10" delay={0.12}>
-            <SpotlightSurface className="rounded-[2rem] border border-emerald-100 bg-white/90 p-4 shadow-2xl shadow-slate-950/10 backdrop-blur sm:p-5" suppressHydrationWarning>
+            <SpotlightSurface className="rounded-[2rem] border border-emerald-100 bg-white/90 p-4 shadow-2xl shadow-slate-950/10 backdrop-blur sm:p-5">
               <div className="rounded-[1.5rem] bg-slate-950 p-4 text-white sm:p-5">
                 <div className="flex items-center justify-between gap-3">
                   <div>
@@ -183,13 +171,13 @@ export default async function HomePage() {
                 </div>
               </div>
               <div className="mt-4 grid grid-cols-2 gap-3">
-                <div className="rounded-2xl bg-emerald-50 p-4" suppressHydrationWarning>
+                <div className="rounded-2xl bg-emerald-50 p-4">
                   <p className="text-2xl font-black text-emerald-900"><MotionNumber value={38} suffix="+" /></p>
                   <p className="text-xs font-bold text-emerald-700">
                     {dictionary.home.toolsCountLabel}
                   </p>
                 </div>
-                <div className="rounded-2xl bg-slate-50 p-4" suppressHydrationWarning>
+                <div className="rounded-2xl bg-slate-50 p-4">
                   <p className="text-2xl font-black text-slate-950">Mobile</p>
                   <p className="text-xs font-bold text-slate-600">
                     {dictionary.home.mobileLabel}
@@ -414,4 +402,3 @@ export default async function HomePage() {
     </main>
   );
 }
-

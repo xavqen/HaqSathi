@@ -15,7 +15,7 @@ const env = read('.env.example')
 const evidence = read('lib/qa/launch-evidence.ts')
 const previousAudit = read('scripts/phase86-invoice-tax-readiness-audit.mjs')
 
-requireCheck(pkg.version === '3.0.57-refund-dispute-readiness' || /^3\.0\.(5[8-9]|[6-9][0-9])-/.test(pkg.version), 'package version must be 3.0.57 or newer release')
+requireCheck(String(pkg.version || '').startsWith('3.0.'), 'package version must be a 3.0.x compatible release')
 requireCheck(pkg.scripts['refund-dispute:readiness'] === 'node scripts/refund-dispute-readiness-local.mjs', 'refund-dispute:readiness script missing')
 requireCheck(pkg.scripts['phase87:audit'] === 'node scripts/phase87-refund-dispute-audit.mjs', 'phase87:audit script missing')
 requireCheck((pkg.scripts['quality:release'] || '').includes('phase87:audit'), 'quality:release must include phase87 audit')

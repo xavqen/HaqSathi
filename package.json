@@ -1,7 +1,8 @@
 {
   "name": "haqsathi-ai",
-  "version": "3.0.84-final-stabilization",
+  "version": "3.0.85-performance-production-pass",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -69,7 +70,7 @@
     "phase36:audit": "node scripts/phase36-i18n-shell-audit.mjs",
     "phase37:audit": "node scripts/phase37-ux-i18n-audit.mjs",
     "phase38:audit": "node scripts/phase38-launch-gap-audit.mjs",
-    "quality:release": "npm run ui:scan && npm run content:polish:audit && npm run phase36:audit && npm run phase37:audit && npm run phase38:audit && npm run phase39:audit && npm run phase40:audit && npm run phase41:audit && npm run phase42:audit && npm run phase43:audit && npm run phase44:audit && npm run phase45:audit && npm run phase46:audit && npm run phase47:audit && npm run phase48:audit && npm run phase49:audit && npm run phase50:audit && npm run phase51:audit && npm run phase52:audit && npm run phase53:audit && npm run phase54:audit && npm run phase55:audit && npm run phase56:audit && npm run phase57:audit && npm run phase58:audit && npm run phase59:audit && npm run phase60:audit && npm run phase61:audit && npm run phase62:audit && npm run phase63:audit && npm run phase64:audit && npm run phase65:audit && npm run phase66:audit && npm run phase67:audit && npm run phase68:audit && npm run phase69:audit && npm run phase70:audit && npm run phase71:audit && npm run phase72:audit && npm run phase73:audit && npm run phase74:audit && npm run phase75:audit && npm run phase76:audit && npm run phase77:audit && npm run phase78:audit && npm run phase79:audit && npm run phase80:audit && npm run phase81:audit && npm run phase82:audit && npm run phase83:audit && npm run phase84:audit && npm run phase85:audit && npm run phase86:audit && npm run phase87:audit && npm run phase88:audit && npm run phase89:audit && npm run phase90:audit && npm run phase91:audit && npm run phase92:audit && npm run phase93:audit && npm run phase94:audit && npm run phase95:audit && npm run phase96:audit && npm run phase97:audit && npm run phase98:audit && npm run phase99:audit && npm run phase100:audit && npm run phase101:audit && npm run phase102:audit && npm run phase103:audit && npm run phase104:audit && npm run phase105:audit && npm run phase106:audit && npm run phase107:audit && npm run phase108:audit && npm run phase109:audit && npm run phase110:audit && npm run phase111:audit && npm run phase112:audit && npm run phase113:audit && npm run phase114:audit",
+    "quality:release": "npm run ui:scan && npm run content:polish:audit && npm run phase36:audit && npm run phase37:audit && npm run phase38:audit && npm run phase39:audit && npm run phase40:audit && npm run phase41:audit && npm run phase42:audit && npm run phase43:audit && npm run phase44:audit && npm run phase45:audit && npm run phase46:audit && npm run phase47:audit && npm run phase48:audit && npm run phase49:audit && npm run phase50:audit && npm run phase51:audit && npm run phase52:audit && npm run phase53:audit && npm run phase54:audit && npm run phase55:audit && npm run phase56:audit && npm run phase57:audit && npm run phase58:audit && npm run phase59:audit && npm run phase60:audit && npm run phase61:audit && npm run phase62:audit && npm run phase63:audit && npm run phase64:audit && npm run phase65:audit && npm run phase66:audit && npm run phase67:audit && npm run phase68:audit && npm run phase69:audit && npm run phase70:audit && npm run phase71:audit && npm run phase72:audit && npm run phase73:audit && npm run phase74:audit && npm run phase75:audit && npm run phase76:audit && npm run phase77:audit && npm run phase78:audit && npm run phase79:audit && npm run phase80:audit && npm run phase81:audit && npm run phase82:audit && npm run phase83:audit && npm run phase84:audit && npm run phase85:audit && npm run phase86:audit && npm run phase87:audit && npm run phase88:audit && npm run phase89:audit && npm run phase90:audit && npm run phase91:audit && npm run phase92:audit && npm run phase93:audit && npm run phase94:audit && npm run phase95:audit && npm run phase96:audit && npm run phase97:audit && npm run phase98:audit && npm run phase99:audit && npm run phase100:audit && npm run phase101:audit && npm run phase102:audit && npm run phase103:audit && npm run phase104:audit && npm run phase105:audit && npm run phase106:audit && npm run phase107:audit && npm run phase108:audit && npm run phase109:audit && npm run phase110:audit && npm run phase111:audit && npm run phase112:audit && npm run phase113:audit && npm run phase114:audit && npm run phase115:audit",
     "test:e2e": "npx --yes @playwright/test test",
     "test:e2e:install": "npx --yes playwright install chromium",
     "lighthouse:local": "node scripts/lighthouse-local-audit.mjs",
@@ -220,26 +221,26 @@
     "deploy:doctor": "node scripts/final-stabilization-doctor.mjs",
     "perf:regression-scan": "node scripts/performance-regression-scan.mjs",
     "phase114:audit": "node scripts/phase114-final-stabilization-audit.mjs",
-    "stabilize:release": "npm run ui:scan && npm run phase113:audit && npm run phase114:audit && npm run deploy:doctor && npm run perf:regression-scan"
+    "stabilize:release": "npm run ui:scan && npm run phase113:audit && npm run phase114:audit && npm run deploy:doctor && npm run perf:regression-scan",
+    "phase115:audit": "node scripts/phase115-performance-production-audit.mjs",
+    "perf:production-pass": "npm run stabilize:release && npm run phase115:audit"
   },
   "dependencies": {
     "@hookform/resolvers": "latest",
     "@prisma/client": "6.19.3",
-    "autoprefixer": "^10.5.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "date-fns": "latest",
     "dotenv": "latest",
     "framer-motion": "latest",
     "lucide-react": "latest",
+    "motion": "^12.40.0",
     "next": "16.2.6",
     "pdfkit": "latest",
-    "postcss": "^8.5.15",
     "react": "latest",
     "react-dom": "latest",
     "react-hook-form": "latest",
     "tailwind-merge": "^2.6.0",
-    "tailwindcss": "3.4.17",
     "zod": "^3.25.76"
   },
   "devDependencies": {
@@ -248,13 +249,16 @@
     "@types/pdfkit": "latest",
     "@types/react": "latest",
     "@types/react-dom": "latest",
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.5.1",
     "prisma": "6.19.3",
+    "tailwindcss": "^3.4.17",
     "tsx": "^4.19.2",
-    "typescript": "6.0.3"
+    "typescript": "5.8.3"
   },
   "overrides": {
     "prisma": "6.19.3",
     "@prisma/client": "6.19.3"
   },
-  "packageManager": "npm@11.16.0"
+  "packageManager": "npm@11.6.3"
 }
