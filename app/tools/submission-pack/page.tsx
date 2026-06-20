@@ -1,7 +1,7 @@
 import { SubmissionPackForm } from '@/components/forms/submission-pack-form'
 
 export const metadata = {
-  title: 'Submission Pack Generator | HaqSathi AI',
+  title: 'Submission Pack Generator',
   description: 'Email, WhatsApp, support chat, call script, escalation and social-safe complaint messages in one mobile-friendly pack.'
 }
 

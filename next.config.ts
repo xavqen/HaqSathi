@@ -16,8 +16,12 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
   compress: true,
   productionBrowserSourceMaps: false,
+  allowedDevOrigins: ['127.0.0.1', 'localhost'],
   experimental: {
-    optimizePackageImports: ['lucide-react', 'framer-motion'],
+    optimizePackageImports: ['lucide-react', 'framer-motion']
+  },
+  turbopack: {
+    root: process.cwd()
   },
   images: {
     formats: ['image/avif', 'image/webp'],

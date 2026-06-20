@@ -15,6 +15,7 @@ function planKey(name: string) {
 
 export default function Page() {
   const copy = getCorePageCopy('ENGLISH').pricing
+  const showDevCheckoutNotice = process.env.NODE_ENV !== 'production'
   return (
     <main className="bg-slate-50">
       <section className="hs-container py-8 sm:py-12">
@@ -41,15 +42,17 @@ export default function Page() {
                     </li>
                   ))}
                 </ul>
-                <CheckoutButton plan={planKey(plan.name)} />
+                <CheckoutButton plan={planKey(plan.name)} returnTo="/pricing" />
               </CardContent>
             </Card>
           ))}
         </div>
 
-        <div className="mt-8 rounded-[1.5rem] border border-slate-200 bg-white p-5 text-sm leading-6 text-slate-700 shadow-soft">
-          In local development, empty Razorpay keys create a dry-run order. For live checkout, set RAZORPAY_KEY_ID, NEXT_PUBLIC_RAZORPAY_KEY_ID, RAZORPAY_KEY_SECRET and RAZORPAY_WEBHOOK_SECRET.
-        </div>
+        {showDevCheckoutNotice ? (
+          <div className="mt-8 rounded-[1.5rem] border border-slate-200 bg-white p-5 text-sm leading-6 text-slate-700 shadow-soft">
+            Local development checkout uses a dry-run order when Razorpay keys are empty. Configure Razorpay keys before live payments.
+          </div>
+        ) : null}
       </section>
     </main>
   )

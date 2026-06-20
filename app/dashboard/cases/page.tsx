@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { EscalationButton } from '@/components/dashboard/escalation-button'
 
 export const dynamic = 'force-dynamic'
-export const metadata = { title: 'Case Command Center | HaqSathi AI' }
+export const metadata = { title: 'Case Command Center' }
 
 export default async function CasesPage() {
   const user = await requireUser()

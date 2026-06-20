@@ -6,7 +6,7 @@ import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 
 export const dynamic = 'force-dynamic'
-export const metadata = { title: 'Status Tracker | Dashboard | HaqSathi AI' }
+export const metadata = { title: 'Status Tracker | Dashboard' }
 
 function portalForComplaint(type: string) {
   const lower = type.toLowerCase()

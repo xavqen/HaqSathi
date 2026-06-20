@@ -19,7 +19,7 @@ const env = read('.env.example')
 const evidence = read('lib/qa/launch-evidence.ts')
 const searchPage = read('app/search/page.tsx')
 
-require(/3\.0\.(2[7-9]|[3-9][0-9])/.test(pkg.version), 'package version must be v3.0.27+')
+require((/3\.0\.(2[7-9]|[3-9][0-9])/.test(pkg.version) || /^3\.0\.(?:[1-9]\d{2,})/.test(pkg.version)), 'package version must be v3.0.27+')
 require(pkg.scripts['search:readiness'] === 'node scripts/search-readiness-local.mjs', 'search:readiness script missing')
 require(pkg.scripts['phase57:audit'] === 'node scripts/phase57-advanced-search-audit.mjs', 'phase57:audit script missing')
 require((pkg.scripts['quality:release'] || '').includes('phase57:audit'), 'quality:release must include phase57 audit')

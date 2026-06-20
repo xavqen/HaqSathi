@@ -4,11 +4,14 @@ import { getCurrentUser } from '@/lib/auth/session'
 import { safeJson } from '@/lib/api/errors'
 import { ombudsmanPlannerSchema } from '@/lib/validators/advanced-tools'
 import { buildOmbudsmanPlanner } from '@/lib/tools/advanced-generators'
-import { rateLimit } from '@/lib/rate-limit'
+import { getClientIp, rateLimitAsync } from '@/lib/rate-limit'
+import { csrfGuard } from '@/lib/security/csrf'
 
 export async function POST(req: NextRequest) {
-  const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 'local'
-  const limited = rateLimit(`ombudsman-planner:${ip}`, 8, 60_000)
+  const csrf = csrfGuard(req)
+  if (csrf) return csrf
+  const ip = getClientIp(req.headers)
+  const limited = await rateLimitAsync(`ombudsman-planner:${ip}`, 8, 60_000)
   if (!limited.ok) return NextResponse.json({ ok: false, error: 'Too many requests. 1 minute baad try karo.' }, { status: 429 })
   const body = await safeJson<unknown>(req)
   const parsed = ombudsmanPlannerSchema.safeParse(body)

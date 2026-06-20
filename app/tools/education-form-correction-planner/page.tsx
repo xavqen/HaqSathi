@@ -3,7 +3,7 @@ import { AlertTriangle, GraduationCap, ShieldCheck } from 'lucide-react'
 import { EducationFormCorrectionPlannerForm } from '@/components/forms/education-form-correction-planner-form'
 
 export const metadata = {
-  title: 'Education Form Correction Planner | HaqSathi AI',
+  title: 'Education Form Correction Planner',
   description: 'Plan correction requests for exam, admission, scholarship, certificate and college forms with proof checklist and safe copy.'
 }
 

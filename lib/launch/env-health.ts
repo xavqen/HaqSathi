@@ -40,6 +40,8 @@ const definitions = [
   { key: 'RAZORPAY_KEY_SECRET', area: 'Billing', requiredFor: ['PRODUCTION'], sensitive: true, advice: 'Required for payment signature verification.' },
   { key: 'RAZORPAY_WEBHOOK_SECRET', area: 'Billing', requiredFor: ['PRODUCTION'], sensitive: true, advice: 'Required before using production webhooks.' },
   { key: 'CRON_SECRET', area: 'Automation', requiredFor: ['PRODUCTION'], sensitive: true, advice: 'Protect reminder cron route.' },
+  { key: 'UPSTASH_REDIS_REST_URL', area: 'Rate limit', requiredFor: ['PRODUCTION'], sensitive: false, advice: 'Required for durable distributed rate limits on Vercel/serverless.' },
+  { key: 'UPSTASH_REDIS_REST_TOKEN', area: 'Rate limit', requiredFor: ['PRODUCTION'], sensitive: true, advice: 'Required for durable distributed rate limits on Vercel/serverless.' },
   { key: 'GOOGLE_CLIENT_ID', area: 'Auth', requiredFor: ['PRODUCTION'], sensitive: false, advice: 'Required for Google login in production.' },
   { key: 'GOOGLE_CLIENT_SECRET', area: 'Auth', requiredFor: ['PRODUCTION'], sensitive: true, advice: 'Required for Google OAuth callback.' },
   { key: 'GOOGLE_AUTH_REDIRECT_URI', area: 'Auth', requiredFor: ['PRODUCTION'], sensitive: false, advice: 'Use https://your-domain.com/api/auth/google/callback.' },

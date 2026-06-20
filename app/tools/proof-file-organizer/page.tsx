@@ -3,7 +3,7 @@ import { FileArchive, ShieldCheck } from 'lucide-react'
 import { ProofFileOrganizerForm } from '@/components/forms/proof-file-organizer-form'
 
 export const metadata = {
-  title: 'Proof File Organizer | HaqSathi AI',
+  title: 'Proof File Organizer',
   description: 'Organize complaint evidence files, folder names, redacted sharing pack and missing proof checklist.'
 }
 

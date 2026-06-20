@@ -3,7 +3,7 @@ import { AlertTriangle, IdCard, ShieldCheck } from 'lucide-react'
 import { IdentityDocumentCorrectionPlannerForm } from '@/components/forms/identity-document-correction-planner-form'
 
 export const metadata = {
-  title: 'Identity Document Correction Planner | HaqSathi AI',
+  title: 'Identity Document Correction Planner',
   description: 'Plan Aadhaar, PAN, voter ID, passport, driving license, certificate and bank KYC corrections with proof checklist, official route and safe copy-ready request.'
 }
 

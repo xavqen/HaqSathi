@@ -19,7 +19,7 @@ const adminShell = exists('components/admin/admin-shell.tsx') ? read('components
 const env = read('.env.example')
 const evidence = read('lib/qa/launch-evidence.ts')
 
-require(/3\.0\.(3[2-9]|[4-9][0-9])/.test(pkg.version), 'package version must be v3.0.32+')
+require((/3\.0\.(3[2-9]|[4-9][0-9])/.test(pkg.version) || /^3\.0\.(?:[1-9]\d{2,})/.test(pkg.version)), 'package version must be v3.0.32+')
 require(pkg.scripts['email:readiness'] === 'node scripts/email-delivery-readiness-local.mjs', 'email:readiness script missing')
 require(pkg.scripts['phase62:audit'] === 'node scripts/phase62-email-delivery-audit.mjs', 'phase62:audit script missing')
 require((pkg.scripts['quality:release'] || '').includes('phase62:audit'), 'quality:release must include phase62 audit')

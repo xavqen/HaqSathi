@@ -3,7 +3,7 @@ import { db } from '@/lib/db'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 
 export const dynamic = 'force-dynamic'
-export const metadata = { title: 'Risk Reports | HaqSathi AI' }
+export const metadata = { title: 'Risk Reports' }
 export default async function Page() {
   const user = await requireUser()
   const reports = await db.riskAssessment.findMany({ where: { userId: user.id }, orderBy: { createdAt: 'desc' }, take: 30 }).catch(() => [])

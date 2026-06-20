@@ -3,7 +3,7 @@ import { AlertTriangle, BriefcaseBusiness, ShieldCheck } from 'lucide-react'
 import { JobSalaryDisputePlannerForm } from '@/components/forms/job-salary-dispute-planner-form'
 
 export const metadata = {
-  title: 'Job & Salary Dispute Planner | HaqSathi AI',
+  title: 'Job & Salary Dispute Planner',
   description: 'Plan salary delay, job scam, fake offer, deduction, experience letter or freelance payment follow-up with proof checklist and safe copy.'
 }
 

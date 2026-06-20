@@ -5,7 +5,7 @@ import { templateSeedItems } from '@/lib/templates/seed-templates'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 
 export const dynamic = 'force-dynamic'
-export const metadata: Metadata = { title: 'Ready Templates - HaqSathi AI', description: 'Ready templates for refunds, UPI, bank issues, scholarships and legal-style drafts in simple language.' }
+export const metadata: Metadata = { title: 'Ready Templates', description: 'Ready templates for refunds, UPI, bank issues, scholarships and legal-style drafts in simple language.' }
 
 type TemplateRow = {
   id: string

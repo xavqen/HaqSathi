@@ -4,7 +4,7 @@ import { SafetyAlertReportForm } from '@/components/forms/safety-alert-report-fo
 import { communitySafetyLanes } from '@/lib/safety/community-safety-readiness'
 
 export const metadata = {
-  title: 'Community Safety Alerts | HaqSathi AI',
+  title: 'Community Safety Alerts',
   description: 'Report scam patterns safely and learn common UPI, loan app, job, shopping and suspicious link warning signs.'
 }
 

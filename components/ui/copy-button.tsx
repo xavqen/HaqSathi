@@ -10,7 +10,7 @@ export function CopyButton({ text, label = 'Copy' }: { text: string; label?: str
   async function copy() {
     await navigator.clipboard.writeText(text)
     setCopied(true)
-    window.setTimeout(() => setCopied(false), 1500)
+    setTimeout(() => setCopied(false), 1500)
   }
 
   return (

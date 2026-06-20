@@ -1,3 +1,3 @@
 import { DocumentGapAnalyzerForm } from '@/components/forms/document-gap-analyzer-form'
-export const metadata = { title: 'Document Gap Analyzer | HaqSathi AI', description: 'Required documents me kya missing hai, quick checklist.' }
+export const metadata = { title: 'Document Gap Analyzer', description: 'Required documents me kya missing hai, quick checklist.' }
 export default function Page(){ return <main className="bg-slate-50"><section className="mx-auto max-w-3xl px-4 py-12"><h1 className="text-4xl font-black">Document gap analyzer</h1><p className="mt-3 text-slate-600">Scholarship, KYC, certificate aur refund cases ke documents gap check karo.</p><div className="mt-8"><DocumentGapAnalyzerForm /></div></section></main> }

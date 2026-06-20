@@ -20,7 +20,7 @@ const adminShell = exists('components/admin/admin-shell.tsx') ? read('components
 const env = read('.env.example')
 const evidence = read('lib/qa/launch-evidence.ts')
 
-require(/3\.0\.(15|1[6-9]|[2-9][0-9])/.test(pkg.version), 'package version must be v3.0.15+')
+require((/3\.0\.(15|1[6-9]|[2-9][0-9])/.test(pkg.version) || /^3\.0\.(?:[1-9]\d{2,})/.test(pkg.version)), 'package version must be v3.0.15+')
 require(pkg.scripts['error-monitor:local'] === 'node scripts/error-monitoring-local.mjs', 'error-monitor:local script missing')
 require(pkg.scripts['phase45:audit'] === 'node scripts/phase45-error-monitoring-audit.mjs', 'phase45:audit script missing')
 require((pkg.scripts['quality:release'] || '').includes('phase45:audit'), 'quality:release must include phase45 audit')

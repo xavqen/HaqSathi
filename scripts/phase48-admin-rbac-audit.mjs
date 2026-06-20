@@ -14,7 +14,7 @@ for (const file of requiredFiles) {
 }
 
 const pkg = JSON.parse(readFileSync('package.json', 'utf8'))
-if (!/3\.0\.(18|19|[2-9][0-9])/.test(pkg.version)) issues.push('package.json version must include 3.0.18+')
+if (!(/3\.0\.(18|19|[2-9][0-9])/.test(pkg.version) || /^3\.0\.(?:[1-9]\d{2,})/.test(pkg.version))) issues.push('package.json version must include 3.0.18+')
 if (!pkg.scripts['rbac:readiness']) issues.push('Missing rbac:readiness script')
 if (!pkg.scripts['phase48:audit']) issues.push('Missing phase48:audit script')
 if (!pkg.scripts['quality:release']?.includes('phase48:audit')) issues.push('quality:release must include phase48:audit')

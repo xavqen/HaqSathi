@@ -1,5 +1,6 @@
 import type { CaseCoachInput, DocumentReaderInput, FollowUpAutomationInput } from '@/lib/validators/phase24'
-import { buildLanguageInstruction, getLanguageLabel } from '@/lib/i18n/languages'
+import { getLanguageLabel } from '@/lib/i18n/languages'
+import { buildLanguageInstruction } from '@/lib/ai/language-instructions'
 
 const day = 24 * 60 * 60 * 1000
 const disclaimer = 'Guidance only. Ye legal/financial advice nahi hai. Official portal, bank/company terms aur latest rules verify karein. OTP/PIN/password kabhi share na karein.'
@@ -38,7 +39,7 @@ export function parseDocumentText(input: DocumentReaderInput) {
     !date && 'Date detect nahi hui. Issue date add karein.',
     isFraud && 'Fraud keywords detected. Bank/cyber emergency official channel ko priority dein.',
     /otp|pin|password/i.test(raw) && 'Sensitive OTP/PIN/password words detected. Screenshot share karne se pehle sensitive data hide karein.'
-  ].filter(Boolean)
+  ].filter((item): item is string => Boolean(item))
 
   return {
     title: `${input.documentType} reader result`,
@@ -85,14 +86,14 @@ export function buildCaseCoachReport(input: CaseCoachInput) {
     !hasEvidence && 'Evidence list: invoice, screenshot, chat/email, bank SMS',
     !hasGoal && 'Clear resolution: refund, reversal, replacement or written response',
     isFraud && !hasAny(text, ['cyber', '1930']) && 'Fraud emergency report acknowledgement'
-  ].filter(Boolean)
+  ].filter((item): item is string => Boolean(item))
   const strengths = [
     input.companyName?.trim() && 'Authority/company name present',
     hasReference && 'Reference/transaction details present',
     hasEvidence && 'Evidence mentioned',
     hasGoal && 'Resolution demand clear',
     hasTimeline && 'Timeline/date details present'
-  ].filter(Boolean)
+  ].filter((item): item is string => Boolean(item))
   const nextBestActions = isFraud
     ? ['Bank channel block/freeze request immediately.', 'Official cyber fraud channel acknowledgement save karo.', 'All evidence ko date-wise folder me rakho.', 'Follow-up in writing within 24-48 hours.']
     : score >= 75

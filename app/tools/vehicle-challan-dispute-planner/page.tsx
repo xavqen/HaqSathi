@@ -3,7 +3,7 @@ import { AlertTriangle, Car, ShieldCheck } from 'lucide-react'
 import { VehicleChallanDisputePlannerForm } from '@/components/forms/vehicle-challan-dispute-planner-form'
 
 export const metadata = {
-  title: 'Vehicle Challan Dispute Planner | HaqSathi AI',
+  title: 'Vehicle Challan Dispute Planner',
   description: 'Plan traffic challan disputes, wrong vehicle challans, paid-but-pending challans, duplicate challans, towing/seizure issues and official escalation with proof checklist.'
 }
 

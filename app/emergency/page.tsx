@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 
-export const metadata = { title: 'Emergency Help | HaqSathi AI', description: 'UPI fraud, wrong payment and cyber scam first-response checklist.' }
+export const metadata = { title: 'Emergency Help', description: 'UPI fraud, wrong payment and cyber scam first-response checklist.' }
 
 const cards = [
   ['UPI fraud/scam', ['Bank/payment app ko immediately report karo', 'UPI/card/netbanking block ya secure karo', 'Cyber fraud official emergency channel par complaint karo', 'Acknowledgement number save karo'], '/upi-help'],

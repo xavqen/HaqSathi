@@ -1,3 +1,3 @@
 import { FeeRefundCalculatorForm } from '@/components/forms/fee-refund-calculator-form'
-export const metadata = { title: 'Fee Refund Calculator | HaqSathi AI', description: 'Fee/refund estimate calculate karo and complaint amount ready karo.' }
+export const metadata = { title: 'Fee Refund Calculator', description: 'Fee/refund estimate calculate karo and complaint amount ready karo.' }
 export default function Page(){ return <main className="bg-slate-50"><section className="mx-auto max-w-3xl px-4 py-12"><h1 className="text-4xl font-black">Fee/refund calculator</h1><p className="mt-3 text-slate-600">Paid amount aur possible deduction ke basis par refund estimate nikalo.</p><div className="mt-8"><FeeRefundCalculatorForm /></div></section></main> }

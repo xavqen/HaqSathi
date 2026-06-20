@@ -1,7 +1,7 @@
 import { FollowUpAutomationForm } from '@/components/forms/follow-up-automation-form'
 
 export const metadata = {
-  title: 'Auto Follow-up Planner | HaqSathi AI',
+  title: 'Auto Follow-up Planner',
   description: 'Complaint ke liye 3, 7, 14 din ke follow-up aur escalation message plan banao.'
 }
 

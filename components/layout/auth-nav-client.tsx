@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react'
 import { ArrowRight } from 'lucide-react'
 import { UserAccountMenu } from '@/components/layout/user-account-menu'
 import { planDisplayName } from '@/lib/billing/plan-labels'
+import { buildLoginPath } from '@/lib/security/redirect'
 import type { ShellDictionary } from '@/lib/i18n/dictionaries'
 
 type NavUser = {
@@ -20,7 +21,7 @@ export function AuthNavClient({ dictionary }: { dictionary: ShellDictionary }) {
 
   useEffect(() => {
     const controller = new AbortController()
-    const timer = window.setTimeout(() => {
+    const timer = setTimeout(() => {
       void fetch('/api/auth/me', {
         credentials: 'same-origin',
         cache: 'no-store',
@@ -33,7 +34,7 @@ export function AuthNavClient({ dictionary }: { dictionary: ShellDictionary }) {
     }, 80)
 
     return () => {
-      window.clearTimeout(timer)
+      clearTimeout(timer)
       controller.abort()
     }
   }, [])
@@ -58,7 +59,7 @@ export function AuthNavClient({ dictionary }: { dictionary: ShellDictionary }) {
   return (
     <>
       <Link href="/login" className="hidden shrink-0 rounded-2xl border border-slate-200 bg-white px-4 py-2 text-sm font-bold text-slate-700 shadow-sm transition-colors hover:bg-slate-50 md:inline-flex">{dictionary.nav.login}</Link>
-      <Link href="/login?next=/tools" className="compact-mobile-action inline-flex h-10 shrink-0 items-center justify-center gap-1 rounded-2xl bg-primary px-3 text-sm font-black text-primary-foreground shadow-sm transition-[transform,background-color] hover:bg-primary/90 active:scale-[0.98] sm:h-11 sm:px-5" aria-label={dictionary.nav.startFree}>
+      <Link href={buildLoginPath('/tools')} className="compact-mobile-action inline-flex h-10 shrink-0 items-center justify-center gap-1 rounded-2xl bg-primary px-3 text-sm font-black text-primary-foreground shadow-sm transition-[transform,background-color] hover:bg-primary/90 active:scale-[0.98] sm:h-11 sm:px-5" aria-label={dictionary.nav.startFree}>
         <span className="nav-cta-text hidden sm:inline">{dictionary.nav.startFree}</span><ArrowRight className="h-4 w-4 shrink-0" />
       </Link>
     </>

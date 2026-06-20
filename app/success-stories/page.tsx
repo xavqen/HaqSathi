@@ -4,7 +4,7 @@ import { successStorySeeds } from '@/lib/stories/seed-success-stories'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 
 export const dynamic = 'force-dynamic'
-export const metadata: Metadata = { title: 'Anonymous Success Stories | HaqSathi AI', description: 'Educational examples showing how organized complaint follow-up can help users.' }
+export const metadata: Metadata = { title: 'Anonymous Success Stories', description: 'Educational examples showing how organized complaint follow-up can help users.' }
 
 export default async function SuccessStoriesPage() {
   const stories = await db.successStory.findMany({ where: { isPublished: true }, orderBy: { createdAt: 'desc' } }).catch(() => successStorySeeds)

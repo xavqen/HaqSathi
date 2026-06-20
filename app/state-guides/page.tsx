@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { stateGuideSeeds } from '@/lib/state/seed-state-guides'
 
 export const dynamic = 'force-dynamic'
-export const metadata: Metadata = { title: 'State Guides | HaqSathi AI', description: 'India state-wise complaint, scheme, document and emergency guidance in simple language.' }
+export const metadata: Metadata = { title: 'State Guides', description: 'India state-wise complaint, scheme, document and emergency guidance in simple language.' }
 
 export default async function StateGuidesPage() {
   const guides = await db.stateGuide.findMany({ where: { isPublished: true }, orderBy: { stateName: 'asc' } }).catch(() => stateGuideSeeds)

@@ -2,7 +2,8 @@
 
 import Link from 'next/link'
 import { useEffect, useRef, useState } from 'react'
-import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
+import { AnimatePresence, motion } from 'framer-motion'
+import { usePrefersReducedMotion } from '@/lib/motion/use-prefers-reduced-motion'
 import { ChevronDown, Crown, UserCircle } from 'lucide-react'
 import { planBadgeClass, planCtaLabel, planDisplayName } from '@/lib/billing/plan-labels'
 
@@ -21,7 +22,7 @@ export function UserAccountMenu({ user, dictionary }: { user: UserLike; dictiona
   const displayName = user.name || user.email.split('@')[0]
   const [open, setOpen] = useState(false)
   const rootRef = useRef<HTMLDivElement>(null)
-  const reduceMotion = useReducedMotion()
+  const reduceMotion = usePrefersReducedMotion()
 
   useEffect(() => {
     function onPointerDown(event: PointerEvent) {
@@ -57,6 +58,8 @@ export function UserAccountMenu({ user, dictionary }: { user: UserLike; dictiona
           whileTap={reduceMotion ? undefined : { scale: 0.98 }}
           transition={{ duration: 0.22, ease: ultraEase }}
           aria-label="Account menu"
+          tabIndex={0}
+          suppressHydrationWarning
         >
           {user.avatarUrl ? (
             // eslint-disable-next-line @next/next/no-img-element
@@ -65,7 +68,7 @@ export function UserAccountMenu({ user, dictionary }: { user: UserLike; dictiona
             <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-slate-100"><UserCircle className="h-5 w-5 text-slate-600" /></span>
           )}
           <span className="hidden max-w-[7.5rem] truncate lg:inline">{displayName}</span>
-          <motion.span animate={{ rotate: open && !reduceMotion ? 180 : 0 }} transition={{ duration: 0.22, ease: ultraEase }}>
+          <motion.span suppressHydrationWarning animate={{ rotate: open && !reduceMotion ? 180 : 0 }} transition={{ duration: 0.22, ease: ultraEase }}>
             <ChevronDown className="h-4 w-4 shrink-0 text-slate-500" />
           </motion.span>
         </motion.button>
@@ -79,6 +82,7 @@ export function UserAccountMenu({ user, dictionary }: { user: UserLike; dictiona
               exit="exit"
               variants={menuVariants}
               transition={{ duration: 0.24, ease: ultraEase }}
+              suppressHydrationWarning
               className="hs-popover hs-account-popover absolute right-0 z-[70] mt-3 origin-top-right overflow-hidden rounded-3xl border border-slate-200 bg-white p-3 shadow-2xl ring-1 ring-slate-900/5"
             >
               <div className="rounded-2xl bg-slate-50 p-3">
@@ -100,7 +104,7 @@ export function UserAccountMenu({ user, dictionary }: { user: UserLike; dictiona
           )}
         </AnimatePresence>
       </div>
-      <motion.div whileHover={reduceMotion ? undefined : { y: -1 }} whileTap={reduceMotion ? undefined : { scale: 0.98 }} transition={{ duration: 0.22, ease: ultraEase }} className="hidden xl:block">
+      <motion.div suppressHydrationWarning whileHover={reduceMotion ? undefined : { y: -1 }} whileTap={reduceMotion ? undefined : { scale: 0.98 }} transition={{ duration: 0.22, ease: ultraEase }} className="hidden xl:block">
         <Link href={user.plan === 'FREE' ? '/pricing' : '/dashboard/billing'} className={`inline-flex rounded-2xl border px-4 py-2 text-sm font-black shadow-sm ${planBadgeClass(user.plan)}`}>
           <Crown className="mr-2 h-4 w-4" />{planCtaLabel(user.plan)}
         </Link>

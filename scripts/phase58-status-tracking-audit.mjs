@@ -20,7 +20,7 @@ const dashboardShell = exists('components/dashboard/dashboard-shell.tsx') ? read
 const env = read('.env.example')
 const evidence = read('lib/qa/launch-evidence.ts')
 
-require(/3\.0\.(2[8-9]|[3-9][0-9])/.test(pkg.version), 'package version must be v3.0.28+')
+require((/3\.0\.(2[8-9]|[3-9][0-9])/.test(pkg.version) || /^3\.0\.(?:[1-9]\d{2,})/.test(pkg.version)), 'package version must be v3.0.28+')
 require(pkg.scripts['status-tracking:readiness'] === 'node scripts/status-tracking-readiness-local.mjs', 'status-tracking:readiness script missing')
 require(pkg.scripts['phase58:audit'] === 'node scripts/phase58-status-tracking-audit.mjs', 'phase58:audit script missing')
 require((pkg.scripts['quality:release'] || '').includes('phase58:audit'), 'quality:release must include phase58 audit')

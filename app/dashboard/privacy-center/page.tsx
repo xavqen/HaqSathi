@@ -3,7 +3,7 @@ import { db } from '@/lib/db'
 import { PrivacyCenterForm } from '@/components/forms/privacy-center-form'
 
 export const dynamic = 'force-dynamic'
-export const metadata = { title: 'Privacy Center | HaqSathi AI' }
+export const metadata = { title: 'Privacy Center' }
 
 export default async function PrivacyCenterPage() {
   const user = await requireUser()

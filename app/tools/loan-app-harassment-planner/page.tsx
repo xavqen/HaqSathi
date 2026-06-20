@@ -3,7 +3,7 @@ import { AlertTriangle, PhoneCall, ShieldCheck } from 'lucide-react'
 import { LoanAppHarassmentPlannerForm } from '@/components/forms/loan-app-harassment-planner-form'
 
 export const metadata = {
-  title: 'Loan App Harassment Planner | HaqSathi AI',
+  title: 'Loan App Harassment Planner',
   description: 'Plan safe response, proof checklist and official escalation for loan app harassment, threats, overcharging and privacy misuse.'
 }
 

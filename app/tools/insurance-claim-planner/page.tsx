@@ -3,7 +3,7 @@ import { ShieldCheck, Umbrella } from 'lucide-react'
 import { InsuranceClaimPlannerForm } from '@/components/forms/insurance-claim-planner-form'
 
 export const metadata = {
-  title: 'Insurance Claim Planner | HaqSathi AI',
+  title: 'Insurance Claim Planner',
   description: 'Plan vehicle, health, travel, phone, appliance and other insurance claims with proof checklist, escalation route and safe copy-ready message.'
 }
 

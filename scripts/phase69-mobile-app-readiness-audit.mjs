@@ -18,7 +18,7 @@ const adminShell = exists('components/admin/admin-shell.tsx') ? read('components
 const env = read('.env.example')
 const evidence = read('lib/qa/launch-evidence.ts')
 
-require(/3\.0\.(39|[4-9][0-9])/.test(pkg.version), 'package version must be v3.0.39+')
+require((/3\.0\.(39|[4-9][0-9])/.test(pkg.version) || /^3\.0\.(?:[1-9]\d{2,})/.test(pkg.version)), 'package version must be v3.0.39+')
 require(pkg.scripts['mobile-app:readiness'] === 'node scripts/mobile-app-readiness-local.mjs', 'mobile-app:readiness script missing')
 require(pkg.scripts['phase69:audit'] === 'node scripts/phase69-mobile-app-readiness-audit.mjs', 'phase69:audit script missing')
 require((pkg.scripts['quality:release'] || '').includes('phase69:audit'), 'quality:release must include phase69 audit')

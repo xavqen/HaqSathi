@@ -18,7 +18,7 @@ const adminShell = exists('components/admin/admin-shell.tsx') ? read('components
 const env = read('.env.example')
 const evidence = read('lib/qa/launch-evidence.ts')
 
-require(/3\.0\.(2[2-9]|[3-9][0-9])/.test(pkg.version), 'package version must be v3.0.22+')
+require((/3\.0\.(2[2-9]|[3-9][0-9])/.test(pkg.version) || /^3\.0\.(?:[1-9]\d{2,})/.test(pkg.version)), 'package version must be v3.0.22+')
 require(pkg.scripts['support:readiness'] === 'node scripts/support-triage-readiness-local.mjs', 'support:readiness script missing')
 require(pkg.scripts['phase52:audit'] === 'node scripts/phase52-support-triage-audit.mjs', 'phase52:audit script missing')
 require((pkg.scripts['quality:release'] || '').includes('phase52:audit'), 'quality:release must include phase52 audit')

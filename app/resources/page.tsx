@@ -4,7 +4,7 @@ import { officialResourceSeeds } from '@/lib/resources/seed-resources'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 
 export const dynamic = 'force-dynamic'
-export const metadata: Metadata = { title: 'Official Resource Directory - HaqSathi AI', description: 'Consumer, UPI, cyber fraud and scholarship resource directory with verification warning.' }
+export const metadata: Metadata = { title: 'Official Resource Directory', description: 'Consumer, UPI, cyber fraud and scholarship resource directory with verification warning.' }
 
 type ResourceRow = {
   id: string

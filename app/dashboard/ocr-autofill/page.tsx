@@ -1,15 +1,13 @@
 import Link from 'next/link'
-import { redirect } from 'next/navigation'
-import { getCurrentUser } from '@/lib/auth/session'
+import { requireUser } from '@/lib/auth/session'
 import { db } from '@/lib/db'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 
 export const dynamic = 'force-dynamic'
-export const metadata = { title: 'OCR Autofill History | HaqSathi AI' }
+export const metadata = { title: 'OCR Autofill History' }
 
 export default async function Page() {
-  const user = await getCurrentUser()
-  if (!user) redirect('/login')
+  const user = await requireUser()
   const items = await db.ocrAutofillResult.findMany({ where: { userId: user.id }, orderBy: { createdAt: 'desc' }, take: 30 })
   return (
     <main className="bg-slate-50">

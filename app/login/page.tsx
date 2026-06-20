@@ -1,14 +1,24 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import { redirect } from 'next/navigation'
 import { Suspense } from 'react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { LoginForm } from '@/components/forms/auth-form'
 import { getCurrentPageCopy } from '@/lib/i18n/page-copy'
+import { getCurrentUser } from '@/lib/auth/session'
+import { safeRedirectPath } from '@/lib/security/redirect'
 
 export const metadata: Metadata = { title: 'Login', description: 'Login to HaqSathi AI dashboard.' }
 export const dynamic = 'force-dynamic'
 
-export default async function Page() {
+type LoginPageProps = { searchParams?: Promise<Record<string, string | string[] | undefined>> }
+
+export default async function Page({ searchParams }: LoginPageProps) {
+  const params = (await searchParams) || {}
+  const nextParam = Array.isArray(params.next) ? params.next[0] : params.next
+  const next = safeRedirectPath(nextParam)
+  const user = await getCurrentUser()
+  if (user) redirect(next)
   const copy = (await getCurrentPageCopy()).login
   return (
     <main className="grid min-h-[calc(100vh-12rem)] place-items-center bg-slate-50 px-4 py-10">

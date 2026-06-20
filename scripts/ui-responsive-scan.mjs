@@ -53,9 +53,10 @@ if (!bottom.includes('grid-cols-5')) issues.push('Mobile bottom nav should use f
 if ((bottom.match(/href:/g) || []).length > 5) issues.push('Mobile bottom nav has too many items and may overlap')
 
 const navbar = readFileSync(join(root, 'components/layout/navbar.tsx'), 'utf8')
+const desktopNav = existsSync(join(root, 'components/layout/desktop-scroll-nav.tsx')) ? readFileSync(join(root, 'components/layout/desktop-scroll-nav.tsx'), 'utf8') : ''
 if (!navbar.includes("user ? '/tools' : '/login?next=/tools'")) issues.push('Navbar Start action is not login/tools aware')
 if (!navbar.includes('mobile-only-nav') || !navbar.includes('md:hidden')) issues.push('Navbar missing mobile-only scroll nav guard')
-if (!navbar.includes('xl:flex')) issues.push('Desktop primary nav should only show where there is enough width')
+if (!navbar.includes('xl:flex') && !desktopNav.includes('xl:flex')) issues.push('Desktop primary nav should only show where there is enough width')
 
 const account = readFileSync(join(root, 'components/layout/user-account-menu.tsx'), 'utf8')
 if (!account.includes('z-[70]')) issues.push('User menu should be above header/content')

@@ -6,7 +6,7 @@ import { Badge } from '@/components/ui/badge'
 import { CopyButton } from '@/components/ui/copy-button'
 
 export const dynamic = 'force-dynamic'
-export const metadata = { title: 'Privacy operations | Admin | HaqSathi AI' }
+export const metadata = { title: 'Privacy operations | Admin' }
 
 const localCommand = 'npm run privacy:readiness'
 const cronEndpoint = '/api/cron/privacy-ops'
@@ -82,15 +82,7 @@ export default async function PrivacyOpsPage() {
                   <p className="font-black text-slate-950">{item.area}</p>
                   <p className="mt-1 text-xs font-bold uppercase tracking-wider text-slate-500">Owner: {item.owner}</p>
                 </div>
-                <Badge
-                  className={
-                    item.status === 'ACTION_NEEDED'
-                      ? 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400'
-                      : 'bg-slate-100 text-slate-800 dark:bg-slate-800 dark:text-slate-300'
-                  }
-                >
-                  {item.status}
-                </Badge>
+                <Badge className={item.status === 'ACTION_NEEDED' ? 'bg-rose-100 text-rose-800' : 'bg-slate-200 text-slate-700'}>{item.status}</Badge>
               </div>
               <p className="mt-3 text-sm leading-6 text-slate-600">{item.action}</p>
               <p className="mt-2 text-xs font-semibold text-slate-500">Evidence: {item.evidence}</p>

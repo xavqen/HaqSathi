@@ -21,7 +21,7 @@ const bottom = read('components/layout/mobile-bottom-actions.tsx')
 const dashboard = read('components/dashboard/dashboard-shell.tsx')
 const admin = read('components/admin/admin-shell.tsx')
 
-require(/3\.0\.(11|1[2-9]|[2-9][0-9])/.test(pkg.version), 'package version should be v3.0.11+ device UI hardening')
+require((/3\.0\.(11|1[2-9]|[2-9][0-9])/.test(pkg.version) || /^3\.0\.(?:[1-9]\d{2,})/.test(pkg.version)), 'package version should be v3.0.11+ device UI hardening')
 require(pkg.scripts['phase41:audit'] === 'node scripts/phase41-device-ui-audit.mjs', 'phase41:audit script missing')
 require((pkg.scripts['quality:release'] || '').includes('phase41:audit'), 'quality:release must include phase41 audit')
 require(layout.includes('skip-link') && layout.includes('id="main-content"') && layout.includes('tabIndex={-1}'), 'layout must include keyboard skip link and main content anchor')

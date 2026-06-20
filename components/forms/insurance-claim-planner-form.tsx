@@ -1,4 +1,4 @@
-"use client"
+'use client'
 
 import { useMemo, useState } from 'react'
 import { AlertTriangle, CheckCircle2, ClipboardList, Copy, FileText, ShieldCheck, Umbrella } from 'lucide-react'
@@ -37,7 +37,7 @@ export function InsuranceClaimPlannerForm() {
   async function copyMessage() {
     await navigator.clipboard.writeText(plan.copyReadyMessage)
     setCopied(true)
-    window.setTimeout(() => setCopied(false), 1800)
+    setTimeout(() => setCopied(false), 1800)
   }
 
   return (

@@ -65,11 +65,6 @@ export function getLanguageLabel(code?: string | null) {
   return match ? `${match.label} (${match.nativeName})` : 'English'
 }
 
-export function buildLanguageInstruction(code?: string | null) {
-  const match = LANGUAGE_OPTIONS.find((language) => language.code === code) || LANGUAGE_OPTIONS[0]
-  return `Respond primarily in ${match.label}. Use simple words. If legal/government terms are needed, explain them in plain language. Keep names, IDs, amounts and official terms unchanged.`
-}
-
 const LANGUAGE_HTML_MAP: Record<string, { htmlLang: string; dir: 'ltr' | 'rtl' }> = {
   ENGLISH: { htmlLang: 'en-IN', dir: 'ltr' },
   HINGLISH: { htmlLang: 'en-IN', dir: 'ltr' },

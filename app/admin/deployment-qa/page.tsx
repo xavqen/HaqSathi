@@ -5,7 +5,7 @@ import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 
 export const dynamic = 'force-dynamic'
-export const metadata = { title: 'Deployment QA Readiness | Admin | HaqSathi AI' }
+export const metadata = { title: 'Deployment QA Readiness | Admin' }
 
 function statusClass(status: string) {
   if (status === 'PASS' || status === 'READY_TO_TEST') return 'border-emerald-200 bg-emerald-50 text-emerald-800'

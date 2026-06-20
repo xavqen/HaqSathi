@@ -3,7 +3,7 @@ import { AlertTriangle, Boxes, ShieldCheck } from 'lucide-react'
 import { CourierParcelDisputePlannerForm } from '@/components/forms/courier-parcel-dispute-planner-form'
 
 export const metadata = {
-  title: 'Courier Parcel Dispute Planner | HaqSathi AI',
+  title: 'Courier Parcel Dispute Planner',
   description: 'Plan lost parcel, marked delivered not received, damaged parcel, wrong item, delayed delivery, pickup failure and courier scam complaints with proof checklist and safe copy-ready message.'
 }
 

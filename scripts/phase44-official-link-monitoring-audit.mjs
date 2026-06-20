@@ -18,7 +18,7 @@ const localScript = exists('scripts/official-link-check-local.mjs') ? read('scri
 const env = read('.env.example')
 const evidence = read('lib/qa/launch-evidence.ts')
 
-require(/3\.0\.(14|1[5-9]|[2-9][0-9])/.test(pkg.version), 'package version must be v3.0.14+')
+require((/3\.0\.(14|1[5-9]|[2-9][0-9])/.test(pkg.version) || /^3\.0\.(?:[1-9]\d{2,})/.test(pkg.version)), 'package version must be v3.0.14+')
 require(pkg.scripts['link-checks:local'] === 'node scripts/official-link-check-local.mjs', 'link-checks:local script missing')
 require(pkg.scripts['phase44:audit'] === 'node scripts/phase44-official-link-monitoring-audit.mjs', 'phase44:audit script missing')
 require((pkg.scripts['quality:release'] || '').includes('phase44:audit'), 'quality:release must include phase44 audit')

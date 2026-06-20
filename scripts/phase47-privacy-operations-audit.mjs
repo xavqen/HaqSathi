@@ -19,7 +19,7 @@ const adminShell = exists('components/admin/admin-shell.tsx') ? read('components
 const env = read('.env.example')
 const evidence = read('lib/qa/launch-evidence.ts')
 
-require(/3\.0\.(17|1[8-9]|[2-9][0-9])/.test(pkg.version), 'package version must be v3.0.17+')
+require((/3\.0\.(17|1[8-9]|[2-9][0-9])/.test(pkg.version) || /^3\.0\.(?:[1-9]\d{2,})/.test(pkg.version)), 'package version must be v3.0.17+')
 require(pkg.scripts['privacy:readiness'] === 'node scripts/privacy-ops-readiness-local.mjs', 'privacy:readiness script missing')
 require(pkg.scripts['phase47:audit'] === 'node scripts/phase47-privacy-operations-audit.mjs', 'phase47:audit script missing')
 require((pkg.scripts['quality:release'] || '').includes('phase47:audit'), 'quality:release must include phase47 audit')

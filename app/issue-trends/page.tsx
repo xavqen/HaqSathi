@@ -3,7 +3,7 @@ import { IssueTrendForm } from '@/components/forms/issue-trend-form'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 
 export const dynamic = 'force-dynamic'
-export const metadata = { title: 'Issue Trends | HaqSathi AI', description: 'Public-safe issue trend signals for repeated complaint patterns.' }
+export const metadata = { title: 'Issue Trends', description: 'Public-safe issue trend signals for repeated complaint patterns.' }
 
 export default async function IssueTrendsPage() {
   const trends = await db.issueTrendSignal.groupBy({ by: ['issueType', 'companyName', 'severity'], _count: { issueType: true }, orderBy: { _count: { issueType: 'desc' } }, take: 24 }).catch(() => [])

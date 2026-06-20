@@ -21,7 +21,7 @@ const adminShell = exists('components/admin/admin-shell.tsx') ? read('components
 const env = read('.env.example')
 const evidence = read('lib/qa/launch-evidence.ts')
 
-require(/3\.0\.(2[3-9]|[3-9][0-9])/.test(pkg.version), 'package version must be v3.0.23+')
+require((/3\.0\.(2[3-9]|[3-9][0-9])/.test(pkg.version) || /^3\.0\.(?:[1-9]\d{2,})/.test(pkg.version)), 'package version must be v3.0.23+')
 require(pkg.scripts['analytics:readiness'] === 'node scripts/analytics-readiness-local.mjs', 'analytics:readiness script missing')
 require(pkg.scripts['phase53:audit'] === 'node scripts/phase53-analytics-growth-audit.mjs', 'phase53:audit script missing')
 require((pkg.scripts['quality:release'] || '').includes('phase53:audit'), 'quality:release must include phase53 audit')

@@ -30,7 +30,7 @@ export const pricingPlans = [
     name: 'Family',
     price: '₹299/month',
     description: 'Family documents aur complaints',
-    features: ['5 family profiles', 'Document vault placeholder', 'Priority templates']
+    features: ['5 family profiles', 'Shared family document vault (Aadhaar, PAN, certificates) — coming soon', 'Priority templates']
   },
   {
     name: 'Agent',

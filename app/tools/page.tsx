@@ -6,7 +6,7 @@ import { publicTools, toolCategories } from '@/lib/tools/catalog'
 import { getShellDictionary } from '@/lib/i18n/dictionaries'
 import { normalizeLanguageCode } from '@/lib/i18n/languages'
 
-export const metadata = { title: 'All Tools | HaqSathi AI', description: 'Mobile-first complaint, refund, UPI, document, scam, legal and productivity tools.' }
+export const metadata = { title: 'All Tools', description: 'Mobile-first complaint, refund, UPI, document, scam, legal and productivity tools.' }
 export const dynamic = 'force-dynamic'
 
 export default async function ToolsPage() {

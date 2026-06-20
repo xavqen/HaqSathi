@@ -413,7 +413,9 @@ export function getLaunchEvidenceGates(): LaunchEvidenceGate[] {
       passCondition: 'No critical error in Vercel logs, API routes, auth, storage, payment, email, mobile UI and SEO pages.',
       evidenceToSave: 'Vercel deployment URL, build log, e2e report, Lighthouse report, manual QA checklist.',
       productionNotes: 'Only after this gate should ads/SEO/marketing traffic be sent.'
-    },
+    }
+
+,
     {
       area: 'Payment Lifecycle Readiness',
       status: hasEnv('RAZORPAY_KEY_ID') && hasEnv('RAZORPAY_KEY_SECRET') && hasEnv('RAZORPAY_WEBHOOK_SECRET') ? 'READY_TO_TEST' : 'BLOCKED',
@@ -422,7 +424,8 @@ export function getLaunchEvidenceGates(): LaunchEvidenceGate[] {
       passCondition: 'Plan upgrades only after valid signature, invalid webhook is rejected, failed payment is marked failed, refund/cancel runbook is documented and receipt evidence is saved.',
       evidenceToSave: 'artifacts/payment-lifecycle JSON/CSV, /admin/payment-lifecycle screenshot, Razorpay sandbox event IDs, DB order screenshots, invalid signature 401 proof.',
       productionNotes: 'Keep PAYMENT_LIFECYCLE_MODE=readiness and PAYMENT_REFUND_MODE=manual_review until payment, refund, cancellation, invoice and webhook replay evidence is complete.'
-    },
+    }
+,
     {
       area: 'Mobile App Readiness',
       status: hasEnv('NEXT_PUBLIC_APP_URL') && (process.env.NATIVE_APP_STRATEGY === 'pwa_first' || hasEnv('ANDROID_PACKAGE_NAME') || hasEnv('IOS_BUNDLE_ID')) ? 'READY_TO_TEST' : 'MANUAL_REQUIRED',
@@ -451,7 +454,9 @@ export function getLaunchEvidenceGates(): LaunchEvidenceGate[] {
       passCondition: 'P0 routes pass keyboard navigation, visible focus, form label/error checks, readable contrast and basic screen-reader semantics before public launch.',
       evidenceToSave: 'artifacts/accessibility-readiness JSON/CSV, /admin/accessibility-readiness screenshot, keyboard walkthrough, mobile focus screenshots, Lighthouse/axe accessibility report, screen-reader smoke proof.',
       productionNotes: 'Do not launch only on visual responsive checks. Users using keyboard, low vision, screen readers or reduced motion still need the complaint, UPI, documents, tools and dashboard flows to work.'
-    },
+    }
+
+,
     {
       area: 'Audit Trail Readiness',
       status: process.env.AUDIT_TRAIL_P0_EVENTS_REVIEWED === 'true' && process.env.AUDIT_TRAIL_REDACTION_REVIEWED === 'true' && process.env.AUDIT_TRAIL_WRITE_PATH_REVIEWED === 'true' ? 'READY_TO_TEST' : 'MANUAL_REQUIRED',
@@ -460,7 +465,8 @@ export function getLaunchEvidenceGates(): LaunchEvidenceGate[] {
       passCondition: 'Admin auth/RBAC, official-data/content edits, payments, privacy deletion/export, vault and support/incident actions have audit coverage and redaction evidence.',
       evidenceToSave: 'artifacts/audit-trail-readiness JSON/CSV, /admin/audit-trail-readiness screenshot, masked sample audit rows, alert proof and retention alignment note.',
       productionNotes: 'Keep AUDIT_TRAIL_MODE=log_only or dry_run until all P0 write paths are instrumented and redaction is verified. Never store OTPs, passwords, UPI PINs, CVV, tokens, signed URLs or raw document text in audit logs.'
-    },
+    }
+,
     {
       area: 'Database Integrity Readiness',
       status: hasEnv('DATABASE_URL') && hasEnv('DIRECT_URL') && process.env.DATABASE_SCHEMA_VALIDATE_REVIEWED === 'true' && process.env.DATABASE_MIGRATION_REVIEWED === 'true' ? 'READY_TO_TEST' : 'MANUAL_REQUIRED',

@@ -1,7 +1,7 @@
 import { CaseCoachForm } from '@/components/forms/case-coach-form'
 
 export const metadata = {
-  title: 'AI Case Coach | HaqSathi AI',
+  title: 'AI Case Coach',
   description: 'Complaint draft ko score karo, missing evidence pakdo aur next best action lo.'
 }
 

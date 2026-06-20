@@ -5,7 +5,7 @@ import { db } from '@/lib/db'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 
 export const dynamic = 'force-dynamic'
-export const metadata = { title: 'Weekly Digest | HaqSathi AI' }
+export const metadata = { title: 'Weekly Digest' }
 
 export default async function DigestPage() {
   const user = await requireUser()

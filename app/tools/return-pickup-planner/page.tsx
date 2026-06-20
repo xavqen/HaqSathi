@@ -3,7 +3,7 @@ import { PackageCheck, ShieldCheck } from 'lucide-react'
 import { ReturnPickupPlannerForm } from '@/components/forms/return-pickup-planner-form'
 
 export const metadata = {
-  title: 'Return Pickup Planner | HaqSathi AI',
+  title: 'Return Pickup Planner',
   description: 'Plan online shopping return pickup, refund proof, safe escalation and copy-ready support message.'
 }
 

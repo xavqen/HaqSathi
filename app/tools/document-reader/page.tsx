@@ -1,7 +1,7 @@
 import { DocumentReaderForm } from '@/components/forms/document-reader-form'
 
 export const metadata = {
-  title: 'AI Document Reader | HaqSathi AI',
+  title: 'AI Document Reader',
   description: 'Invoice, SMS, email ya chat text se amount, date, order ID aur company auto-detect karo.'
 }
 

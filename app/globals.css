@@ -205,6 +205,9 @@ button, [role="button"] { cursor: pointer; }
   h1 { font-size: clamp(2rem, 9.5vw, 3.25rem); line-height: 1; letter-spacing: -0.035em; }
   h2 { line-height: 1.08; }
   .desktop-floating-feedback, .desktop-only, [data-desktop-only="true"] { display: none !important; }
+  header :where(a, button) { min-height: 2.75rem; }
+  header :where(a[aria-label], button) { min-width: 2.75rem; }
+  .mobile-only-nav a { display: inline-flex; min-height: 2.75rem; align-items: center; }
 
   .hs-language-popover,
   .hs-account-popover {
@@ -473,4 +476,20 @@ button, [role="button"] { cursor: pointer; }
   .motion-premium-fade:hover {
     transform: translate3d(0, 0, 0) !important;
   }
+}
+
+/* Phase 116: AI chat + global shell interaction performance */
+.chat-scroll {
+  scrollbar-gutter: stable;
+  -webkit-overflow-scrolling: touch;
+  contain: layout paint;
+}
+.chat-scroll::-webkit-scrollbar { width: 10px; }
+.chat-scroll::-webkit-scrollbar-track { background: transparent; }
+.chat-scroll::-webkit-scrollbar-thumb { background: rgba(148, 163, 184, 0.45); border-radius: 999px; border: 3px solid transparent; background-clip: content-box; }
+@media (max-width: 767px) {
+  .chat-scroll { max-height: 58vh; scrollbar-gutter: auto; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .chat-scroll { scroll-behavior: auto; }
 }

@@ -18,7 +18,7 @@ const adminShell = exists('components/admin/admin-shell.tsx') ? read('components
 const env = read('.env.example')
 const evidence = read('lib/qa/launch-evidence.ts')
 
-require(/3\.0\.(3[4-9]|[4-9][0-9])/.test(pkg.version), 'package version must be v3.0.34+')
+require((/3\.0\.(3[4-9]|[4-9][0-9])/.test(pkg.version) || /^3\.0\.(?:[1-9]\d{2,})/.test(pkg.version)), 'package version must be v3.0.34+')
 require(pkg.scripts['launch:command-center'] === 'node scripts/launch-command-center-local.mjs', 'launch:command-center script missing')
 require(pkg.scripts['phase64:audit'] === 'node scripts/phase64-launch-command-center-audit.mjs', 'phase64:audit script missing')
 require((pkg.scripts['quality:release'] || '').includes('phase64:audit'), 'quality:release must include phase64 audit')

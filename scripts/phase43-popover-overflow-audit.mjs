@@ -14,7 +14,7 @@ function require(condition, message) {
   if (!condition) issues.push(message)
 }
 
-require(/3\.0\.(13|1[4-9]|[2-9][0-9])/.test(pkg.version), 'package version must be v3.0.13+ popover overflow fix')
+require((/3\.0\.(13|1[4-9]|[2-9][0-9])/.test(pkg.version) || /^3\.0\.(?:[1-9]\d{2,})/.test(pkg.version)), 'package version must be v3.0.13+ popover overflow fix')
 require(pkg.scripts['phase43:audit'] === 'node scripts/phase43-popover-overflow-audit.mjs', 'phase43:audit script missing')
 require((pkg.scripts['quality:release'] || '').includes('phase43:audit'), 'quality:release must include phase43 audit')
 require(language.includes('hs-language-popover') && language.includes('hs-popover-root'), 'language switcher must use stable popover classes')

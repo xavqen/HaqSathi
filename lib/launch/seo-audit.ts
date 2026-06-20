@@ -4,7 +4,7 @@ import { db } from '@/lib/db'
 
 export type SeoAuditItem = { area: string; item: string; ok: boolean; note: string }
 const cwd = process.cwd()
-const exists = (rel: string) => existsSync(join(cwd, rel))
+const exists = (rel: string) => existsSync(join(/* turbopackIgnore: true */ cwd, rel))
 
 export async function getSeoAudit(): Promise<SeoAuditItem[]> {
   const items: SeoAuditItem[] = [
@@ -17,7 +17,9 @@ export async function getSeoAudit(): Promise<SeoAuditItem[]> {
     { area: 'Programmatic SEO', item: '/documents/[slug]', ok: exists('app/documents/[slug]/page.tsx'), note: 'Document guide SEO route available.' }
   ]
 
-  try {
+  if (!process.env.DATABASE_URL) {
+    items.push({ area: 'Database', item: 'SEO DB audit', ok: false, note: 'Set DATABASE_URL, then run db:doctor and seed.' })
+  } else try {
     const [seoPages, blogPosts, sources, stateGuides] = await Promise.all([
       db.seoPage.count(),
       db.blogPost.count().catch(() => 0),

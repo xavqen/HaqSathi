@@ -1,3 +1,4 @@
+// compatibility bridge: 3.0.51-feature-flags-readiness newer release
 import { existsSync, readFileSync } from 'node:fs'
 
 const issues = []

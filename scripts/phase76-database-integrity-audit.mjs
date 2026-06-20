@@ -19,7 +19,7 @@ const adminShell = exists('components/admin/admin-shell.tsx') ? read('components
 const env = read('.env.example')
 const evidence = read('lib/qa/launch-evidence.ts')
 
-require(pkg.version === '3.0.46-database-integrity-readiness' || /^3\.0\.(4[7-9]|[5-9][0-9])-/.test(pkg.version), 'package version must be 3.0.46 database integrity or newer release')
+require(pkg.version === '3.0.46-database-integrity-readiness' || (/^3\.0\.(4[7-9]|[5-9][0-9])-/.test(pkg.version) || /^3\.0\.(?:[1-9]\d{2,})/.test(pkg.version)), 'package version must be 3.0.46 database integrity or newer release')
 require(pkg.scripts['database:integrity-readiness'] === 'node scripts/database-integrity-readiness-local.mjs', 'database:integrity-readiness script missing')
 require(pkg.scripts['phase76:audit'] === 'node scripts/phase76-database-integrity-audit.mjs', 'phase76:audit script missing')
 require((pkg.scripts['quality:release'] || '').includes('phase76:audit'), 'quality:release must include phase76 audit')

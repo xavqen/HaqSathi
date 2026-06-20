@@ -17,7 +17,7 @@ function require(condition, message) {
   if (!condition) issues.push(message)
 }
 
-require(/3\.0\.(12|1[3-9]|[2-9][0-9])/.test(pkg.version), 'package version must be v3.0.12+ responsive architecture')
+require((/3\.0\.(12|1[3-9]|[2-9][0-9])/.test(pkg.version) || /^3\.0\.(?:[1-9]\d{2,})/.test(pkg.version)), 'package version must be v3.0.12+ responsive architecture')
 require(pkg.scripts['phase42:audit'] === 'node scripts/phase42-responsive-architecture-audit.mjs', 'phase42:audit script missing')
 require((pkg.scripts['quality:release'] || '').includes('phase42:audit'), 'quality:release must include phase42 audit')
 require(globals.includes('overflow-x: clip') && globals.includes('overflow-x: hidden'), 'global CSS must harden horizontal overflow on html/body')

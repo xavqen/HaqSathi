@@ -15,7 +15,7 @@ function require(condition, message) {
   if (!condition) issues.push(message)
 }
 
-require(/3\.0\.(10|11|12|1[3-9]|[2-9][0-9])/.test(pkg.version), 'package version should be v3.0.10+ production QA pack')
+require((/3\.0\.(10|11|12|1[3-9]|[2-9][0-9])/.test(pkg.version) || /^3\.0\.(?:[1-9]\d{2,})/.test(pkg.version)), 'package version should be v3.0.10+ production QA pack')
 require(pkg.scripts['phase40:audit'] === 'node scripts/phase40-production-qa-pack-audit.mjs', 'phase40:audit script missing')
 require(pkg.scripts['qa:production-pack'] === 'node scripts/production-qa-pack.mjs', 'qa:production-pack script missing')
 require((pkg.scripts['quality:release'] || '').includes('phase40:audit'), 'quality:release must include phase40 audit')
@@ -28,7 +28,7 @@ require(exists('scripts/production-qa-pack.mjs'), 'production QA pack generator 
 require(read('scripts/production-qa-pack.mjs').includes('launch-evidence-checklist.md'), 'production QA generator must write launch evidence checklist')
 require(finalQa.includes('qa:production-pack') && finalQa.includes('release:deploy-check'), 'final QA page must show production QA pack/deploy commands')
 require(productionQa.includes('getProductionQaSummary'), 'production QA admin page must render production readiness summary')
-require(/NEXT_PUBLIC_APP_VERSION="3\.0\.(1[2-9]|[2-9][0-9])"/.test(env), '.env.example app version must be v3.0.12 or newer')
+require((/NEXT_PUBLIC_APP_VERSION="3\.0\.(1[2-9]|[2-9][0-9])"/.test(env) || /NEXT_PUBLIC_APP_VERSION="3\.0\.(?:[1-9]\d{2,})"/.test(env)), '.env.example app version must be v3.0.12 or newer')
 for (const key of ['VERCEL_PRODUCTION_URL','QA_EVIDENCE_DIR','OFFICIAL_LINK_REVIEWER','TRANSLATION_REVIEWER','RAZORPAY_WEBHOOK_URL','RESEND_TEST_TO_EMAIL']) {
   require(env.includes(key), `.env.example missing ${key}`)
 }

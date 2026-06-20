@@ -5,8 +5,9 @@ import { db } from '@/lib/db'
 export type LaunchCheck = { area: string; item: string; ok: boolean; note: string }
 
 const cwd = process.cwd()
-const exists = (path: string) => existsSync(join(cwd, path))
+const exists = (path: string) => existsSync(join(/* turbopackIgnore: true */ cwd, path))
 const envSet = (name: string) => Boolean(process.env[name] && !String(process.env[name]).includes('change-this') && !String(process.env[name]).includes('[YOUR-PASSWORD]'))
+const hasDatabase = envSet('DATABASE_URL')
 
 export async function getLaunchChecks(): Promise<LaunchCheck[]> {
   const checks: LaunchCheck[] = [
@@ -30,7 +31,9 @@ export async function getLaunchChecks(): Promise<LaunchCheck[]> {
     { area: 'Build', item: 'middleware.ts removed', ok: !exists('middleware.ts'), note: 'Next 16 proxy-only setup avoids duplicate middleware/proxy crash.' }
   ]
 
-  try {
+  if (!hasDatabase) {
+    checks.push({ area: 'Database', item: 'DB connection check', ok: false, note: 'Set DATABASE_URL, then run npm run db:doctor, npm run db:push and npm run db:seed.' })
+  } else try {
     const [seoPages, templates, resources] = await Promise.all([db.seoPage.count(), db.template.count(), db.officialResource.count()])
     checks.push(
       { area: 'Seed', item: 'SEO pages seeded', ok: seoPages >= 20, note: `${seoPages} SEO pages found.` },
@@ -42,7 +45,7 @@ export async function getLaunchChecks(): Promise<LaunchCheck[]> {
   }
 
   try {
-    const pkg = JSON.parse(readFileSync(join(cwd, 'package.json'), 'utf8'))
+    const pkg = JSON.parse(readFileSync(join(/* turbopackIgnore: true */ cwd, 'package.json'), 'utf8'))
     checks.push(
       { area: 'Scripts', item: 'db:doctor script', ok: Boolean(pkg.scripts?.['db:doctor']), note: 'Local database troubleshooting command.' },
       { area: 'Scripts', item: 'launch:audit script', ok: Boolean(pkg.scripts?.['launch:audit']), note: 'Local launch audit command.' },

@@ -15,7 +15,7 @@ const checks = [
 ]
 
 export const metadata = {
-  title: 'Final Release Check - HaqSathi AI',
+  title: 'Final Release Check',
   description: 'Final build, database, env and production checklist for HaqSathi AI release candidate.'
 }
 

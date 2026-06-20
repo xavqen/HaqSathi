@@ -3,8 +3,8 @@ import { join } from 'path'
 
 export type SecurityCheck = { area: string; item: string; ok: boolean; note: string }
 const cwd = process.cwd()
-const exists = (rel: string) => existsSync(join(cwd, rel))
-const read = (rel: string) => exists(rel) ? readFileSync(join(cwd, rel), 'utf8') : ''
+const exists = (rel: string) => existsSync(join(/* turbopackIgnore: true */ cwd, rel))
+const read = (rel: string) => exists(rel) ? readFileSync(join(/* turbopackIgnore: true */ cwd, rel), 'utf8') : ''
 
 export function getSecurityHardeningChecks(): SecurityCheck[] {
   const proxy = read('proxy.ts')

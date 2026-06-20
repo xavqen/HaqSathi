@@ -3,7 +3,7 @@ import { Gauge, ShieldCheck } from 'lucide-react'
 import { UtilityBillDisputePlannerForm } from '@/components/forms/utility-bill-dispute-planner-form'
 
 export const metadata = {
-  title: 'Utility Bill Dispute Planner | HaqSathi AI',
+  title: 'Utility Bill Dispute Planner',
   description: 'Plan electricity, water, gas, broadband or mobile postpaid bill disputes with proof checklist, escalation route and copy-ready complaint.'
 }
 

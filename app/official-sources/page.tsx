@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 
 export const dynamic = 'force-dynamic'
-export const metadata = { title: 'Verified Official Sources | HaqSathi AI', description: 'HaqSathi AI ke official source registry me consumer, cyber, banking aur government service portals.' }
+export const metadata = { title: 'Verified Official Sources', description: 'HaqSathi AI ke official source registry me consumer, cyber, banking aur government service portals.' }
 
 export default async function OfficialSourcesPage(){
   const sources = await db.officialSource.findMany({ orderBy: [{ status: 'asc' }, { category: 'asc' }] }).catch(() => officialSourceSeeds as any[])

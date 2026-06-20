@@ -256,8 +256,8 @@ async function main() {
   }
 
   console.log(`Seeded ${seoSeedPages.length} SEO pages, ${blogSeedPosts.length} blog posts, ${templateSeedItems.length} templates, ${officialResourceSeeds.length} resources, ${filingGuideSeeds.length} filing guides, ${authorityDirectorySeeds.length} authorities, ${seoKeywordOpportunitySeeds.length} keyword ideas, ${stateGuideSeeds.length} state guides, ${successStorySeeds.length} success stories, ${officialLinkCheckSeeds.length} link checks, ${officialSourceSeeds.length} official sources, ${featureFlagSeeds.length} flags, ${supportMacroSeeds.length} support macros, ${translationSnippetSeeds.length} translations, ${playbookSeeds.length} playbooks, ${learningSeeds.length} learning items, ${experimentSeeds.length} experiments, ${schemes.length} schemes, admin and demo users.`)
-  console.log('Admin login: admin@haqsathi.local / ' + adminPassword)
-  console.log('Demo login: demo@haqsathi.local / Demo@123456')
+  console.log('Seed admin user: admin@haqsathi.local (password taken from SEED_ADMIN_PASSWORD; not printed)')
+  console.log('Seed demo user: demo@haqsathi.local (demo password intentionally not printed)')
 }
 
 main()

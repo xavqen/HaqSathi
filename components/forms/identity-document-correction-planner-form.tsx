@@ -34,7 +34,7 @@ export function IdentityDocumentCorrectionPlannerForm() {
   async function copyMessage() {
     await navigator.clipboard.writeText(plan.copyReadyMessage)
     setCopied(true)
-    window.setTimeout(() => setCopied(false), 1800)
+    setTimeout(() => setCopied(false), 1800)
   }
 
   return (

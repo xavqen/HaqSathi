@@ -3,7 +3,7 @@ import { CalendarClock, ShieldCheck } from 'lucide-react'
 import { DocumentExpiryPlannerForm } from '@/components/forms/document-expiry-planner-form'
 
 export const metadata = {
-  title: 'Document Expiry & Renewal Planner | HaqSathi AI',
+  title: 'Document Expiry & Renewal Planner',
   description: 'Plan passport, driving license, insurance, scholarship and certificate renewal reminders safely.'
 }
 

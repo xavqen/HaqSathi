@@ -1,6 +1,8 @@
 import { safeJsonParse } from '@/lib/utils'
 import { ocrAutofillResultSchema, type OcrAutofillResult } from '@/lib/validators/phase26'
-import { buildLanguageInstruction } from '@/lib/i18n/languages'
+import { buildLanguageInstruction } from '@/lib/ai/language-instructions'
+import { redactSensitiveText } from '@/lib/ai/safety'
+import { upiFraudEscalationNote } from '@/lib/safety/fraud-escalation'
 
 export type OcrAutofillInput = {
   fileName?: string
@@ -109,19 +111,26 @@ export function fallbackOcrAutofill(input: OcrAutofillInput): OcrAutofillResult 
     evidenceSummary: `${input.fileName ? `File: ${input.fileName}. ` : ''}${input.mimeType ? `Type: ${input.mimeType}. ` : ''}${vpa ? `UPI ID/VPA detected: ${vpa}. ` : ''}${input.rawNotes ? `Notes: ${maskSensitive(input.rawNotes).slice(0, 500)}` : ''}`,
     confidenceScore,
     warnings,
-    nextSteps: [
+    nextSteps: isFraud ? [
+      'Call 1930 or report at cybercrime.gov.in before drafting follow-up.',
+      'Inform bank/UPI app immediately and ask for dispute/block if needed.',
+      'Use extracted fields to prepare bank complaint.',
+      'Manually verify every detected field, especially UTR/RRN, amount and date.',
+      'Save original proof and cyber/bank acknowledgement safely.'
+    ] : [
       'Extracted fields ko manually verify karo, especially amount/date/ID.',
       'Complaint autofill button se complaint page open karo.',
       'Proof screenshot/invoice ko dashboard document vault me save karo.',
-      isFraud ? 'Fraud case me bank/cyber official channel ko immediately report karo.' : 'Written complaint send karke acknowledgement save karo.'
+      'Written complaint send karke acknowledgement save karo.'
     ],
-    disclaimer
+    disclaimer: isFraud ? `${upiFraudEscalationNote} ${disclaimer}` : disclaimer
   }
 }
 
 async function callOpenAIVision(input: OcrAutofillInput) {
   if (!process.env.OPENAI_API_KEY || !input.dataUrl || !input.mimeType?.startsWith('image/')) return null
-  const prompt = `Extract complaint autofill details from this proof screenshot/invoice/payment image. Return STRICT JSON only with keys: companyName, transactionId, amount, issueDate, complaintType, description, desiredResolution, evidenceSummary, confidenceScore, warnings, nextSteps, disclaimer. Prefer complaintType from: Refund not received, Defective product, Wrong item delivered, Bank debit issue, UPI wrong transfer, UPI fraud, Mobile recharge failed, Electricity bill issue, Delivery scam, Education fee refund, Travel booking refund, Insurance claim delay. Keep IDs exactly. Language instruction: ${buildLanguageInstruction(input.language)}. User notes: ${input.rawNotes || 'none'}. Document type: ${input.documentType || 'payment proof'}. Never expose OTP/PIN/password.`
+  const safeNotes = redactSensitiveText(input.rawNotes || 'none')
+  const prompt = `Extract complaint autofill details from this proof screenshot/invoice/payment image. Return STRICT JSON only with keys: companyName, transactionId, amount, issueDate, complaintType, description, desiredResolution, evidenceSummary, confidenceScore, warnings, nextSteps, disclaimer. Prefer complaintType from: Refund not received, Defective product, Wrong item delivered, Bank debit issue, UPI wrong transfer, UPI fraud, Mobile recharge failed, Electricity bill issue, Delivery scam, Education fee refund, Travel booking refund, Insurance claim delay. Keep IDs exactly. Language instruction: ${buildLanguageInstruction(input.language)}. User notes: ${safeNotes}. Document type: ${input.documentType || 'payment proof'}. Never expose OTP/PIN/password. If fraud is detected, include 1930 and cybercrime.gov.in in nextSteps/disclaimer.`
   const res = await fetch('https://api.openai.com/v1/chat/completions', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${process.env.OPENAI_API_KEY}` },
@@ -145,7 +154,8 @@ async function callGeminiVision(input: OcrAutofillInput) {
   const base64 = input.dataUrl.split(',')[1]
   if (!base64) return null
   const model = process.env.GEMINI_VISION_MODEL || process.env.GEMINI_MODEL || 'gemini-1.5-flash'
-  const prompt = `Extract complaint autofill details from this Indian invoice/payment/support screenshot. Return JSON only with keys: companyName, transactionId, amount, issueDate, complaintType, description, desiredResolution, evidenceSummary, confidenceScore, warnings, nextSteps, disclaimer. ${buildLanguageInstruction(input.language)} User notes: ${input.rawNotes || 'none'}. Never expose OTP/PIN/password.`
+  const safeNotes = redactSensitiveText(input.rawNotes || 'none')
+  const prompt = `Extract complaint autofill details from this Indian invoice/payment/support screenshot. Return JSON only with keys: companyName, transactionId, amount, issueDate, complaintType, description, desiredResolution, evidenceSummary, confidenceScore, warnings, nextSteps, disclaimer. ${buildLanguageInstruction(input.language)} User notes: ${safeNotes}. Never expose OTP/PIN/password. If fraud is detected, include 1930 and cybercrime.gov.in in nextSteps/disclaimer.`
   const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${process.env.GEMINI_API_KEY}`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -164,8 +174,30 @@ async function callGeminiVision(input: OcrAutofillInput) {
 
 export async function analyzeOcrAutofill(input: OcrAutofillInput) {
   const openai = await callOpenAIVision(input)
-  if (openai) return { result: { ...openai, disclaimer }, provider: 'openai-vision' }
+  if (openai) {
+    const safeDisclaimer = redactSensitiveText(openai.disclaimer || disclaimer)
+    return {
+      result: {
+        ...openai,
+        description: redactSensitiveText(openai.description),
+        evidenceSummary: redactSensitiveText(openai.evidenceSummary),
+        disclaimer: openai.complaintType.toLowerCase().includes('fraud') ? `${upiFraudEscalationNote} ${safeDisclaimer}` : safeDisclaimer
+      },
+      provider: 'openai-vision'
+    }
+  }
   const gemini = await callGeminiVision(input)
-  if (gemini) return { result: { ...gemini, disclaimer }, provider: 'gemini-vision' }
+  if (gemini) {
+    const safeDisclaimer = redactSensitiveText(gemini.disclaimer || disclaimer)
+    return {
+      result: {
+        ...gemini,
+        description: redactSensitiveText(gemini.description),
+        evidenceSummary: redactSensitiveText(gemini.evidenceSummary),
+        disclaimer: gemini.complaintType.toLowerCase().includes('fraud') ? `${upiFraudEscalationNote} ${safeDisclaimer}` : safeDisclaimer
+      },
+      provider: 'gemini-vision'
+    }
+  }
   return { result: fallbackOcrAutofill(input), provider: 'fallback-heuristic' }
 }

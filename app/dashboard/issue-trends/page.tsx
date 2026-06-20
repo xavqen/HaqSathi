@@ -4,7 +4,7 @@ import { IssueTrendForm } from '@/components/forms/issue-trend-form'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 
 export const dynamic = 'force-dynamic'
-export const metadata = { title: 'My Issue Trends | HaqSathi AI' }
+export const metadata = { title: 'My Issue Trends' }
 
 export default async function Page() {
   const user = await requireUser()

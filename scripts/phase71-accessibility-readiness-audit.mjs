@@ -19,7 +19,7 @@ const adminShell = exists('components/admin/admin-shell.tsx') ? read('components
 const env = read('.env.example')
 const evidence = read('lib/qa/launch-evidence.ts')
 
-require(/3\.0\.([4-9][1-9]|[5-9][0-9])/.test(pkg.version) || pkg.version.includes('3.0.41'), 'package version must be v3.0.41+')
+require((/3\.0\.([4-9][1-9]|[5-9][0-9])/.test(pkg.version) || /^3\.0\.(?:[1-9]\d{2,})/.test(pkg.version)) || pkg.version.includes('3.0.41'), 'package version must be v3.0.41+')
 require(pkg.scripts['accessibility:readiness'] === 'node scripts/accessibility-readiness-local.mjs', 'accessibility:readiness script missing')
 require(pkg.scripts['phase71:audit'] === 'node scripts/phase71-accessibility-readiness-audit.mjs', 'phase71:audit script missing')
 require((pkg.scripts['quality:release'] || '').includes('phase71:audit'), 'quality:release must include phase71 audit')

@@ -10,7 +10,7 @@ type Props = { params: Promise<{ slug: string }> }
 export async function generateMetadata({ params }: Props) {
   const { slug } = await params
   const guide = await db.officialFilingGuide.findUnique({ where: { slug } }).catch(() => filingGuideSeeds.find((g) => g.slug === slug) as any)
-  return { title: guide ? `${guide.title} | HaqSathi AI` : 'Filing Guide | HaqSathi AI', description: guide?.summary || 'Simple filing guide.' }
+  return { title: guide ? guide.title : 'Filing Guide', description: guide?.summary || 'Simple filing guide.' }
 }
 
 export default async function Page({ params }: Props) {

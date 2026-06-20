@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { INDIAN_LANGUAGE_OPTIONS, GLOBAL_LANGUAGE_OPTIONS } from '@/lib/i18n/languages'
 
 export const metadata = {
-  title: 'Language Hub | HaqSathi AI',
+  title: 'Language Hub',
   description: 'HaqSathi AI supports English first, plus major Indian and global languages for easier complaint and scheme guidance.'
 }
 

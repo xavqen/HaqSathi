@@ -1,3 +1,3 @@
 import { ConsumerForumPackForm } from '@/components/forms/consumer-forum-pack-form'
-export const metadata = { title: 'Consumer Forum Pack Builder | HaqSathi AI', description: 'Consumer complaint summary, evidence index and affidavit skeleton.' }
+export const metadata = { title: 'Consumer Forum Pack Builder', description: 'Consumer complaint summary, evidence index and affidavit skeleton.' }
 export default function Page() { return <main className="bg-slate-50"><section className="mx-auto max-w-5xl px-4 py-12"><p className="text-sm font-bold uppercase tracking-wider text-primary">Advanced tool</p><h1 className="mt-2 text-4xl font-black">Consumer forum pack builder</h1><p className="mt-3 max-w-2xl text-slate-600">Complaint summary, evidence index aur filing-ready checklist ek jagah.</p><div className="mt-8"><ConsumerForumPackForm /></div></section></main> }

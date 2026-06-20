@@ -37,7 +37,7 @@ export function CallVisitLogbookForm() {
   const copyMessage = async () => {
     await navigator.clipboard?.writeText(plan.followUpMessage)
     setCopied(true)
-    window.setTimeout(() => setCopied(false), 1600)
+    setTimeout(() => setCopied(false), 1600)
   }
 
   return (

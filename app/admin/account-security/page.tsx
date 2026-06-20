@@ -5,7 +5,7 @@ import { Badge } from '@/components/ui/badge'
 import { CopyButton } from '@/components/ui/copy-button'
 
 export const dynamic = 'force-dynamic'
-export const metadata = { title: 'Account Security | HaqSathi AI' }
+export const metadata = { title: 'Account Security' }
 
 const localCommand = 'npm run account-security:readiness'
 const apiPath = '/api/admin/account-security-readiness'

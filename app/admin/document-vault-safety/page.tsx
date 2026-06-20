@@ -5,7 +5,7 @@ import { Badge } from '@/components/ui/badge'
 import { CopyButton } from '@/components/ui/copy-button'
 
 export const dynamic = 'force-dynamic'
-export const metadata = { title: 'Document Vault Safety | HaqSathi AI' }
+export const metadata = { title: 'Document Vault Safety' }
 
 const localCommand = 'npm run vault-safety:readiness'
 const apiPath = '/api/admin/document-vault-safety-readiness'

@@ -19,7 +19,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params
   const template = await getTemplate(slug)
   if (!template) return { title: 'Template not found' }
-  return { title: `${template.title} - HaqSathi AI`, description: template.intent }
+  return { title: `${template.title}`, description: template.intent }
 }
 
 export function generateStaticParams() {

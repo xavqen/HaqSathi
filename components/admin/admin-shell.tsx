@@ -33,6 +33,7 @@ const groups = [
       ['/admin/lost-document-readiness', 'Lost document'],
       ['/admin/support', 'Support'],
       ['/admin/support-triage', 'Support triage'],
+      ['/admin/post-launch-support', 'Post-launch support'],
       ['/admin/community-safety', 'Community safety'],
       ['/admin/document-expiry-readiness', 'Document expiry'],
       ['/admin/call-logbook-readiness', 'Call logbook'],
@@ -178,6 +179,7 @@ const groups = [
     icon: LifeBuoy,
     links: [
       ['/admin/support-macros', 'Support macros'],
+      ['/admin/post-launch-support', 'Post-launch support'],
       ['/admin/feedback', 'Feedback'],
       ['/admin/feedback-readiness', 'Feedback QA'],
       ['/admin/localization', 'Localization'],

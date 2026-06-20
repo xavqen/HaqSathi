@@ -4,7 +4,7 @@ import { LanguagePreferenceForm } from '@/components/forms/language-preference-f
 import { INDIAN_LANGUAGE_OPTIONS, GLOBAL_LANGUAGE_OPTIONS } from '@/lib/i18n/languages'
 
 export const dynamic = 'force-dynamic'
-export const metadata = { title: 'Language & Assistant Style | HaqSathi AI' }
+export const metadata = { title: 'Language & Assistant Style' }
 export default async function Page() {
   const user = await requireUser()
   const preference = await db.userLanguagePreference.findUnique({ where: { userId: user.id } }).catch(() => null)

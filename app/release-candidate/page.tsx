@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 
-export const metadata: Metadata = { title: 'Release Candidate | HaqSathi AI', description: 'Final release candidate status for HaqSathi AI launch.' }
+export const metadata: Metadata = { title: 'Release Candidate', description: 'Final release candidate status for HaqSathi AI launch.' }
 
 const items = [
   'Core complaint, UPI, scheme, document and chat flows ready',

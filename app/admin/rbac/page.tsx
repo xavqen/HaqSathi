@@ -5,7 +5,7 @@ import { Badge } from '@/components/ui/badge'
 import { CopyButton } from '@/components/ui/copy-button'
 
 export const dynamic = 'force-dynamic'
-export const metadata = { title: 'Admin RBAC | HaqSathi AI' }
+export const metadata = { title: 'Admin RBAC' }
 
 const localCommand = 'npm run rbac:readiness'
 

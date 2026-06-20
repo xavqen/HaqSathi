@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 
 export const dynamic = 'force-dynamic'
-export const metadata = { title: 'Compliance | Admin | HaqSathi AI' }
+export const metadata = { title: 'Compliance | Admin' }
 
 export default async function AdminCompliancePage() {
   await requireAdmin()

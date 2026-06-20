@@ -1,5 +1,7 @@
 import { randomBytes } from 'crypto'
 import { NextRequest, NextResponse } from 'next/server'
+import { safeRedirectPath } from '@/lib/security/redirect'
+import { getSiteUrl } from '@/lib/utils'
 
 export const GOOGLE_OAUTH_STATE_COOKIE = 'haqsathi_google_oauth_state'
 export const GOOGLE_OAUTH_NEXT_COOKIE = 'haqsathi_google_oauth_next'
@@ -13,10 +15,9 @@ export type GoogleProfile = {
 }
 
 function appUrl(req?: NextRequest) {
-  const configured = process.env.NEXT_PUBLIC_APP_URL?.replace(/\/$/, '')
-  if (configured) return configured
+  if (process.env.NEXT_PUBLIC_APP_URL || process.env.VERCEL_PROJECT_PRODUCTION_URL || process.env.VERCEL_URL) return getSiteUrl()
   if (req) return req.nextUrl.origin
-  return 'http://localhost:3000'
+  return getSiteUrl()
 }
 
 export function getGoogleRedirectUri(req?: NextRequest) {
@@ -27,13 +28,8 @@ export function hasGoogleOAuthConfig() {
   return Boolean(process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET)
 }
 
-export function safeNextPath(next?: string | null) {
-  if (!next) return '/dashboard'
-  if (!next.startsWith('/')) return '/dashboard'
-  if (next.startsWith('//')) return '/dashboard'
-  if (next.startsWith('/api/')) return '/dashboard'
-  return next
-}
+export const safeNextPath = safeRedirectPath
+
 
 export function buildGoogleAuthRedirect(req: NextRequest) {
   if (!hasGoogleOAuthConfig()) {

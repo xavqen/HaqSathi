@@ -2,7 +2,7 @@ import Link from 'next/link'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { EmailVerificationResendForm } from '@/components/forms/email-verification-form'
 
-export const metadata = { title: 'Verify Email | HaqSathi AI' }
+export const metadata = { title: 'Verify Email' }
 
 export default async function VerifyEmailPage({ searchParams }: { searchParams?: Promise<{ status?: string }> | { status?: string } }) {
   const params = await Promise.resolve(searchParams || {})

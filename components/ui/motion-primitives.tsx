@@ -6,13 +6,13 @@ import {
   motion,
   type HTMLMotionProps,
   AnimatePresence,
-} from "motion/react";
+} from "framer-motion";
+import { usePrefersReducedMotion } from "@/lib/motion/use-prefers-reduced-motion";
 import { cn } from "@/lib/utils";
 
 export const premiumEase = [0.16, 1, 0.3, 1] as const;
 
-// ✅ THE FIX
-const AnimatedLink = motion.create(Link as any);
+const AnimatedLink = motion.create(Link as unknown as React.ComponentType<any>);
 
 type MotionLinkProps = React.ComponentProps<typeof Link> & {
   children: React.ReactNode;
@@ -30,8 +30,9 @@ export function MotionLink({
   reveal = false,
   ...props
 }: MotionLinkProps) {
+  const reduceMotion = usePrefersReducedMotion();
   const hoverState =
-    hover === "none"
+    reduceMotion || hover === "none"
       ? undefined
       : hover === "glow"
         ? { y: -2, scale: 1.01 }
@@ -39,13 +40,15 @@ export function MotionLink({
 
   return (
     <AnimatedLink
+      suppressHydrationWarning
       className={cn("motion-safe-transform motion-premium-fade", className)}
-      initial={reveal ? { opacity: 0, y: 14 } : undefined}
-      whileInView={reveal ? { opacity: 1, y: 0 } : undefined}
+      initial={reveal && !reduceMotion ? { opacity: 0, y: 14 } : false}
+      animate={reveal && reduceMotion ? { opacity: 1, y: 0 } : undefined}
+      whileInView={reveal && !reduceMotion ? { opacity: 1, y: 0 } : undefined}
       viewport={reveal ? { once: true, margin: "-8% 0px" } : undefined}
       whileHover={hoverState}
-      whileTap={{ scale: 0.98 }}
-      transition={{ duration: 0.34, ease: premiumEase, delay }}
+      whileTap={reduceMotion ? undefined : { scale: 0.98 }}
+      transition={{ duration: reduceMotion ? 0 : 0.34, ease: premiumEase, delay: reduceMotion ? 0 : delay }}
       {...props}
     >
       {children}
@@ -68,21 +71,27 @@ export function SpotlightLink({
   onPointerLeave,
   ...props
 }: SpotlightLinkProps) {
+  const reduceMotion = usePrefersReducedMotion();
+
   function handlePointerMove(event: React.PointerEvent<HTMLAnchorElement>) {
-    const rect = event.currentTarget.getBoundingClientRect();
-    event.currentTarget.style.setProperty("--mouse-x", `${event.clientX - rect.left}px`);
-    event.currentTarget.style.setProperty("--mouse-y", `${event.clientY - rect.top}px`);
+    if (!reduceMotion) {
+      const rect = event.currentTarget.getBoundingClientRect();
+      event.currentTarget.style.setProperty("--mouse-x", `${event.clientX - rect.left}px`);
+      event.currentTarget.style.setProperty("--mouse-y", `${event.clientY - rect.top}px`);
+    }
     onPointerMove?.(event);
   }
 
   function handlePointerLeave(event: React.PointerEvent<HTMLAnchorElement>) {
-    event.currentTarget.style.removeProperty("--mouse-x");
-    event.currentTarget.style.removeProperty("--mouse-y");
+    if (!reduceMotion) {
+      event.currentTarget.style.removeProperty("--mouse-x");
+      event.currentTarget.style.removeProperty("--mouse-y");
+    }
     onPointerLeave?.(event);
   }
 
   const hoverState =
-    hover === "none"
+    reduceMotion || hover === "none"
       ? undefined
       : hover === "glow"
         ? { y: -3, scale: 1.006 }
@@ -90,13 +99,15 @@ export function SpotlightLink({
 
   return (
     <AnimatedLink
+      suppressHydrationWarning
       className={cn("motion-spotlight motion-safe-transform motion-premium-fade", spotlightClassName, className)}
-      initial={reveal ? { opacity: 0, y: 14 } : undefined}
-      whileInView={reveal ? { opacity: 1, y: 0 } : undefined}
+      initial={reveal && !reduceMotion ? { opacity: 0, y: 14 } : false}
+      animate={reveal && reduceMotion ? { opacity: 1, y: 0 } : undefined}
+      whileInView={reveal && !reduceMotion ? { opacity: 1, y: 0 } : undefined}
       viewport={reveal ? { once: true, margin: "-8% 0px" } : undefined}
       whileHover={hoverState}
-      whileTap={{ scale: 0.98 }}
-      transition={{ duration: 0.34, ease: premiumEase, delay }}
+      whileTap={reduceMotion ? undefined : { scale: 0.98 }}
+      transition={{ duration: reduceMotion ? 0 : 0.34, ease: premiumEase, delay: reduceMotion ? 0 : delay }}
       onPointerMove={handlePointerMove}
       onPointerLeave={handlePointerLeave}
       {...props}
@@ -112,13 +123,16 @@ export function FadeIn({
   y = 18,
   ...props
 }: HTMLMotionProps<"div"> & { delay?: number; y?: number }) {
+  const reduceMotion = usePrefersReducedMotion();
   return (
     <motion.div
+      suppressHydrationWarning
       className={cn("motion-safe-transform", className)}
-      initial={{ opacity: 0, y }}
-      whileInView={{ opacity: 1, y: 0 }}
+      initial={reduceMotion ? false : { opacity: 0, y }}
+      animate={reduceMotion ? { opacity: 1, y: 0 } : undefined}
+      whileInView={reduceMotion ? undefined : { opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-10% 0px" }}
-      transition={{ duration: 0.5, ease: premiumEase, delay }}
+      transition={{ duration: reduceMotion ? 0 : 0.5, ease: premiumEase, delay: reduceMotion ? 0 : delay }}
       {...props}
     />
   );
@@ -129,11 +143,13 @@ export function MotionSurface({
   hover = true,
   ...props
 }: HTMLMotionProps<"div"> & { hover?: boolean }) {
+  const reduceMotion = usePrefersReducedMotion();
   return (
     <motion.div
+      suppressHydrationWarning
       className={cn("motion-safe-transform motion-premium-fade", className)}
-      whileHover={!hover ? undefined : { y: -4, scale: 1.005 }}
-      whileTap={{ scale: 0.99 }}
+      whileHover={!hover || reduceMotion ? undefined : { y: -4, scale: 1.005 }}
+      whileTap={reduceMotion ? undefined : { scale: 0.99 }}
       transition={{ duration: 0.34, ease: premiumEase }}
       {...props}
     />
@@ -147,24 +163,31 @@ export function SpotlightSurface({
   onPointerLeave,
   ...props
 }: HTMLMotionProps<"div"> & { hover?: boolean }) {
+  const reduceMotion = usePrefersReducedMotion();
+
   function handlePointerMove(event: React.PointerEvent<HTMLDivElement>) {
-    const rect = event.currentTarget.getBoundingClientRect();
-    event.currentTarget.style.setProperty("--mouse-x", `${event.clientX - rect.left}px`);
-    event.currentTarget.style.setProperty("--mouse-y", `${event.clientY - rect.top}px`);
+    if (!reduceMotion) {
+      const rect = event.currentTarget.getBoundingClientRect();
+      event.currentTarget.style.setProperty("--mouse-x", `${event.clientX - rect.left}px`);
+      event.currentTarget.style.setProperty("--mouse-y", `${event.clientY - rect.top}px`);
+    }
     onPointerMove?.(event);
   }
 
   function handlePointerLeave(event: React.PointerEvent<HTMLDivElement>) {
-    event.currentTarget.style.removeProperty("--mouse-x");
-    event.currentTarget.style.removeProperty("--mouse-y");
+    if (!reduceMotion) {
+      event.currentTarget.style.removeProperty("--mouse-x");
+      event.currentTarget.style.removeProperty("--mouse-y");
+    }
     onPointerLeave?.(event);
   }
 
   return (
     <motion.div
+      suppressHydrationWarning
       className={cn("motion-spotlight motion-safe-transform motion-premium-fade", className)}
-      whileHover={!hover ? undefined : { y: -4, scale: 1.005 }}
-      whileTap={{ scale: 0.99 }}
+      whileHover={!hover || reduceMotion ? undefined : { y: -4, scale: 1.005 }}
+      whileTap={reduceMotion ? undefined : { scale: 0.99 }}
       transition={{ duration: 0.34, ease: premiumEase }}
       onPointerMove={handlePointerMove}
       onPointerLeave={handlePointerLeave}
@@ -184,19 +207,21 @@ export function MotionPresencePanel({
   className?: string;
   y?: number;
 }) {
+  const reduceMotion = usePrefersReducedMotion();
   return (
-    <AnimatePresence initial={false}>
-      {show && (
+    <AnimatePresence>
+      {show ? (
         <motion.div
+          suppressHydrationWarning
           className={cn("motion-safe-transform", className)}
-          initial={{ opacity: 0, y, scale: 0.98 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          exit={{ opacity: 0, y, scale: 0.98 }}
+          initial={reduceMotion ? false : { opacity: 0, y, scale: 0.98 }}
+          animate={reduceMotion ? undefined : { opacity: 1, y: 0, scale: 1 }}
+          exit={reduceMotion ? undefined : { opacity: 0, y, scale: 0.98 }}
           transition={{ duration: 0.26, ease: premiumEase }}
         >
           {children}
         </motion.div>
-      )}
+      ) : null}
     </AnimatePresence>
   );
 }
@@ -213,14 +238,12 @@ export function MotionNumber({
   duration?: number;
 }) {
   const ref = React.useRef<HTMLSpanElement | null>(null);
-  const [displayValue, setDisplayValue] = React.useState(0);
+  const reduceMotion = usePrefersReducedMotion();
+  const [displayValue, setDisplayValue] = React.useState(value);
   const [hasAnimated, setHasAnimated] = React.useState(false);
 
   React.useEffect(() => {
-    // Safely check OS preferences on the client side without triggering React renders
-    const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-    if (prefersReduced || hasAnimated || !ref.current) {
+    if (reduceMotion || hasAnimated || !ref.current) {
       setDisplayValue(value);
       return;
     }
@@ -229,6 +252,7 @@ export function MotionNumber({
       ([entry]) => {
         if (!entry.isIntersecting) return;
         setHasAnimated(true);
+        setDisplayValue(0);
         const start = performance.now();
         const frame = (now: number) => {
           const progress = Math.min(1, (now - start) / duration);
@@ -244,7 +268,7 @@ export function MotionNumber({
 
     observer.observe(ref.current);
     return () => observer.disconnect();
-  }, [duration, hasAnimated, value]);
+  }, [duration, hasAnimated, reduceMotion, value]);
 
   return (
     <span ref={ref} className={className}>
@@ -257,11 +281,14 @@ export function StaggerContainer({
   className,
   ...props
 }: HTMLMotionProps<"div">) {
+  const reduceMotion = usePrefersReducedMotion();
   return (
     <motion.div
+      suppressHydrationWarning
       className={className}
-      initial="hidden"
-      whileInView="show"
+      initial={reduceMotion ? false : "hidden"}
+      animate={reduceMotion ? "show" : undefined}
+      whileInView={reduceMotion ? undefined : "show"}
       viewport={{ once: true, margin: "-10% 0px" }}
       variants={{
         hidden: {},
@@ -275,6 +302,7 @@ export function StaggerContainer({
 export function StaggerItem({ className, ...props }: HTMLMotionProps<"div">) {
   return (
     <motion.div
+      suppressHydrationWarning
       className={cn("motion-safe-transform", className)}
       variants={{
         hidden: { opacity: 0, y: 16 },

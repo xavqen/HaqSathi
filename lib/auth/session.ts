@@ -2,6 +2,8 @@ import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 import { createHash, randomBytes } from 'crypto'
 import { db } from '@/lib/db'
+import { buildLoginPath } from '@/lib/security/redirect'
+import { resolveEffectivePlan } from '@/lib/billing/entitlements'
 
 export const SESSION_COOKIE = 'haqsathi_session'
 const SESSION_DAYS = 30
@@ -43,7 +45,33 @@ export async function getCurrentUser() {
 
     const session = await db.authSession.findUnique({
       where: { tokenHash: hashToken(token) },
-      include: { user: { select: { id: true, name: true, email: true, role: true, plan: true, authProvider: true, avatarUrl: true, emailVerifiedAt: true, createdAt: true } } }
+      include: {
+        user: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+            role: true,
+            plan: true,
+            authProvider: true,
+            avatarUrl: true,
+            emailVerifiedAt: true,
+            createdAt: true,
+            subscriptions: {
+              where: { status: { in: ['ACTIVE', 'active', 'PAID', 'paid'] } },
+              orderBy: { updatedAt: 'desc' },
+              take: 1,
+              select: { plan: true }
+            },
+            paymentOrders: {
+              where: { status: 'PAID' },
+              orderBy: { updatedAt: 'desc' },
+              take: 1,
+              select: { plan: true }
+            }
+          }
+        }
+      }
     })
 
     if (!session || session.expiresAt < new Date()) {
@@ -51,7 +79,13 @@ export async function getCurrentUser() {
       return null
     }
 
-    return session.user
+    const { subscriptions, paymentOrders, ...user } = session.user
+    const entitlement = resolveEffectivePlan({
+      userPlan: user.plan,
+      activeSubscriptionPlan: subscriptions[0]?.plan,
+      latestPaidOrderPlan: paymentOrders[0]?.plan
+    })
+    return { ...user, plan: entitlement.plan, entitlementSource: entitlement.source }
   } catch {
     return null
   }
@@ -59,13 +93,13 @@ export async function getCurrentUser() {
 
 export async function requireUser() {
   const user = await getCurrentUser()
-  if (!user) redirect('/login?next=/dashboard')
+  if (!user) redirect(buildLoginPath('/dashboard'))
   return user
 }
 
 export async function requireAdmin() {
   const user = await getCurrentUser()
-  if (!user) redirect('/login?next=/admin')
+  if (!user) redirect(buildLoginPath('/admin'))
   if (user.role !== 'ADMIN') redirect('/dashboard')
   return user
 }

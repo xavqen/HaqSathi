@@ -3,7 +3,7 @@ import { AlertTriangle, RadioTower, ShieldCheck } from 'lucide-react'
 import { TelecomSimComplaintPlannerForm } from '@/components/forms/telecom-sim-complaint-planner-form'
 
 export const metadata = {
-  title: 'Telecom SIM Complaint Planner | HaqSathi AI',
+  title: 'Telecom SIM Complaint Planner',
   description: 'Plan recharge, bill, SIM, porting, KYC misuse and telecom support complaints with proof checklist, escalation route and safe copy-ready message.'
 }
 

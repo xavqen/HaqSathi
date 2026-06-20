@@ -5,6 +5,7 @@ import { getClientIp, rateLimitAsync } from '@/lib/rate-limit'
 import { csrfGuard } from '@/lib/security/csrf'
 import { createPasswordResetToken } from '@/lib/auth/password-reset'
 import { passwordResetEmailHtml, sendTransactionalEmail } from '@/lib/email/service'
+import { absoluteUrl } from '@/lib/utils'
 
 const schema = z.object({ email: z.string().email() })
 
@@ -21,8 +22,7 @@ export async function POST(req: NextRequest) {
   let devResetUrl: string | undefined
   if (user) {
     const { token } = await createPasswordResetToken(user.id)
-    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || new URL(req.url).origin
-    const resetUrl = `${baseUrl}/reset-password?token=${token}`
+    const resetUrl = absoluteUrl(`/reset-password?token=${token}`)
     await sendTransactionalEmail({
       to: user.email,
       subject: 'Reset your HaqSathi AI password',
@@ -31,7 +31,8 @@ export async function POST(req: NextRequest) {
       html: passwordResetEmailHtml(user.name, resetUrl),
       text: `Reset your password: ${resetUrl}`
     })
-    if (!process.env.RESEND_API_KEY && process.env.PASSWORD_RESET_DEV_LINKS !== 'false') devResetUrl = resetUrl
+    const allowLocalDevResetLink = process.env.NODE_ENV !== 'production' && process.env.PASSWORD_RESET_DEV_LINKS === 'true'
+    if (!process.env.RESEND_API_KEY && allowLocalDevResetLink) devResetUrl = resetUrl
   }
 
   return NextResponse.json({ ok: true, message: 'If the email is registered, reset instructions will be sent.', devResetUrl })

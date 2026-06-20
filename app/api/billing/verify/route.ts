@@ -2,9 +2,10 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createHmac, timingSafeEqual } from 'crypto'
 import { z } from 'zod'
 import { db } from '@/lib/db'
-import { requireUser } from '@/lib/auth/session'
+import { getCurrentUser } from '@/lib/auth/session'
 import { csrfGuard } from '@/lib/security/csrf'
 import { getClientIp, rateLimitAsync } from '@/lib/rate-limit'
+import { buildLoginPath } from '@/lib/security/redirect'
 
 export const runtime = 'nodejs'
 
@@ -30,7 +31,8 @@ export async function POST(req: NextRequest) {
     if (csrf) return csrf
     const ip = getClientIp(req.headers)
     if (!(await rateLimitAsync(`billing-verify:${ip}`, 15, 60_000)).ok) return NextResponse.json({ ok: false, error: 'Too many payment verification attempts.' }, { status: 429 })
-    const user = await requireUser()
+    const user = await getCurrentUser()
+    if (!user) return NextResponse.json({ ok: false, error: 'Login required to verify payment.', loginPath: buildLoginPath('/dashboard/billing') }, { status: 401 })
     const json = await req.json().catch(() => null)
     const parsed = schema.safeParse(json)
     if (!parsed.success) return NextResponse.json({ ok: false, error: 'Invalid payment payload' }, { status: 400 })

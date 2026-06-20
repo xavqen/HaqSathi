@@ -3,7 +3,7 @@ import { requireUser } from '@/lib/auth/session'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 
 export const dynamic = 'force-dynamic'
-export const metadata = { title: 'Service center routes | HaqSathi AI' }
+export const metadata = { title: 'Service center routes' }
 
 export default async function Page() {
   const user = await requireUser()

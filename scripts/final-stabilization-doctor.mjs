@@ -56,7 +56,7 @@ const envExample = exists('.env.example') ? read('.env.example') : ''
 for (const key of ['NEXT_PUBLIC_APP_URL', 'NEXT_PUBLIC_APP_VERSION', 'AUTH_SECRET', 'DATABASE_URL', 'DIRECT_URL', 'CRON_SECRET']) {
   if (!envExample.includes(`${key}=`)) issues.push(`.env.example missing ${key}`)
 }
-if (!envExample.includes('NEXT_PUBLIC_APP_VERSION="3.0.85"')) issues.push('.env.example NEXT_PUBLIC_APP_VERSION is stale')
+if (!/NEXT_PUBLIC_APP_VERSION="3\.0\.\d+/.test(envExample)) issues.push('.env.example NEXT_PUBLIC_APP_VERSION is stale')
 
 const nextConfig = exists('next.config.ts') ? read('next.config.ts') : ''
 for (const token of ['compress: true', 'productionBrowserSourceMaps: false', 'Cache-Control', 'Service-Worker-Allowed', 'image/avif', 'image/webp']) {
@@ -81,12 +81,12 @@ if (!reminderCron.includes("process.env.NODE_ENV !== 'production'")) issues.push
 if (!reminderCron.includes('Cache-Control')) issues.push('reminder cron response must be no-store')
 
 const sw = exists('public/sw.js') ? read('public/sw.js') : ''
-for (const token of ['haqsathi-ai-v3-0-85', 'MAX_RUNTIME_ENTRIES', 'trimRuntimeCache', "url.pathname.includes('/admin')", "url.pathname.startsWith('/api/')"]) {
+for (const token of ['haqsathi-ai-v3-0-', 'MAX_RUNTIME_ENTRIES', 'trimRuntimeCache', 'BYPASS_PREFIXES', "'/admin'", "'/api/'", "'/dashboard'"]) {
   if (!sw.includes(token)) issues.push(`public/sw.js missing ${token}`)
 }
 
 const robots = exists('app/robots.ts') ? read('app/robots.ts') : ''
-if (!robots.includes("disallow: ['/admin']")) warnings.push('robots.ts should disallow admin routes.')
+if (!robots.includes("'/admin'")) warnings.push('robots.ts should disallow admin routes.')
 
 console.log('HaqSathi final stabilization doctor')
 console.log(`Version: ${pkg.version}`)

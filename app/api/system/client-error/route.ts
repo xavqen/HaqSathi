@@ -1,12 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
 import { getCurrentUser } from '@/lib/auth/session'
-import { rateLimit } from '@/lib/rate-limit'
+import { getClientIp, rateLimitAsync } from '@/lib/rate-limit'
 import { normalizeClientErrorPayload, sendErrorAlert, shouldCreateIncident } from '@/lib/monitoring/error-events'
 
 export async function POST(req: NextRequest) {
-  const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || req.headers.get('x-real-ip') || 'local'
-  const limit = rateLimit(`client-error:${ip}`, 30, 60_000)
+  const ip = getClientIp(req.headers)
+  const limit = await rateLimitAsync(`client-error:${ip}`, 30, 60_000)
   if (!limit.ok) return NextResponse.json({ ok: false, error: 'rate_limited' }, { status: 429 })
 
   const body = await req.json().catch(() => ({}))

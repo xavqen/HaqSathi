@@ -20,7 +20,7 @@ const adminShell = exists('components/admin/admin-shell.tsx') ? read('components
 const env = read('.env.example')
 const evidence = read('lib/qa/launch-evidence.ts')
 
-require(/3\.0\.(20|[2-9][0-9])/.test(pkg.version), 'package version must be v3.0.20+')
+require((/3\.0\.(20|[2-9][0-9])/.test(pkg.version) || /^3\.0\.(?:[1-9]\d{2,})/.test(pkg.version)), 'package version must be v3.0.20+')
 require(pkg.scripts['vault-safety:readiness'] === 'node scripts/document-vault-safety-readiness-local.mjs', 'vault-safety:readiness script missing')
 require(pkg.scripts['phase50:audit'] === 'node scripts/phase50-document-vault-safety-audit.mjs', 'phase50:audit script missing')
 require((pkg.scripts['quality:release'] || '').includes('phase50:audit'), 'quality:release must include phase50 audit')

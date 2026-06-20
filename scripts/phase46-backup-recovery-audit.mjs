@@ -18,7 +18,7 @@ const runbook = exists('app/admin/backup-restore/page.tsx') ? read('app/admin/ba
 const env = read('.env.example')
 const evidence = read('lib/qa/launch-evidence.ts')
 
-require(/3\.0\.(16|1[7-9]|[2-9][0-9])/.test(pkg.version), 'package version must be v3.0.16+')
+require((/3\.0\.(16|1[7-9]|[2-9][0-9])/.test(pkg.version) || /^3\.0\.(?:[1-9]\d{2,})/.test(pkg.version)), 'package version must be v3.0.16+')
 require(pkg.scripts['backups:readiness'] === 'node scripts/backup-readiness-local.mjs', 'backups:readiness script missing')
 require(pkg.scripts['phase46:audit'] === 'node scripts/phase46-backup-recovery-audit.mjs', 'phase46:audit script missing')
 require((pkg.scripts['quality:release'] || '').includes('phase46:audit'), 'quality:release must include phase46 audit')

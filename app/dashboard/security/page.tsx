@@ -6,7 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge'
 
 export const dynamic = 'force-dynamic'
-export const metadata = { title: 'Security | HaqSathi AI' }
+export const metadata = { title: 'Security' }
 
 function StatusPill({ label }: { label: string }) {
   const className = label === 'READY_TO_TEST' || label === 'PASS'

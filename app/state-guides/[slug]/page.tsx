@@ -8,7 +8,7 @@ export const dynamic = 'force-dynamic'
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params
   const guide = await db.stateGuide.findUnique({ where: { slug } }).catch(() => stateGuideSeeds.find((g) => g.slug === slug) as any)
-  return { title: guide ? `${guide.stateName} Guide | HaqSathi AI` : 'State Guide', description: guide?.summary || 'State-wise life-admin guide.' }
+  return { title: guide ? `${guide.stateName} Guide` : 'State Guide', description: guide?.summary || 'State-wise life-admin guide.' }
 }
 
 export default async function StateGuideDetailPage({ params }: { params: Promise<{ slug: string }> }) {

@@ -1,9 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
 import { db } from '@/lib/db'
-import { requireUser } from '@/lib/auth/session'
+import { getCurrentUser } from '@/lib/auth/session'
 import { csrfGuard } from '@/lib/security/csrf'
 import { getClientIp, rateLimitAsync } from '@/lib/rate-limit'
+import { buildLoginPath } from '@/lib/security/redirect'
 
 export const runtime = 'nodejs'
 
@@ -13,7 +14,10 @@ const amountMap = { FREE: 0, PRO: 9900, FAMILY: 29900, AGENT: 99900 }
 async function createRazorpayOrder({ amount, receipt, plan, userId }: { amount: number; receipt: string; plan: string; userId: string }) {
   const keyId = process.env.RAZORPAY_KEY_ID
   const keySecret = process.env.RAZORPAY_KEY_SECRET
-  if (!keyId || !keySecret) return null
+  if (!keyId || !keySecret) {
+    if (process.env.NODE_ENV === 'production') throw new Error('Checkout is temporarily unavailable. Please try again later or contact support.')
+    return null
+  }
 
   const auth = Buffer.from(`${keyId}:${keySecret}`).toString('base64')
   const response = await fetch('https://api.razorpay.com/v1/orders', {
@@ -32,7 +36,8 @@ export async function POST(req: NextRequest) {
     if (csrf) return csrf
     const ip = getClientIp(req.headers)
     if (!(await rateLimitAsync(`billing-checkout:${ip}`, 10, 60_000)).ok) return NextResponse.json({ ok: false, error: 'Too many checkout attempts. Try again after 1 minute.' }, { status: 429 })
-    const user = await requireUser()
+    const user = await getCurrentUser()
+    if (!user) return NextResponse.json({ ok: false, error: 'Login required to upgrade your plan.', loginPath: buildLoginPath('/pricing') }, { status: 401 })
     const json = await req.json().catch(() => null)
     const parsed = schema.safeParse(json)
     if (!parsed.success) return NextResponse.json({ ok: false, error: 'Invalid plan' }, { status: 400 })

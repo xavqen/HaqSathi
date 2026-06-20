@@ -16,15 +16,9 @@ export async function POST(req: NextRequest) {
         userId: user.id,
         complaintId: parsed.data.complaintId || null,
         caseType: parsed.data.caseType,
-        // Replace lines 19-22 with this:
         score: result.score,
         grade: result.grade,
-        report: {
-          ...result,
-          // Safely filter out any false or undefined values, leaving a clean string[]
-          strengths: result.strengths.filter((s): s is string => Boolean(s)),
-          missing: result.missing.filter((m): m is string => Boolean(m))
-        }
+        report: result
       }
     }).catch(() => undefined)
   }

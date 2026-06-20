@@ -1,13 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
-import { rateLimit } from '@/lib/rate-limit'
+import { getClientIp, rateLimitAsync } from '@/lib/rate-limit'
+import { csrfGuard } from '@/lib/security/csrf'
 import { generateDocumentChecklist } from '@/lib/ai/helpers'
 import { documentInputSchema } from '@/lib/validators/document'
 import { getCurrentUser } from '@/lib/auth/session'
 
 export async function POST(req: NextRequest) {
-  const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 'local'
-  if (!rateLimit(`docs:${ip}`, 10, 60_000).ok) return NextResponse.json({ ok: false, error: 'Too many requests' }, { status: 429 })
+  const csrf = csrfGuard(req)
+  if (csrf) return csrf
+  const ip = getClientIp(req.headers)
+  if (!(await rateLimitAsync(`docs:${ip}`, 10, 60_000)).ok) return NextResponse.json({ ok: false, error: 'Too many requests' }, { status: 429 })
   const json = await req.json().catch(() => null)
   const parsed = documentInputSchema.safeParse(json)
   if (!parsed.success) return NextResponse.json({ ok: false, error: 'Invalid input', details: parsed.error.flatten() }, { status: 400 })

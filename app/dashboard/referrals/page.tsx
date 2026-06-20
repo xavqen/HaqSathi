@@ -5,7 +5,7 @@ import { Badge } from '@/components/ui/badge'
 import { ReferralForm } from '@/components/forms/referral-form'
 
 export const dynamic = 'force-dynamic'
-export const metadata = { title: 'Referrals | HaqSathi AI' }
+export const metadata = { title: 'Referrals' }
 
 export default async function ReferralsPage() {
   const user = await requireUser()

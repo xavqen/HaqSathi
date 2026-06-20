@@ -1,7 +1,8 @@
 'use client'
 
 import { useMemo, useState } from 'react'
-import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
+import { AnimatePresence, motion } from 'framer-motion'
+import { usePrefersReducedMotion } from '@/lib/motion/use-prefers-reduced-motion'
 import { Search, Sparkles } from 'lucide-react'
 import { SpotlightLink, premiumEase } from '@/components/ui/motion-primitives'
 import { publicTools, toolCategories, type ToolCategory } from '@/lib/tools/catalog'
@@ -17,7 +18,7 @@ export function ToolGrid({ dictionary }: { dictionary?: ShellDictionary['tools']
   } as ShellDictionary['tools']
   const [query, setQuery] = useState('')
   const [category, setCategory] = useState<ToolCategory | 'All'>('All')
-  const reduceMotion = useReducedMotion()
+  const reduceMotion = usePrefersReducedMotion()
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase()
@@ -31,10 +32,11 @@ export function ToolGrid({ dictionary }: { dictionary?: ShellDictionary['tools']
   return (
     <div>
       <motion.div
+        suppressHydrationWarning
         className="rounded-[1.75rem] border border-slate-200 bg-white p-3 shadow-soft sm:p-4"
         initial={reduceMotion ? false : { opacity: 0, y: 10 }}
-        animate={reduceMotion ? undefined : { opacity: 1, y: 0 }}
-        transition={{ duration: 0.36, ease: premiumEase }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: reduceMotion ? 0 : 0.36, ease: premiumEase }}
       >
         <div className="flex items-center gap-3 rounded-2xl bg-slate-50 px-4 py-3 transition-[box-shadow,background-color] duration-200 focus-within:bg-white focus-within:shadow-[0_0_0_3px_rgba(16,185,129,0.16)]">
           <Search className="h-5 w-5 shrink-0 text-slate-400" />
@@ -46,6 +48,8 @@ export function ToolGrid({ dictionary }: { dictionary?: ShellDictionary['tools']
             return (
               <motion.button
                 key={item}
+                tabIndex={0}
+                suppressHydrationWarning
                 type="button"
                 onClick={() => setCategory(item)}
                 whileTap={reduceMotion ? undefined : { scale: 0.98 }}
@@ -53,8 +57,13 @@ export function ToolGrid({ dictionary }: { dictionary?: ShellDictionary['tools']
                 transition={{ duration: 0.22, ease: premiumEase }}
                 className={`relative shrink-0 rounded-full border px-4 py-2 text-xs font-black transition-colors ${active ? 'border-emerald-200 bg-emerald-600 text-white' : 'border-slate-200 bg-white text-slate-700 hover:bg-slate-50'}`}
               >
-                {active && !reduceMotion ? (
-                  <motion.span layoutId="tool-category-active-pill" className="absolute inset-0 rounded-full bg-emerald-600" transition={{ duration: 0.28, ease: premiumEase }} />
+                {active ? (
+                  <motion.span
+                    suppressHydrationWarning
+                    layoutId={reduceMotion ? undefined : "tool-category-active-pill"}
+                    className="absolute inset-0 rounded-full bg-emerald-600"
+                    transition={{ duration: 0.28, ease: premiumEase }}
+                  />
                 ) : null}
                 <span className="relative z-10">{labels.categories[item] || item}</span>
               </motion.button>
@@ -63,16 +72,17 @@ export function ToolGrid({ dictionary }: { dictionary?: ShellDictionary['tools']
         </div>
       </motion.div>
 
-      <motion.div layout className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <motion.div suppressHydrationWarning layout className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         <AnimatePresence mode="popLayout">
           {filtered.map((tool, index) => (
             <motion.div
               key={tool.href}
+              suppressHydrationWarning
               layout
               initial={reduceMotion ? false : { opacity: 0, y: 14, scale: 0.98 }}
-              animate={reduceMotion ? undefined : { opacity: 1, y: 0, scale: 1 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={reduceMotion ? undefined : { opacity: 0, y: -10, scale: 0.98 }}
-              transition={{ duration: 0.34, ease: premiumEase, delay: Math.min(index * 0.015, 0.12) }}
+              transition={{ duration: reduceMotion ? 0 : 0.34, ease: premiumEase, delay: reduceMotion ? 0 : Math.min(index * 0.015, 0.12) }}
               className="min-w-0"
             >
               <SpotlightLink key={tool.href} href={tool.href} hover="glow" className="group flex h-full flex-col rounded-[1.75rem] border border-slate-200 bg-white p-5 shadow-soft hover:border-emerald-200 hover:shadow-lg">
@@ -95,10 +105,11 @@ export function ToolGrid({ dictionary }: { dictionary?: ShellDictionary['tools']
       <AnimatePresence>
         {filtered.length === 0 ? (
           <motion.div
+            suppressHydrationWarning
             initial={reduceMotion ? false : { opacity: 0, y: 10 }}
-            animate={reduceMotion ? undefined : { opacity: 1, y: 0 }}
+            animate={{ opacity: 1, y: 0 }}
             exit={reduceMotion ? undefined : { opacity: 0, y: -8 }}
-            transition={{ duration: 0.28, ease: premiumEase }}
+            transition={{ duration: reduceMotion ? 0 : 0.28, ease: premiumEase }}
             className="mt-6 rounded-3xl border bg-white p-8 text-center text-slate-600"
           >
             {labels.noResult}

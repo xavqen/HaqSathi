@@ -4,11 +4,14 @@ import { getCurrentUser } from '@/lib/auth/session'
 import { safeJson, dbErrorResponse } from '@/lib/api/errors'
 import { legalNoticeSchema } from '@/lib/validators/advanced-tools'
 import { buildLegalNoticeDraft } from '@/lib/tools/advanced-generators'
-import { rateLimit } from '@/lib/rate-limit'
+import { getClientIp, rateLimitAsync } from '@/lib/rate-limit'
+import { csrfGuard } from '@/lib/security/csrf'
 
 export async function POST(req: NextRequest) {
-  const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 'local'
-  const limited = rateLimit(`legal-notice:${ip}`, 10, 60_000)
+  const csrf = csrfGuard(req)
+  if (csrf) return csrf
+  const ip = getClientIp(req.headers)
+  const limited = await rateLimitAsync(`legal-notice:${ip}`, 10, 60_000)
   if (!limited.ok) return NextResponse.json({ ok: false, error: 'Too many requests. 1 minute baad try karo.' }, { status: 429 })
   const body = await safeJson<unknown>(req)
   const parsed = legalNoticeSchema.safeParse(body)

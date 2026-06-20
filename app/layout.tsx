@@ -6,6 +6,7 @@ import { Navbar } from '@/components/layout/navbar'
 import { Footer } from '@/components/layout/footer'
 import { DisclaimerBanner } from '@/components/layout/disclaimer-banner'
 import { DeferredClientRuntime } from '@/components/layout/deferred-client-runtime'
+import { getSiteUrl } from '@/lib/utils'
 // DeferredClientRuntime mounts PwaRegister, RouteProgress, AnalyticsScripts, FirstPartyAnalytics, ClientErrorListener, FloatingFeedback, CookieConsent and MobileBottomActions after idle.
 
 const inter = Inter({
@@ -17,7 +18,7 @@ const inter = Inter({
 })
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'),
+  metadataBase: new URL(getSiteUrl()),
   title: {
     default: 'HaqSathi AI - Complaint, Refund, UPI, Documents and Schemes Helper',
     template: '%s | HaqSathi AI'

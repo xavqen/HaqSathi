@@ -18,7 +18,7 @@ const adminShell = exists('components/admin/admin-shell.tsx') ? read('components
 const env = read('.env.example')
 const evidence = read('lib/qa/launch-evidence.ts')
 
-require(/3\.0\.(3[1-9]|[4-9][0-9])/.test(pkg.version), 'package version must be v3.0.31+')
+require((/3\.0\.(3[1-9]|[4-9][0-9])/.test(pkg.version) || /^3\.0\.(?:[1-9]\d{2,})/.test(pkg.version)), 'package version must be v3.0.31+')
 require(pkg.scripts['payment:readiness'] === 'node scripts/payment-lifecycle-readiness-local.mjs', 'payment:readiness script missing')
 require(pkg.scripts['phase61:audit'] === 'node scripts/phase61-payment-lifecycle-audit.mjs', 'phase61:audit script missing')
 require((pkg.scripts['quality:release'] || '').includes('phase61:audit'), 'quality:release must include phase61 audit')

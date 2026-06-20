@@ -1,21 +1,25 @@
 import type { UpiInput, UpiOutput } from '@/lib/validators/upi'
 import type { SchemeInput, SchemeOutput } from '@/lib/validators/scheme'
 import type { DocumentInput, DocumentOutput } from '@/lib/validators/document'
+import { matchOfficialSchemes } from '@/lib/official-schemes/catalog'
+import { upiFraudEscalationActions, upiFraudEscalationNote } from '@/lib/safety/fraud-escalation'
 
 export function generateUPIHelp(input: UpiInput): UpiOutput {
   const ref = input.transactionId ? `UTR/Transaction ID: ${input.transactionId}` : 'UTR/Transaction ID: not provided'
   const amount = input.amount ? `Amount: ₹${input.amount}` : 'Amount: not provided'
-  const fraud = input.issue.toLowerCase().includes('fraud') || input.issue.toLowerCase().includes('scam')
+  const fraud = input.issue.toLowerCase().includes('fraud') || input.issue.toLowerCase().includes('scam') || input.description.toLowerCase().includes('unauthorized')
 
   return {
     urgentActions: fraud
-      ? ['Immediately call/report to your bank and request blocking/dispute as per official process', 'Report on official cyber fraud emergency channels without delay', 'Do not talk further with scammer or share OTP/PIN', 'Save screenshots, phone numbers, UPI IDs and transaction proof']
+      ? upiFraudEscalationActions
       : ['Transaction status screenshot save karo', 'Receiver/merchant se written confirmation lo if possible', 'Payment app aur bank dono me support ticket raise karo', 'Ticket ID and timeline save karo'],
     bankMessage: `Dear ${input.bankName} Support, I need urgent help for ${input.issue}. ${ref}. ${amount}. App: ${input.appName}. Date: ${input.date || 'not provided'}. Details: ${input.description}. Please investigate and provide written status/dispute steps.`,
-    npciDraft: `Subject: UPI issue support request\n\nI am facing ${input.issue}. ${ref}. ${amount}. UPI app: ${input.appName}. Bank: ${input.bankName}. Details: ${input.description}. Kindly guide as per official UPI dispute process.`,
+    npciDraft: `Subject: UPI issue support request
+
+I am facing ${input.issue}. ${ref}. ${amount}. UPI app: ${input.appName}. Bank: ${input.bankName}. Details: ${input.description}. Kindly guide as per official UPI dispute process.`,
     documentChecklist: ['UPI transaction screenshot', 'Bank statement showing debit/failed credit', 'UPI ID/mobile/merchant details', 'Support ticket ID', 'Any chat/call proof', 'Police/cyber complaint acknowledgement if fraud case'],
-    followUpPlan: ['Day 0: Bank/app/cyber channel report', 'Day 1: Ticket ID verify', 'Day 3: Written follow-up', 'Day 7: Escalate via official grievance route if unresolved'],
-    disclaimer: 'This is guidance, not legal advice. For cyber fraud, contact official emergency channels and your bank immediately. Never share OTP/PIN/password.'
+    followUpPlan: fraud ? ['Minute 0: Call 1930 or report at cybercrime.gov.in', 'Minute 0-30: Inform bank/UPI app and ask for dispute/block', 'Day 0: Save acknowledgement IDs from cyber complaint and bank/app', 'Day 1: Send written bank follow-up with UTR/RRN and proof', 'Day 3: Escalate with acknowledgement if no written status'] : ['Day 0: Bank/app support ticket raise', 'Day 1: Ticket ID verify', 'Day 3: Written follow-up', 'Day 7: Escalate via official grievance route if unresolved'],
+    disclaimer: fraud ? `${upiFraudEscalationNote} This is guidance, not legal advice. Never share OTP/PIN/password.` : 'This is guidance, not legal advice. Verify final action with your bank/app. Never share OTP/PIN/password.'
   }
 }
 
@@ -32,17 +36,24 @@ export function generateSchemeSuggestions(input: SchemeInput): SchemeOutput {
     'Women support': ['Identity proof', 'Income proof', 'Bank account details']
   }
 
+  const matches = matchOfficialSchemes(input)
+  const catalogSchemes = matches.map((scheme) => ({
+    name: scheme.name,
+    whyMayFit: `${scheme.why} Official route: ${scheme.officialUrl}`,
+    caution: `${scheme.freshness} Final eligibility, deadline and documents must be verified on the official portal/office.`
+  }))
+
   return {
     possibleSchemes: [
+      ...catalogSchemes,
       { name: `${input.state} ${input.purpose} related state scheme`, whyMayFit: `Aapka purpose ${input.purpose}, state ${input.state}, profile ${input.profile} hai.`, caution: 'Exact eligibility official state portal par verify karein.' },
-      { name: `Central government ${input.purpose.toLowerCase()} scheme`, whyMayFit: `Income range ${input.incomeRange} aur age ${input.age} ke basis par central schemes check kar sakte ho.`, caution: 'Central scheme rules state/category ke hisaab se change ho sakte hain.' },
       { name: `Local district/department support program`, whyMayFit: 'Kai schemes district portal/department office ke through chalti hain.', caution: 'Official notification aur deadline verify karein.' }
-    ],
-    eligibilityExplanation: [`State: ${input.state}`, `Age: ${input.age}`, `Profile: ${input.profile}`, `Income range: ${input.incomeRange}`, input.category ? `Category: ${input.category}` : 'Category not provided'],
-    requiredDocuments: [...baseDocs, ...(purposeDocs[input.purpose] || [])],
-    applySteps: ['Official state/central portal par scheme notification search karo', 'Eligibility PDF/notice read karo', 'Documents scan clear quality me ready karo', 'Application fill karke preview verify karo', 'Acknowledgement/application ID save karo'],
-    officialLinkNote: 'Official-link placeholder: admin dashboard me verified official link add karein. AI fake links generate nahi karta.',
-    disclaimer: 'This is guidance, not official eligibility confirmation. Final eligibility aur deadline official portal/office se verify karein.'
+    ].slice(0, 5),
+    eligibilityExplanation: [`State: ${input.state}`, `Age: ${input.age}`, `Profile: ${input.profile}`, `Income range: ${input.incomeRange}`, input.category ? `Category: ${input.category}` : 'Category not provided', ...matches.map((scheme) => `Official source to verify: ${scheme.name} — ${scheme.officialUrl}`)],
+    requiredDocuments: Array.from(new Set([...baseDocs, ...(purposeDocs[input.purpose] || []), ...matches.flatMap((scheme) => scheme.documents)])),
+    applySteps: matches.length ? matches.flatMap((scheme) => scheme.applySteps).slice(0, 8) : ['Official state/central portal par scheme notification search karo', 'Eligibility PDF/notice read karo', 'Documents scan clear quality me ready karo', 'Application fill karke preview verify karo', 'Acknowledgement/application ID save karo'],
+    officialLinkNote: matches.length ? `Matched official sources: ${matches.map((scheme) => `${scheme.name} (${scheme.officialUrl})`).join('; ')}. AI fake links generate nahi karta; links admin-reviewed catalog se aaye hain.` : 'No exact catalog match yet. Admin dashboard me verified official link add karein. AI fake links generate nahi karta.',
+    disclaimer: 'This is guidance, not official eligibility confirmation. Final eligibility, deadline aur documents official portal/office se verify karein.'
   }
 }
 
@@ -84,7 +95,7 @@ export function generateChatReply(message: string) {
   const isFraud = lower.includes('fraud') || lower.includes('scam') || lower.includes('otp') || lower.includes('cyber')
 
   const steps = isFraud
-    ? ['Bank ko immediately report karo aur card/UPI block/dispute request karo', 'Official cyber fraud channel par complaint raise karo', 'OTP/PIN/password kisi ko mat do', 'Screenshots, UTR, phone number, UPI ID save karo']
+    ? upiFraudEscalationActions
     : isUpi
       ? ['UTR/transaction screenshot save karo', 'Payment app aur bank dono me ticket raise karo', 'Receiver/merchant se written confirmation lo', 'Ticket ID ke saath 3-7 din me follow-up karo']
       : isRefund
@@ -108,6 +119,6 @@ export function generateChatReply(message: string) {
     actionSteps: steps,
     draftMessage: draft,
     checklist: ['Screenshot/proof', 'Transaction/order/application ID', 'Date and amount', 'Support ticket ID', 'Bank statement/invoice if applicable'],
-    disclaimer: isFraud ? 'This is guidance, not legal advice. Cyber fraud me bank aur official emergency channels ko immediately contact karo.' : 'This is guidance, not legal advice. Official portal/support se final verification zaroor karein.'
+    disclaimer: isFraud ? upiFraudEscalationNote : 'This is guidance, not legal advice. Official portal/support se final verification zaroor karein.'
   }
 }

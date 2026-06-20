@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { cookies } from 'next/headers'
 import { getShellDictionary } from '@/lib/i18n/dictionaries'
 import { normalizeLanguageCode } from '@/lib/i18n/languages'
+import { SUPPORT_EMAIL } from '@/lib/content/site-contact'
 
 export async function Footer() {
   const store = await cookies()
@@ -13,6 +14,7 @@ export async function Footer() {
         <div className="md:col-span-2">
           <div className="text-lg font-black text-slate-950">HaqSathi AI</div>
           <p className="mt-2 max-w-xl text-sm leading-6 text-slate-600">{dictionary.footer.description}</p>
+          <p className="mt-3 text-sm font-semibold text-slate-600">Support: <a className="font-black text-emerald-700 underline underline-offset-4" href={`mailto:${SUPPORT_EMAIL}`}>{SUPPORT_EMAIL}</a></p>
           <div className="mt-4 flex flex-wrap gap-2 text-xs font-bold text-slate-500">
             {dictionary.footer.pills.map((pill) => <span key={pill} className="rounded-full bg-white px-3 py-1 shadow-sm">{pill}</span>)}
           </div>
@@ -32,6 +34,7 @@ export async function Footer() {
             <Link href="/about">About</Link>
             <Link href="/privacy">Privacy</Link>
             <Link href="/terms">Terms</Link>
+            <Link href="/contact">Contact</Link>
             <Link href="/disclaimer">{dictionary.disclaimer.link}</Link>
             <Link href="/status">Status</Link>
           </div>

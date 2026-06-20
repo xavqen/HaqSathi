@@ -1,6 +1,8 @@
 import { safeJsonParse } from '@/lib/utils'
 import { complaintOutputSchema, type ComplaintInput, type ComplaintOutput } from '@/lib/validators/complaint'
 import { complaintSystemPrompt, complaintUserPrompt } from '@/lib/ai/prompts'
+import { buildLanguageInstruction } from '@/lib/ai/language-instructions'
+import { hardenComplaintOutput, reviewAiOutput } from '@/lib/ai/safety'
 
 function fallbackComplaint(input: ComplaintInput): ComplaintOutput {
   const idLine = input.transactionId ? `Reference/Transaction ID: ${input.transactionId}` : 'Reference/Transaction ID: Not provided'
@@ -67,24 +69,32 @@ async function callGemini(system: string, user: string) {
   return data?.candidates?.[0]?.content?.parts?.[0]?.text as string | undefined
 }
 
-export async function generateComplaintDraft(input: ComplaintInput) {
-  const system = complaintSystemPrompt()
+export async function generateComplaintDraft(input: ComplaintInput, languageCode = 'ENGLISH') {
+  const languageInstruction = buildLanguageInstruction(languageCode)
+  const system = `${complaintSystemPrompt()}\nLanguage instruction: ${languageInstruction}`
   const user = complaintUserPrompt(input)
   let raw: string | null | undefined = null
 
   raw = await callOpenAI(system, user)
   if (!raw) raw = await callGemini(system, user)
 
-  if (!raw) return { data: fallbackComplaint(input), provider: 'fallback' as const }
+  if (!raw) {
+    const data = hardenComplaintOutput(fallbackComplaint(input), user)
+    return { data, provider: 'fallback' as const, safetyReview: reviewAiOutput(data, user) }
+  }
 
   const parsed = complaintOutputSchema.safeParse(safeJsonParse(raw, null))
-  if (!parsed.success) return { data: fallbackComplaint(input), provider: 'fallback-invalid-ai' as const }
+  if (!parsed.success) {
+    const data = hardenComplaintOutput(fallbackComplaint(input), user)
+    return { data, provider: 'fallback-invalid-ai' as const, safetyReview: reviewAiOutput(data, user) }
+  }
 
-  return { data: parsed.data, provider: process.env.OPENAI_API_KEY ? 'openai' as const : 'gemini' as const }
+  const data = hardenComplaintOutput(parsed.data, user)
+  return { data, provider: process.env.OPENAI_API_KEY ? 'openai' as const : 'gemini' as const, safetyReview: reviewAiOutput(data, user) }
 }
 
-export async function generateRefundComplaint(input: ComplaintInput) {
-  return generateComplaintDraft({ ...input, type: 'Refund not received' })
+export async function generateRefundComplaint(input: ComplaintInput, languageCode = 'ENGLISH') {
+  return generateComplaintDraft({ ...input, type: 'Refund not received' }, languageCode)
 }
 
 export function generateFollowUpMessage(companyName: string, referenceId?: string) {

@@ -19,7 +19,7 @@ const adminShell = exists('components/admin/admin-shell.tsx') ? read('components
 const env = read('.env.example')
 const evidence = read('lib/qa/launch-evidence.ts')
 
-require(pkg.version === '3.0.48-incident-response-readiness' || /^3\.0\.(4[9]|[5-9][0-9])-/.test(pkg.version), 'package version must be 3.0.48 incident response or newer release')
+require(pkg.version === '3.0.48-incident-response-readiness' || (/^3\.0\.(4[9]|[5-9][0-9])-/.test(pkg.version) || /^3\.0\.(?:[1-9]\d{2,})/.test(pkg.version)), 'package version must be 3.0.48 incident response or newer release')
 require(pkg.scripts['incident:readiness'] === 'node scripts/incident-response-readiness-local.mjs', 'incident:readiness script missing')
 require(pkg.scripts['phase78:audit'] === 'node scripts/phase78-incident-response-audit.mjs', 'phase78:audit script missing')
 require((pkg.scripts['quality:release'] || '').includes('phase78:audit'), 'quality:release must include phase78 audit')

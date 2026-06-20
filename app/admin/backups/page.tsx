@@ -5,7 +5,7 @@ import { Badge } from '@/components/ui/badge'
 import { CopyButton } from '@/components/ui/copy-button'
 
 export const dynamic = 'force-dynamic'
-export const metadata = { title: 'Backups | Admin | HaqSathi AI' }
+export const metadata = { title: 'Backups | Admin' }
 
 const readinessCommand = 'npm run backups:readiness'
 const cronEndpoint = '/api/cron/backup-readiness'

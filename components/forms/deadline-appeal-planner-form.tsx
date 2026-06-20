@@ -42,7 +42,7 @@ export function DeadlineAppealPlannerForm() {
   const copyAppeal = async () => {
     await navigator.clipboard?.writeText(plan.copyReadyAppealNote)
     setCopied(true)
-    window.setTimeout(() => setCopied(false), 1600)
+    setTimeout(() => setCopied(false), 1600)
   }
 
   return (

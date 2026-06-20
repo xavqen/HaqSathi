@@ -17,6 +17,8 @@ import { VoiceInputAssist } from '@/components/forms/voice-input-assist'
 
 type ApiResponse = { ok: true; draft: ComplaintOutput; savedId?: string; provider: string } | { ok: false; error: string; details?: unknown }
 
+const VOICE_INPUT_ENABLED = false
+
 export function ComplaintGenerator() {
   const [loading, setLoading] = useState(false)
   const [result, setResult] = useState<ComplaintOutput | null>(null)
@@ -136,7 +138,7 @@ ${text}` : text
               </div>
             </div>
 
-            <VoiceInputAssist onApply={applyVoiceTranscript} />
+            {VOICE_INPUT_ENABLED ? <VoiceInputAssist onApply={applyVoiceTranscript} /> : null}
 
             <div className="grid gap-2">
               <Label>Issue description</Label>

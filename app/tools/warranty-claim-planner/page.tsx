@@ -3,7 +3,7 @@ import { ShieldCheck, Wrench } from 'lucide-react'
 import { WarrantyClaimPlannerForm } from '@/components/forms/warranty-claim-planner-form'
 
 export const metadata = {
-  title: 'Warranty Claim Planner | HaqSathi AI',
+  title: 'Warranty Claim Planner',
   description: 'Plan warranty claims, service center visits, proof checklist and copy-ready escalation note for products and repairs.'
 }
 

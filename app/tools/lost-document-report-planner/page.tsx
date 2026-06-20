@@ -3,7 +3,7 @@ import { AlertTriangle, FileWarning, ShieldCheck } from 'lucide-react'
 import { LostDocumentReportPlannerForm } from '@/components/forms/lost-document-report-planner-form'
 
 export const metadata = {
-  title: 'Lost Document Report Planner | HaqSathi AI',
+  title: 'Lost Document Report Planner',
   description: 'Plan lost Aadhaar, PAN, passport, DL, bank card, SIM, phone and certificate report steps with proof checklist, safety warnings and copy-ready official message.'
 }
 

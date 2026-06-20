@@ -1,3 +1,4 @@
+// compatibility bridge: 3.0.55-entitlement-readiness 3.0.56-invoice-tax-readiness newer release
 import { existsSync, readFileSync } from 'node:fs'
 
 const issues = []

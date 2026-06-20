@@ -32,8 +32,10 @@ import {
 } from "@/components/ui/motion-primitives";
 import { Badge } from "@/components/ui/badge";
 import { pricingPlans } from "@/lib/constants";
+import { publicTools } from "@/lib/tools/catalog";
 import { InstallPwaCard } from "@/components/layout/install-pwa";
 import { getShellDictionary } from "@/lib/i18n/dictionaries";
+import { AuthAwareCtaLink } from "@/components/cta/auth-aware-cta-link";
 
 export const dynamic = "force-static";
 export const revalidate = 86400;
@@ -94,7 +96,8 @@ const commandCards = [
 
 export default async function HomePage() {
   const dictionary = getShellDictionary("ENGLISH");
-  const startHref = "/login?next=/tools";
+  const publicToolCount = publicTools.length;
+  const startHref = "/tools";
 
   return (
     <main className="bg-white">
@@ -108,21 +111,20 @@ export default async function HomePage() {
             <Badge className="bg-emerald-100 text-emerald-800">
               {dictionary.home.badge}
             </Badge>
-            <h1 className="mt-5 text-[2.45rem] font-black leading-[0.98] tracking-tight text-slate-950 sm:text-6xl lg:text-7xl">
+            <h1 className="mt-5 text-[2.45rem] font-black leading-[0.98] tracking-tight text-slate-950 sm:text-6xl lg:text-[4rem]">
               {dictionary.home.title}
             </h1>
             <p className="mt-5 max-w-2xl text-base leading-7 text-slate-600 sm:text-xl sm:leading-8">
               {dictionary.home.subtitle}
             </p>
             <div className="mt-7 grid gap-3 sm:flex sm:flex-wrap">
-              <MotionLink
-                href={startHref}
-                hover="glow"
-                className="inline-flex min-h-12 items-center justify-center rounded-2xl bg-primary px-6 py-3 text-base font-black text-primary-foreground shadow-lg shadow-emerald-900/10 hover:bg-primary/90"
+              <AuthAwareCtaLink
+                targetHref={startHref}
+                className="inline-flex min-h-12 items-center justify-center rounded-2xl bg-primary px-6 py-3 text-base font-black text-primary-foreground shadow-lg shadow-emerald-900/10 transition hover:bg-primary/90 hover:shadow-emerald-900/20 active:scale-[0.98]"
               >
                 {dictionary.home.primaryCta}{" "}
                 <ArrowRight className="ml-2 h-5 w-5" />
-              </MotionLink>
+              </AuthAwareCtaLink>
               <MotionLink
                 href="/tools"
                 className="inline-flex min-h-12 items-center justify-center rounded-2xl border border-slate-200 bg-white px-6 py-3 text-base font-black text-slate-800 shadow-sm hover:bg-slate-50"
@@ -172,7 +174,7 @@ export default async function HomePage() {
               </div>
               <div className="mt-4 grid grid-cols-2 gap-3">
                 <div className="rounded-2xl bg-emerald-50 p-4">
-                  <p className="text-2xl font-black text-emerald-900"><MotionNumber value={38} suffix="+" /></p>
+                  <p className="text-2xl font-black text-emerald-900"><MotionNumber value={publicToolCount} suffix="+" /></p>
                   <p className="text-xs font-bold text-emerald-700">
                     {dictionary.home.toolsCountLabel}
                   </p>
@@ -357,6 +359,16 @@ export default async function HomePage() {
                       </li>
                     ))}
                   </ul>
+                  <Link
+                    href="/pricing"
+                    className={`mt-6 inline-flex min-h-11 w-full items-center justify-center rounded-xl px-4 py-2 text-sm font-black transition ${
+                      plan.name === "Pro"
+                        ? "bg-emerald-600 text-white hover:bg-emerald-700"
+                        : "border border-slate-200 bg-white text-slate-800 hover:border-emerald-200 hover:bg-emerald-50"
+                    }`}
+                  >
+                    View {plan.name} plan
+                  </Link>
                 </CardContent>
               </Card>
             ))}
@@ -378,14 +390,13 @@ export default async function HomePage() {
                 {dictionary.home.finalSubtitle}
               </p>
             </div>
-            <MotionLink
-              href={startHref}
-              hover="glow"
-              className="mt-6 inline-flex min-h-12 w-full items-center justify-center rounded-2xl bg-primary px-6 py-3 text-base font-black text-primary-foreground shadow-lg shadow-emerald-900/10 lg:mt-0 lg:w-auto"
+            <AuthAwareCtaLink
+              targetHref={startHref}
+              className="mt-6 inline-flex min-h-12 w-full items-center justify-center rounded-2xl bg-primary px-6 py-3 text-base font-black text-primary-foreground shadow-lg shadow-emerald-900/10 transition hover:bg-primary/90 hover:shadow-emerald-900/20 active:scale-[0.98] lg:mt-0 lg:w-auto"
             >
               {dictionary.home.getStarted}{" "}
               <ArrowRight className="ml-2 h-5 w-5" />
-            </MotionLink>
+            </AuthAwareCtaLink>
           </div>
           <div className="mt-8 grid gap-4 md:grid-cols-3">
             {dictionary.home.faqs.map(([q, a]) => (

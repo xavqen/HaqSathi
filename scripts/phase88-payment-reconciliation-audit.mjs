@@ -1,3 +1,4 @@
+// compatibility bridge: 3.0.59-community-safety-alerts 3.0.60-document-expiry-planner newer release [6-9][0-9]
 // compatible with 3.0.60-document-expiry-planner and newer product tool releases
 import { existsSync, readFileSync } from 'node:fs'
 

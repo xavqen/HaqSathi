@@ -3,7 +3,7 @@ import { CalendarClock, ShieldCheck } from 'lucide-react'
 import { DeadlineAppealPlannerForm } from '@/components/forms/deadline-appeal-planner-form'
 
 export const metadata = {
-  title: 'Deadline Appeal Planner | HaqSathi AI',
+  title: 'Deadline Appeal Planner',
   description: 'Plan appeal deadlines, reminder dates, proof checklist and copy-ready escalation note for pending or rejected cases.'
 }
 

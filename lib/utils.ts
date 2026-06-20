@@ -5,9 +5,21 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
+export function getSiteUrl() {
+  const rawUrl =
+    process.env.NEXT_PUBLIC_APP_URL ||
+    process.env.VERCEL_PROJECT_PRODUCTION_URL ||
+    process.env.VERCEL_URL ||
+    'http://localhost:3000'
+
+  const withProtocol = /^https?:\/\//i.test(rawUrl) ? rawUrl : `https://${rawUrl}`
+  return withProtocol.replace(/\/+$/, '')
+}
+
 export function absoluteUrl(path = '/') {
-  const base = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'
-  return `${base}${path}`
+  const cleanPath = path.startsWith('/') ? path : `/${path}`
+  if (cleanPath === '/') return `${getSiteUrl()}/`
+  return `${getSiteUrl()}${cleanPath}`
 }
 
 export function slugify(input: string) {

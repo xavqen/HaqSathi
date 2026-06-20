@@ -3,7 +3,7 @@ import { AlertTriangle, Banknote, ShieldCheck } from 'lucide-react'
 import { BankAccountFreezePlannerForm } from '@/components/forms/bank-account-freeze-planner-form'
 
 export const metadata = {
-  title: 'Bank Account Freeze Planner | HaqSathi AI',
+  title: 'Bank Account Freeze Planner',
   description: 'Plan bank account freeze, lien, hold, KYC freeze, UPI dispute hold, ATM cash not dispensed and wrong debit escalation with proof checklist and safe copy-ready message.'
 }
 

@@ -1,7 +1,7 @@
 import { LanguageDraftTranslatorForm } from '@/components/forms/language-draft-translator-form'
 
 export const metadata = {
-  title: 'Language Draft Translator | HaqSathi AI',
+  title: 'Language Draft Translator',
   description: 'Complaint, refund, UPI and scheme messages ko English, Indian languages aur world languages me ready-to-copy format me convert karein.'
 }
 

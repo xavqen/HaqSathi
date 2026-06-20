@@ -20,7 +20,7 @@ const adminShell = exists('components/admin/admin-shell.tsx') ? read('components
 const env = read('.env.example')
 const evidence = read('lib/qa/launch-evidence.ts')
 
-require(/3\.0\.(2[6-9]|[3-9][0-9])/.test(pkg.version), 'package version must be v3.0.26+')
+require((/3\.0\.(2[6-9]|[3-9][0-9])/.test(pkg.version) || /^3\.0\.(?:[1-9]\d{2,})/.test(pkg.version)), 'package version must be v3.0.26+')
 require(pkg.scripts['voice:readiness'] === 'node scripts/voice-input-readiness-local.mjs', 'voice:readiness script missing')
 require(pkg.scripts['phase56:audit'] === 'node scripts/phase56-voice-input-audit.mjs', 'phase56:audit script missing')
 require((pkg.scripts['quality:release'] || '').includes('phase56:audit'), 'quality:release must include phase56 audit')

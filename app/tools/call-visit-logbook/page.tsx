@@ -3,7 +3,7 @@ import { ClipboardList, ShieldCheck } from 'lucide-react'
 import { CallVisitLogbookForm } from '@/components/forms/call-visit-logbook-form'
 
 export const metadata = {
-  title: 'Call & Visit Logbook | HaqSathi AI',
+  title: 'Call & Visit Logbook',
   description: 'Record calls, office visits, service center visits and support interactions for complaint escalation.'
 }
 

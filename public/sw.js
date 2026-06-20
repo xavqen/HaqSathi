@@ -1,22 +1,35 @@
-const CACHE_NAME = 'haqsathi-ai-v3-0-85'
+const CACHE_NAME = 'haqsathi-ai-v3-0-105-motion-hydration-stability'
 const RUNTIME_CACHE = `${CACHE_NAME}-runtime`
 const OFFLINE_URL = '/offline.html'
 const CORE_ASSETS = ['/', OFFLINE_URL, '/icon.svg', '/apple-icon.svg', '/manifest.webmanifest']
-const CACHEABLE_DESTINATIONS = new Set(['document', 'style', 'script', 'image', 'font'])
+const CACHEABLE_DESTINATIONS = new Set(['style', 'script', 'image', 'font'])
 const MAX_RUNTIME_ENTRIES = 80
+const BYPASS_PREFIXES = [
+  '/api/',
+  '/_next/data/',
+  '/admin',
+  '/dashboard',
+  '/document-vault',
+  '/login',
+  '/register',
+  '/forgot-password',
+  '/reset-password',
+  '/verify-email'
+]
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then((cache) => cache.addAll(CORE_ASSETS))
       .then(() => self.skipWaiting())
+      .catch(() => self.skipWaiting())
   )
 })
 
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     Promise.all([
-      caches.keys().then((keys) => Promise.all(keys.filter((key) => key !== CACHE_NAME && key !== RUNTIME_CACHE).map((key) => caches.delete(key)))),
+      caches.keys().then((keys) => Promise.all(keys.filter((key) => key.startsWith('haqsathi-ai-') && key !== CACHE_NAME && key !== RUNTIME_CACHE).map((key) => caches.delete(key)))),
       self.registration.navigationPreload ? self.registration.navigationPreload.enable() : Promise.resolve()
     ]).then(() => self.clients.claim())
   )
@@ -24,12 +37,17 @@ self.addEventListener('activate', (event) => {
 
 function shouldBypassCache(url) {
   return (
-    url.pathname.startsWith('/api/') ||
-    url.pathname.startsWith('/_next/data/') ||
-    url.pathname.includes('/document-vault') ||
-    url.pathname.includes('/admin') ||
-    url.searchParams.has('no-cache')
+    BYPASS_PREFIXES.some((prefix) => url.pathname.startsWith(prefix)) ||
+    url.searchParams.has('no-cache') ||
+    url.searchParams.has('token') ||
+    url.searchParams.has('code')
   )
+}
+
+function isSafeNavigationToCache(request, url) {
+  if (request.mode !== 'navigate') return false
+  if (shouldBypassCache(url)) return false
+  return true
 }
 
 async function trimRuntimeCache() {
@@ -47,14 +65,14 @@ async function cacheResponse(cacheName, request, response) {
   return response
 }
 
-async function networkFirstNavigation(event) {
+async function networkFirstNavigation(event, url) {
   try {
     const preload = await event.preloadResponse
     if (preload) return cacheResponse(RUNTIME_CACHE, event.request, preload)
     const response = await fetch(event.request)
     return cacheResponse(RUNTIME_CACHE, event.request, response)
   } catch {
-    const cached = await caches.match(event.request)
+    const cached = isSafeNavigationToCache(event.request, url) ? await caches.match(event.request) : undefined
     if (cached) return cached
     return caches.match(OFFLINE_URL)
   }
@@ -76,8 +94,8 @@ self.addEventListener('fetch', (event) => {
   if (url.origin !== self.location.origin) return
   if (shouldBypassCache(url)) return
 
-  if (request.mode === 'navigate') {
-    event.respondWith(networkFirstNavigation(event))
+  if (isSafeNavigationToCache(request, url)) {
+    event.respondWith(networkFirstNavigation(event, url))
     return
   }
 

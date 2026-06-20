@@ -18,7 +18,7 @@ const adminShell = exists('components/admin/admin-shell.tsx') ? read('components
 const env = read('.env.example')
 const evidence = read('lib/qa/launch-evidence.ts')
 
-require(/3\.0\.(2[4-9]|[3-9][0-9])/.test(pkg.version), 'package version must be v3.0.24+')
+require((/3\.0\.(2[4-9]|[3-9][0-9])/.test(pkg.version) || /^3\.0\.(?:[1-9]\d{2,})/.test(pkg.version)), 'package version must be v3.0.24+')
 require(pkg.scripts['referral:readiness'] === 'node scripts/referral-readiness-local.mjs', 'referral:readiness script missing')
 require(pkg.scripts['phase54:audit'] === 'node scripts/phase54-referral-growth-audit.mjs', 'phase54:audit script missing')
 require((pkg.scripts['quality:release'] || '').includes('phase54:audit'), 'quality:release must include phase54 audit')

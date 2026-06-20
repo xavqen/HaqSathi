@@ -3,7 +3,7 @@ import { Home, ShieldCheck } from 'lucide-react'
 import { RentDepositDisputePlannerForm } from '@/components/forms/rent-deposit-dispute-planner-form'
 
 export const metadata = {
-  title: 'Rent Deposit Dispute Planner | HaqSathi AI',
+  title: 'Rent Deposit Dispute Planner',
   description: 'Plan security deposit, rent receipt, maintenance, notice period and landlord/broker disputes with proof checklist and safe copy-ready message.'
 }
 

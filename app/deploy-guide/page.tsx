@@ -24,7 +24,7 @@ RAZORPAY_KEY_SECRET
 RAZORPAY_WEBHOOK_SECRET
 CRON_SECRET`
 
-export const metadata = { title: 'Deployment Guide | HaqSathi AI', description: 'Vercel and Supabase deployment guide for HaqSathi AI.' }
+export const metadata = { title: 'Deployment Guide', description: 'Vercel and Supabase deployment guide for HaqSathi AI.' }
 
 export default function Page() {
   return (

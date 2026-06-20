@@ -44,7 +44,7 @@ if (!pageTransition.includes('duration: 0.28')) warnings.push('PageTransition du
 
 const sw = existsSync(join(root, 'public/sw.js')) ? read('public/sw.js') : ''
 if (!sw.includes('MAX_RUNTIME_ENTRIES')) issues.push('Service worker runtime cache is unbounded.')
-if (!sw.includes("url.pathname.includes('/admin')")) issues.push('Service worker should never cache admin routes.')
+if (!(sw.includes('BYPASS_PREFIXES') && sw.includes("'/admin'") && sw.includes('url.pathname.startsWith(prefix)'))) issues.push('Service worker should never cache admin routes.')
 
 const nextConfig = existsSync(join(root, 'next.config.ts')) ? read('next.config.ts') : ''
 if (!nextConfig.includes('productionBrowserSourceMaps: false')) issues.push('Production browser source maps should be off for smaller deployments.')

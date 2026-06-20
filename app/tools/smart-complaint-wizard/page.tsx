@@ -1,7 +1,8 @@
+import { FraudEscalationAlert } from '@/components/content/fraud-escalation-alert'
 import { SmartComplaintWizardForm } from '@/components/forms/smart-complaint-wizard-form'
 
 export const metadata = {
-  title: 'Smart Complaint Wizard | HaqSathi AI',
+  title: 'Smart Complaint Wizard',
   description: 'Mobile-first complaint pack builder with score, evidence checklist, drafts, call script and follow-up plan.'
 }
 
@@ -20,7 +21,7 @@ export default function Page() {
             <div className="rounded-2xl bg-white/10 p-4">Mobile-first UI</div>
           </div>
         </div>
-        <div className="mt-6"><SmartComplaintWizardForm /></div>
+        <FraudEscalationAlert className="mt-6" compact /><div className="mt-6"><SmartComplaintWizardForm /></div>
       </section>
     </main>
   )

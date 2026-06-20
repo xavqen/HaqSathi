@@ -4,7 +4,7 @@ import { Badge } from '@/components/ui/badge'
 import { AuthorityBookmarkButton } from '@/components/forms/authority-bookmark-button'
 
 export const dynamic = 'force-dynamic'
-export const metadata = { title: 'Authority Directory | HaqSathi AI', description: 'Consumer, bank, cyber, scheme aur document related verified authority/resource directory.' }
+export const metadata = { title: 'Authority Directory', description: 'Consumer, bank, cyber, scheme aur document related verified authority/resource directory.' }
 
 export default async function Page({ searchParams }: { searchParams?: Promise<{ category?: string; state?: string }> }) {
   const params = await searchParams

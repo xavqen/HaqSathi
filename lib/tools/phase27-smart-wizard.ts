@@ -1,5 +1,6 @@
 import type { SmartComplaintWizardInput, SmartComplaintWizardResult } from '@/lib/validators/phase27'
-import { buildLanguageInstruction, getLanguageLabel } from '@/lib/i18n/languages'
+import { getLanguageLabel } from '@/lib/i18n/languages'
+import { buildLanguageInstruction } from '@/lib/ai/language-instructions'
 
 const disclaimer = 'Guidance only. HaqSathi AI legal/financial/government authority nahi hai. Official portal, bank/company terms aur latest rules verify karein. Fraud case me official emergency channels ko priority dein. OTP/PIN/password kabhi share na karein.'
 

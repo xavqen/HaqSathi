@@ -4,7 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { getDeadlineAppealReadinessReport } from '@/lib/productivity/deadline-appeal-readiness'
 
 export const metadata = {
-  title: 'Deadline Appeal Readiness | Admin | HaqSathi AI'
+  title: 'Deadline Appeal Readiness | Admin'
 }
 
 function statusClass(status: string) {

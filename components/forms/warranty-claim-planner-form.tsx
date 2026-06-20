@@ -34,7 +34,7 @@ export function WarrantyClaimPlannerForm() {
   async function copyClaim() {
     await navigator.clipboard.writeText(plan.copyReadyClaim)
     setCopied(true)
-    window.setTimeout(() => setCopied(false), 1800)
+    setTimeout(() => setCopied(false), 1800)
   }
 
   return (

@@ -1,4 +1,4 @@
-import { Activity, AlertTriangle, BellRing, CheckCircle2, Gauge, LineChart, RadioTower, Server, ShieldCheck, TimerReset } from 'lucide-react'
+import { Activity, AlertTriangle, BellRing, CheckCircle2, Gauge, LineChart, ServerCog, ShieldCheck, TimerReset } from 'lucide-react'
 import { requireAdmin } from '@/lib/auth/session'
 import { getObservabilitySloReadinessReport, type ObservabilityReadinessPriority, type ObservabilityReadinessStatus } from '@/lib/operations/observability-slo-readiness'
 import { Badge } from '@/components/ui/badge'
@@ -49,7 +49,7 @@ export default async function ObservabilitySloPage() {
       <div className="grid gap-6 xl:grid-cols-[minmax(0,1.35fr)_minmax(320px,0.65fr)]">
         <Card>
           <CardHeader>
-            <Server className="h-6 w-6 text-emerald-700" />
+            <ServerCog className="h-6 w-6 text-emerald-700" />
             <CardTitle>Launch observability controls</CardTitle>
             <CardDescription>These checks make sure production failures are visible before users report them.</CardDescription>
           </CardHeader>

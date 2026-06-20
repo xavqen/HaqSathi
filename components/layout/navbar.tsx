@@ -3,6 +3,7 @@ import { Menu, Search, ShieldCheck } from 'lucide-react'
 import { LanguageSwitcher } from '@/components/i18n/language-switcher'
 import { getShellDictionary } from '@/lib/i18n/dictionaries'
 import { AuthNavClient } from '@/components/layout/auth-nav-client'
+import { DesktopScrollNav } from '@/components/layout/desktop-scroll-nav'
 
 // Static navbar delegates compact-mobile-action and nav-cta-text to AuthNavClient.
 // Language switcher hydrates from haqsathi_language cookie on the client.
@@ -15,9 +16,7 @@ export function Navbar() {
     { href: '/tools/smart-complaint-wizard', label: dictionary.nav.smartWizard },
     { href: '/tools/scam-radar', label: dictionary.nav.scamRadar },
     { href: '/upi-help', label: dictionary.nav.upiHelp },
-    { href: '/scheme-finder', label: dictionary.nav.schemes },
-    { href: '/documents', label: dictionary.nav.documents },
-    { href: '/tools', label: dictionary.nav.tools }
+    { href: '/scheme-finder', label: dictionary.nav.schemes }
   ]
   const mobileLinks = [
     { href: '/tools', label: dictionary.nav.allTools },
@@ -43,13 +42,7 @@ export function Navbar() {
           </span>
         </Link>
 
-        <nav className="hidden min-w-0 max-w-[52vw] items-center gap-1 overflow-hidden rounded-full border border-slate-200 bg-slate-50 p-1 text-sm font-bold text-slate-700 xl:flex" aria-label="Primary navigation">
-          {primaryLinks.map((link) => (
-            <Link key={link.href} href={link.href} className="shrink-0 whitespace-nowrap rounded-full px-3.5 py-2 transition hover:bg-white hover:text-primary hover:shadow-sm">
-              {link.label}
-            </Link>
-          ))}
-        </nav>
+        <DesktopScrollNav links={primaryLinks} />
 
         <div className="flex min-w-0 shrink-0 items-center justify-end gap-1.5 sm:gap-2">
           <LanguageSwitcher current={language} label={dictionary.account.language} />

@@ -5,6 +5,7 @@ import { createEmailVerificationToken } from '@/lib/auth/email-verification'
 import { sendTransactionalEmail, verificationEmailHtml } from '@/lib/email/service'
 import { csrfGuard } from '@/lib/security/csrf'
 import { getClientIp, rateLimitAsync } from '@/lib/rate-limit'
+import { absoluteUrl } from '@/lib/utils'
 
 export async function POST(req: NextRequest) {
   const csrf = csrfGuard(req)
@@ -20,8 +21,7 @@ export async function POST(req: NextRequest) {
   if (fullUser.emailVerifiedAt) return NextResponse.json({ ok: true, alreadyVerified: true })
 
   const { token } = await createEmailVerificationToken(fullUser.id)
-  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || new URL(req.url).origin
-  const verifyUrl = `${baseUrl}/api/auth/email-verification/confirm?token=${token}`
+  const verifyUrl = absoluteUrl(`/api/auth/email-verification/confirm?token=${token}`)
   const result = await sendTransactionalEmail({
     to: fullUser.email,
     subject: 'Verify your HaqSathi AI email',
@@ -30,6 +30,7 @@ export async function POST(req: NextRequest) {
     html: verificationEmailHtml(fullUser.name, verifyUrl),
     text: `Verify your HaqSathi AI email: ${verifyUrl}`
   })
-  const devVerifyUrl = !process.env.RESEND_API_KEY && process.env.EMAIL_VERIFICATION_DEV_LINKS !== 'false' ? verifyUrl : undefined
+  const allowLocalDevVerifyLink = process.env.NODE_ENV !== 'production' && process.env.EMAIL_VERIFICATION_DEV_LINKS === 'true'
+  const devVerifyUrl = !process.env.RESEND_API_KEY && allowLocalDevVerifyLink ? verifyUrl : undefined
   return NextResponse.json({ ok: result.ok, skipped: 'skipped' in result ? result.skipped : false, devVerifyUrl })
 }

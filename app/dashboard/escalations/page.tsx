@@ -3,7 +3,7 @@ import { db } from '@/lib/db'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 
 export const dynamic = 'force-dynamic'
-export const metadata = { title: 'Escalation Plans | HaqSathi AI' }
+export const metadata = { title: 'Escalation Plans' }
 
 export default async function EscalationsPage() {
   const user = await requireUser()

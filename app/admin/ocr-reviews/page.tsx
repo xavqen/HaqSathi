@@ -1,15 +1,12 @@
-import { redirect } from 'next/navigation'
-import { getCurrentUser } from '@/lib/auth/session'
+import { requireAdmin } from '@/lib/auth/session'
 import { db } from '@/lib/db'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 
 export const dynamic = 'force-dynamic'
-export const metadata = { title: 'OCR Reviews | Admin | HaqSathi AI' }
+export const metadata = { title: 'OCR Reviews | Admin' }
 
 export default async function Page() {
-  const user = await getCurrentUser()
-  if (!user) redirect('/login')
-  if (user.role !== 'ADMIN') redirect('/dashboard')
+  await requireAdmin()
   const items = await db.ocrAutofillResult.findMany({ orderBy: { createdAt: 'desc' }, take: 50, include: { user: { select: { email: true, name: true } } } })
   const avg = items.length ? Math.round(items.reduce((sum, item) => sum + item.confidenceScore, 0) / items.length) : 0
   return (

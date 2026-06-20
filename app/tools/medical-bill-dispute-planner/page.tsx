@@ -3,7 +3,7 @@ import { AlertTriangle, Hospital, ShieldCheck } from 'lucide-react'
 import { MedicalBillDisputePlannerForm } from '@/components/forms/medical-bill-dispute-planner-form'
 
 export const metadata = {
-  title: 'Medical Bill Dispute Planner | HaqSathi AI',
+  title: 'Medical Bill Dispute Planner',
   description: 'Plan hospital, clinic, diagnostic lab, pharmacy, ambulance and insurance billing disputes with proof checklist and safe copy-ready message.'
 }
 

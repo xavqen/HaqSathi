@@ -20,7 +20,7 @@ const env = read('.env.example')
 const evidence = read('lib/qa/launch-evidence.ts')
 const previousAudit = exists('scripts/phase78-incident-response-audit.mjs') ? read('scripts/phase78-incident-response-audit.mjs') : ''
 
-require(pkg.version === '3.0.49-observability-slo-readiness' || /^3\.0\.(5[0-9]|[6-9][0-9])-/.test(pkg.version), 'package version must be 3.0.49-observability-slo-readiness or newer release')
+require(pkg.version === '3.0.49-observability-slo-readiness' || (/^3\.0\.(5[0-9]|[6-9][0-9])-/.test(pkg.version) || /^3\.0\.(?:[1-9]\d{2,})/.test(pkg.version)), 'package version must be 3.0.49-observability-slo-readiness or newer release')
 require(pkg.scripts['observability:readiness'] === 'node scripts/observability-slo-readiness-local.mjs', 'observability:readiness script missing')
 require(pkg.scripts['phase79:audit'] === 'node scripts/phase79-observability-slo-audit.mjs', 'phase79:audit script missing')
 require((pkg.scripts['quality:release'] || '').includes('phase79:audit'), 'quality:release must include phase79 audit')

@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { loginSchema, registerSchema, type LoginInput, type RegisterInput } from '@/lib/validators/auth'
+import { safeRedirectPath } from '@/lib/security/redirect'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -31,7 +32,7 @@ function authErrorMessage(error: string | null) {
 
 export function GoogleAuthButton({ label = 'Continue with Google' }: { label?: string }) {
   const params = useSearchParams()
-  const next = params.get('next') || '/dashboard'
+  const next = safeRedirectPath(params.get('next'))
   const href = useMemo(() => `/api/auth/google?next=${encodeURIComponent(next)}`, [next])
   return (
     <a href={href} className="inline-flex h-11 w-full items-center justify-center gap-3 rounded-xl border bg-white px-5 text-sm font-bold text-slate-800 shadow-sm hover:bg-slate-50">
@@ -48,7 +49,7 @@ function Divider() {
 export function LoginForm() {
   const router = useRouter()
   const params = useSearchParams()
-  const next = params.get('next') || '/dashboard'
+  const next = safeRedirectPath(params.get('next'))
   const oauthError = authErrorMessage(params.get('error'))
   const [error, setError] = useState<string | null>(oauthError)
   const [loading, setLoading] = useState(false)

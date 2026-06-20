@@ -31,7 +31,7 @@ export function FirstPartyAnalytics() {
   useEffect(() => {
     if (!analyticsEnabled() || !consentAccepted()) return
     const controller = new AbortController()
-    const timer = window.setTimeout(() => {
+    const timer = setTimeout(() => {
       void fetch('/api/analytics/event', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -50,7 +50,7 @@ export function FirstPartyAnalytics() {
     }, 900)
 
     return () => {
-      window.clearTimeout(timer)
+      clearTimeout(timer)
       controller.abort()
     }
   }, [pathname])

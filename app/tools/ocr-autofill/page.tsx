@@ -1,7 +1,7 @@
 import { OcrAutofillForm } from '@/components/forms/ocr-autofill-form'
 
 export const metadata = {
-  title: 'OCR Autofill Complaint Form | HaqSathi AI',
+  title: 'OCR Autofill Complaint Form',
   description: 'Upload payment screenshot, invoice or support proof and autofill complaint fields with AI vision OCR.'
 }
 

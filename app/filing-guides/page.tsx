@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 
 export const dynamic = 'force-dynamic'
-export const metadata = { title: 'Official Filing Guides | HaqSathi AI', description: 'Consumer, bank, cyber, RTI and scholarship filing guides in simple Hinglish.' }
+export const metadata = { title: 'Official Filing Guides', description: 'Consumer, bank, cyber, RTI and scholarship filing guides in simple Hinglish.' }
 
 export default async function Page() {
   const guides = await db.officialFilingGuide.findMany({ orderBy: [{ category: 'asc' }, { title: 'asc' }] }).catch(() => filingGuideSeeds as any[])

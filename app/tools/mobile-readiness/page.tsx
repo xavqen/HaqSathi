@@ -1,7 +1,7 @@
 import { MobileReadinessCheckerForm } from '@/components/forms/mobile-readiness-checker-form'
 
 export const metadata = {
-  title: 'Mobile Readiness Checker | HaqSathi AI',
+  title: 'Mobile Readiness Checker',
   description: 'Check whether a page or feature is mobile-friendly, thumb-friendly and language-ready.'
 }
 

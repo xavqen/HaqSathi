@@ -34,7 +34,7 @@ export function ProofFileOrganizerForm() {
   const copyIndex = async () => {
     await navigator.clipboard?.writeText(plan.copyReadyIndex)
     setCopied(true)
-    window.setTimeout(() => setCopied(false), 1600)
+    setTimeout(() => setCopied(false), 1600)
   }
 
   return (

@@ -1,6 +1,5 @@
 import { Card, CardContent } from '@/components/ui/card'
-import { getCurrentUser } from '@/lib/auth/session'
-import { redirect } from 'next/navigation'
+import { requireAdmin } from '@/lib/auth/session'
 
 export const dynamic = 'force-dynamic'
 
@@ -20,8 +19,7 @@ const envChecks = [
 export const metadata = { title: 'System Doctor - Admin' }
 
 export default async function SystemDoctorPage() {
-  const user = await getCurrentUser()
-  if (!user || user.role !== 'ADMIN') redirect('/login')
+  await requireAdmin()
   return (
     <main className="container py-10">
       <h1 className="text-3xl font-bold">System Doctor</h1>

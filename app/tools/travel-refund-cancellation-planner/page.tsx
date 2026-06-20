@@ -3,7 +3,7 @@ import { AlertTriangle, Plane, ShieldCheck } from 'lucide-react'
 import { TravelRefundCancellationPlannerForm } from '@/components/forms/travel-refund-cancellation-planner-form'
 
 export const metadata = {
-  title: 'Travel Refund & Cancellation Planner | HaqSathi AI',
+  title: 'Travel Refund & Cancellation Planner',
   description: 'Plan train, flight, bus, hotel and travel booking refunds with proof checklist, escalation route and safe copy-ready message.'
 }
 

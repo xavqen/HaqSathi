@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { UpiHelper } from '@/components/forms/upi-helper'
 import { getCurrentPageCopy } from '@/lib/i18n/page-copy'
+import { FraudEscalationAlert } from '@/components/content/fraud-escalation-alert'
 
 export const metadata: Metadata = { title: 'UPI Help', description: 'Wrong UPI transfer, UPI fraud and failed payment urgent steps with complaint drafts.' }
 export const dynamic = 'force-dynamic'
@@ -15,6 +16,7 @@ export default async function Page() {
           <h1 className="mt-2 text-[2.25rem] font-black leading-none tracking-tight text-slate-950 sm:text-5xl">{copy.title}</h1>
           <p className="mt-4 text-base leading-7 text-slate-600 sm:text-lg">{copy.description}</p>
         </div>
+        <FraudEscalationAlert className="mb-6" />
         <UpiHelper />
       </section>
     </main>

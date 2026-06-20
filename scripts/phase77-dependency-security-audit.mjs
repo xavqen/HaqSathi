@@ -19,7 +19,7 @@ const adminShell = exists('components/admin/admin-shell.tsx') ? read('components
 const env = read('.env.example')
 const evidence = read('lib/qa/launch-evidence.ts')
 
-require(pkg.version === '3.0.47-dependency-security-readiness' || /^3\.0\.(4[8-9]|[5-9][0-9])-/.test(pkg.version), 'package version must be 3.0.47 dependency security or newer release')
+require(pkg.version === '3.0.47-dependency-security-readiness' || (/^3\.0\.(4[8-9]|[5-9][0-9])-/.test(pkg.version) || /^3\.0\.(?:[1-9]\d{2,})/.test(pkg.version)), 'package version must be 3.0.47 dependency security or newer release')
 require(pkg.scripts['dependency:readiness'] === 'node scripts/dependency-readiness-local.mjs', 'dependency:readiness script missing')
 require(pkg.scripts['phase77:audit'] === 'node scripts/phase77-dependency-security-audit.mjs', 'phase77:audit script missing')
 require((pkg.scripts['quality:release'] || '').includes('phase77:audit'), 'quality:release must include phase77 audit')

@@ -18,7 +18,7 @@ const adminShell = exists('components/admin/admin-shell.tsx') ? read('components
 const env = read('.env.example')
 const evidence = read('lib/qa/launch-evidence.ts')
 
-require(/3\.0\.(30|[3-9][0-9])/.test(pkg.version), 'package version must be v3.0.30+')
+require((/3\.0\.(30|[3-9][0-9])/.test(pkg.version) || /^3\.0\.(?:[1-9]\d{2,})/.test(pkg.version)), 'package version must be v3.0.30+')
 require(pkg.scripts['ai-safety:readiness'] === 'node scripts/ai-safety-readiness-local.mjs', 'ai-safety:readiness script missing')
 require(pkg.scripts['phase60:audit'] === 'node scripts/phase60-ai-quality-safety-audit.mjs', 'phase60:audit script missing')
 require((pkg.scripts['quality:release'] || '').includes('phase60:audit'), 'quality:release must include phase60 audit')

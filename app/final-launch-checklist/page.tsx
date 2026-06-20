@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 
-export const metadata = { title: 'Final Launch Checklist | HaqSathi AI', description: 'Last step launch checklist for HaqSathi AI.' }
+export const metadata = { title: 'Final Launch Checklist', description: 'Last step launch checklist for HaqSathi AI.' }
 
 const items = [
   'Supabase DB connection OK and db:push completed',
