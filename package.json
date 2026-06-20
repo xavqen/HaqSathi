@@ -2,7 +2,6 @@
   "name": "haqsathi-ai",
   "version": "3.0.105-motion-hydration-stability",
   "private": true,
-  "type": "module",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
